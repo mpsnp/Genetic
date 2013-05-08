@@ -1,3 +1,6 @@
 /*.o
 /*.ppu
 /*.bak
+/lib/
+/backup/
+/*.exe

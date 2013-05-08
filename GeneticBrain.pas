@@ -5,15 +5,15 @@ interface
 
 const
   //Start population strategies
-  SPS_BLANKET = 1;
+  SPS_BLANKET  = 1;
   SPS_DROBOVIK = 2;
-  SPS_FOCUS = 4;
+  SPS_FOCUS    = 4;
 
   //Selection types
-  ST_RANDOM = 1;
+  ST_RANDOM     = 1;
   ST_SPECIFIED_GRAPH = 2;
-  ST_ELITE = 4;
-  ST_TOURNIR = 8;
+  ST_ELITE      = 4;
+  ST_TOURNIR    = 8;
   ST_INBREADING = 16;
   ST_GIBRIDISATION = 32;
 
@@ -26,27 +26,27 @@ const
   CT_SORTING_TWO_POINT = 32;
   CT_PARTLY_APROPRIATE_ONE_POINT = 64;
   CT_PARTLY_APROPRIATE_TWO_POINT = 128;
-  CT_CYCLE = 256;
-  CT_COMPLEX = 512;
-  CT_GREEDY = 1024;
+  CT_CYCLE     = 256;
+  CT_COMPLEX   = 512;
+  CT_GREEDY    = 1024;
   CT_GOLDEN_SEPARATION = 2048;
   CT_FIBONACHI = 4096;
 
   //Mutation types
-  MT_SIMPLE = 1;            //A. Простая.
-  MT_POINT = 2;            //B. Точечная.
-  MT_CHANGING = 4;          //C. Обмена.
-  MT_CHANGING_GOLDEN_SEPARATION = 8;  ////D. Обмена на основе «Золотого сечения».
-  MT_CHANGING_FIBONACHI = 16;      //E. Обмена на основе чисел Фибоначчи.
-  MT_INVERSION = 32;          ////F. Инверсия.
-  MT_DUPLICATION = 64;        //G. Дупликация.
-  MT_TRANSLOCATION = 128;        //H. Транслокация.
-  MT_TRANSPOSITION = 256;        //I. Транспозиция.
+  MT_SIMPLE    = 1;
+  MT_POINT     = 2;
+  MT_CHANGING  = 4;
+  MT_CHANGING_GOLDEN_SEPARATION = 8;
+  MT_CHANGING_FIBONACHI = 16;
+  MT_INVERSION = 32;
+  MT_DUPLICATION = 64;
+  MT_TRANSLOCATION = 128;
+  MT_TRANSPOSITION = 256;
 
   //Sampling type
-  SAT_PROPORTIONAL = 1;  ////A. Пропорциональный.
-  SAT_ELITE = 2;      //B. Элитный.
-  SAT_EQUAL = 4;      //C. Равновероятный.
+  SAT_PROPORTIONAL = 1;
+  SAT_ELITE = 2;
+  SAT_EQUAL = 4;
 
   //Best result type
   BRT_MIN = 1;
@@ -69,7 +69,9 @@ type
     function IsValueInInterval(x: integer): boolean;
   end;
 
-  COrganism = class
+  { COrganysm }
+
+  COrganysm = class
   public
     constructor Create;
     destructor Destroy; override;
@@ -80,7 +82,6 @@ type
     _t: integer;
     _SumAimFunction: longint;
     _Interval: TInterval;
-    procedure generatePopulation;
     procedure updateAimFunctionInChromosomes;
     procedure reproduction;
     procedure nextIteration;
@@ -91,16 +92,18 @@ type
     procedure sortChromosomes;
   public
     CrossingoverRate: real;
-    BestResultType: integer;
-    PopulationCount: integer;
-    IterationCount: integer;
+    BestResultType:   integer;
+    PopulationCount:  integer;
+    IterationCount:   integer;
     StartPopulationStrategy: longint;
-    SelectionType: longint;
+    SelectionType:    longint;
     CrossingoverType: longint;
-    MutationType: longint;
-    GettingType: longint;
+    MutationType:     longint;
+    SamplingType:     longint;
     property Interval: TInterval read _Interval write SetInterval;
     function GetResult(): integer;
+    procedure DoAllIterations;
+    procedure GeneratePopulation;
   end;
 
 implementation
@@ -111,7 +114,7 @@ uses
 var
   DnkLength: integer;
 
-function COrganism.compare(a, b: TChromosom): boolean;
+function COrganysm.compare(a, b: TChromosom): boolean;
 begin
   if BestResultType = BRT_MIN then
     Result := a.AimFunctionResult > b.AimFunctionResult
@@ -119,9 +122,9 @@ begin
     Result := a.AimFunctionResult < b.AimFunctionResult;
 end;
 
-procedure COrganism.sortChromosomes;
+procedure COrganysm.sortChromosomes;
 var
-  temp: TChromosom;
+  temp:  TChromosom;
   i, ii: integer;
 begin
   updateAimFunctionInChromosomes;
@@ -135,7 +138,7 @@ begin
       end;
 end;
 
-procedure COrganism.SetInterval(a: TInterval);
+procedure COrganysm.SetInterval(a: TInterval);
 begin
   _Interval := a;
   DnkLength := round(ln(max(_Interval.IStart, _Interval.IEnd)) / ln(2)) + 1;
@@ -176,7 +179,7 @@ begin
   Result := a.DNK = b.DNK;
 end;
 
-procedure COrganism.reproduction;
+procedure COrganysm.reproduction;
 begin
 
 end;
@@ -186,17 +189,17 @@ begin
   Result := (IStart < x) and (x < IEnd);
 end;
 
-constructor COrganism.Create();
+constructor COrganysm.Create();
 begin
 
 end;
 
-destructor COrganism.Destroy();
+destructor COrganysm.Destroy();
 begin
 
 end;
 
-function COrganism.getBest: longint;
+function COrganysm.getBest: longint;
 var
   i: integer;
 begin
@@ -210,7 +213,7 @@ begin
 
 end;
 
-function COrganism.select: TChromosomArray;
+function COrganysm.select: TChromosomArray;
 var
   i: integer;
 begin
@@ -219,7 +222,6 @@ begin
   SetLength(Result, i);
   case SelectionType of
     ST_RANDOM:
-    begin
       for i := 1 to High(Result) do
       begin
         Result[i - 1] := _Population[random(Length(_Population))];
@@ -227,7 +229,6 @@ begin
           Result[i] := _Population[random(Length(_Population))];
         until (Result[i] <> Result[i - 1]);
       end;
-    end;
     ST_ELITE:
     begin
       sortChromosomes;
@@ -237,14 +238,13 @@ begin
   end;
 end;
 
-function COrganism.crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
+function COrganysm.crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
 var
   i, ii, cut: integer;
   temp: byte;
 begin
   Result := Chromosomes;
   for i := 0 to High(Result) - 1 do
-  begin
     case CrossingoverType of
       CT_STANDARD_ONE_POINT:
       begin
@@ -257,15 +257,14 @@ begin
         end;
       end;
     end;
-  end;
 end;
 
-procedure COrganism.nextIteration;
+procedure COrganysm.nextIteration;
 begin
   crossOver(select);
 end;
 
-function COrganism.GetResult(): integer;
+function COrganysm.GetResult(): integer;
 begin
   generatePopulation();
   _t := 0;
@@ -277,18 +276,24 @@ begin
   Result := getBest;
 end;
 
-procedure COrganism.updateAimFunctionInChromosomes();
+procedure COrganysm.DoAllIterations;
+var
+  i: integer;
+begin
+  for i := 1 to IterationCount do
+    nextIteration;
+end;
+
+procedure COrganysm.updateAimFunctionInChromosomes();
 var
   i: integer;
 begin
   for i := 0 to High(_Population) do
-  begin
     with _Population[i] do
       AimFunctionResult := _AimFunction(GetLongint);
-  end;
 end;
 
-procedure COrganism.generatePopulation();
+procedure COrganysm.GeneratePopulation();
 var
   i: integer;
 begin
@@ -298,10 +303,7 @@ begin
       SPS_DROBOVIK:
         with Interval do
           _Population[i].SetFromLongint(IStart + Random(IEnd - IStart));
-      SPS_FOCUS:
-      begin
-        //TODO: Закончить
-      end;
+      SPS_FOCUS: ;//TODO: Закончить
     end;
   updateAimFunctionInChromosomes();
 end;
@@ -309,4 +311,3 @@ end;
 begin
   randomize;
 end.
-
