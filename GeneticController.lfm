@@ -1,7 +1,7 @@
 object FormGenetic: TFormGenetic
-  Left = 1731
+  Left = 1733
   Height = 647
-  Top = 144
+  Top = 216
   Width = 1086
   Caption = 'Генетический алгоритм поиска'
   ClientHeight = 647

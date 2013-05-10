@@ -188,7 +188,7 @@ var
       ii: integer;
     begin
       for ii := i to High(_Population) - 1 do
-        _Population[i] := _Population[i + 1];
+        _Population[ii] := CopyChromosome(_Population[ii + 1]);
       SetLength(_Population, Length(_Population) - 1);
     end;
 
@@ -199,14 +199,17 @@ var
         i += 1
       else
         DeleteThis;
+    updateAimFunctionInChromosomes;
   end;
 
 begin
-  sortChromosomes;
+  //sortChromosomes;
+  updateAimFunctionInChromosomes;
   DeleteBad();
-  if Length(_Population) > PopulationCount then
-    SetLength(_Population, PopulationCount);
-{  middleFunction := _SumAimFunction / Length(_Population);
+  {if Length(_Population) > PopulationCount then
+    SetLength(_Population, PopulationCount);}
+  calculateSumAimFunction;
+  middleFunction := _SumAimFunction / Length(_Population);
   for i := 0 to High(_Population) do
   begin
     ratio := _Population[i].AimFunctionResult / middleFunction;
@@ -215,11 +218,11 @@ begin
       AddChromosomeToNewPopulation(_Population[i]);
       ratio -= 1.0;
     end;
-    //if random() < ratio then
-    //AddChromosomeToNewPopulation(_Population[i]);
+    if random() < ratio then
+      AddChromosomeToNewPopulation(_Population[i]);
   end;
   i := Length(NewPopulation);
-  _Population := NewPopulation;            }
+  _Population := NewPopulation;
 end;
 
 procedure COrganysm.calculateSumAimFunction;
@@ -257,7 +260,7 @@ var
   i: integer;
 begin
   SetLength(DNK, DnkLength);
-  FillChar(DNK[0],SizeOf(DNK),0);
+  FillChar(DNK[0], SizeOf(DNK), 0);
   i := 0;
   while ADNK <> 0 do
   begin
@@ -383,7 +386,7 @@ begin
   NewGeneration := crossOver(NewGeneration);
   NewGeneration := mutate(NewGeneration);
   addNewGenerationToOld(NewGeneration);
-  //updateAimFunctionInChromosomes;
+  updateAimFunctionInChromosomes;
   sample;
 end;
 
