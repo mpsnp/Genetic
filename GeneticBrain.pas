@@ -87,6 +87,7 @@ type
     procedure updateAimFunctionInChromosomes;
     procedure reproduction;
     function compare(a, b: TChromosom): boolean;
+    function getChromosomeRatio(a, min, max: TChromosom): real;
     function select: TChromosomArray;
     function crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
     function mutate(const Chromosomes: TChromosomArray): TChromosomArray;
@@ -142,6 +143,11 @@ begin
     Result := a.AimFunctionResult < b.AimFunctionResult;
 end;
 
+function COrganysm.getChromosomeRatio(a, min, max: TChromosom): real;
+begin
+  Result := a.AimFunctionResult / (max.AimFunctionResult - min.AimFunctionResult);
+end;
+
 procedure COrganysm.sortChromosomes;
 var
   temp:  TChromosom;
@@ -171,7 +177,8 @@ procedure COrganysm.sample;
 var
   i, ii: longint;
   NewPopulation: TChromosomArray;
-  ratio, middleFunction: real;
+  ratio, randomNumber: real;
+  MiddleChromosome, min, max: TChromosom;
 
   procedure AddChromosomeToNewPopulation(Chromosome: TChromosom);
   begin
@@ -202,26 +209,39 @@ var
     updateAimFunctionInChromosomes;
   end;
 
+  procedure FindMinMax;
+  var
+    i: integer;
+  begin
+    min := _Population[0];
+    max := _Population[0];
+    for i := 0 to High(_Population) do
+    begin
+      if _Population[i].AimFunctionResult > max.AimFunctionResult then
+        max := _Population[i];
+      if _Population[i].AimFunctionResult < min.AimFunctionResult then
+        min := _Population[i];
+    end;
+  end;
+
 begin
-  //sortChromosomes;
   updateAimFunctionInChromosomes;
   DeleteBad();
-  {if Length(_Population) > PopulationCount then
-    SetLength(_Population, PopulationCount);}
   calculateSumAimFunction;
-  middleFunction := _SumAimFunction / Length(_Population);
-  for i := 0 to High(_Population) do
+  FindMinMax;
+  for i := 1 to PopulationCount do
   begin
-    ratio := _Population[i].AimFunctionResult / middleFunction;
-    for ii := 1 to trunc(ratio) do
+    randomNumber := random();
+    ii := 0;
+    ratio := getChromosomeRatio(_Population[ii], min, max);
+    while randomNumber > ratio do
     begin
-      AddChromosomeToNewPopulation(_Population[i]);
-      ratio -= 1.0;
+      randomNumber -= ratio;
+      ii += 1;
+      ratio := getChromosomeRatio(_Population[ii], min, max);
     end;
-    if random() < ratio then
-      AddChromosomeToNewPopulation(_Population[i]);
+    AddChromosomeToNewPopulation(_Population[ii]);
   end;
-  i := Length(NewPopulation);
   _Population := NewPopulation;
 end;
 
@@ -386,7 +406,6 @@ begin
   NewGeneration := crossOver(NewGeneration);
   NewGeneration := mutate(NewGeneration);
   addNewGenerationToOld(NewGeneration);
-  updateAimFunctionInChromosomes;
   sample;
 end;
 

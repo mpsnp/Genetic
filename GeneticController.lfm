@@ -1,7 +1,7 @@
 object FormGenetic: TFormGenetic
-  Left = 1733
+  Left = 1682
   Height = 647
-  Top = 216
+  Top = 202
   Width = 1086
   Caption = 'Генетический алгоритм поиска'
   ClientHeight = 647
@@ -26,7 +26,7 @@ object FormGenetic: TFormGenetic
     object LabelPerformNIterations: TLabel
       Left = 8
       Height = 16
-      Top = 321
+      Top = 371
       Width = 289
       Align = alTop
       BorderSpacing.Around = 8
@@ -82,6 +82,7 @@ object FormGenetic: TFormGenetic
           '"Дробовик"'
           'Фокусировка'
         )
+        OnChange = ComboBoxPopulationStrategyChange
         Style = csDropDownList
         TabOrder = 1
         Text = '"Дробовик"'
@@ -103,19 +104,21 @@ object FormGenetic: TFormGenetic
     end
     object ButtonStart: TButton
       Left = 8
-      Height = 33
-      Top = 378
+      Height = 25
+      Top = 428
       Width = 289
       Align = alTop
+      AutoSize = True
       BorderSpacing.Around = 8
       Caption = 'Старт'
+      Enabled = False
       OnClick = ButtonStartClick
       TabOrder = 1
     end
     object TrackBarIterations: TTrackBar
       Left = 8
       Height = 25
-      Top = 345
+      Top = 395
       Width = 289
       Frequency = 0
       Max = 100
@@ -128,14 +131,14 @@ object FormGenetic: TFormGenetic
     end
     object GroupBoxOperators: TGroupBox
       Left = 0
-      Height = 150
+      Height = 200
       Top = 163
       Width = 305
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Операторы'
-      ClientHeight = 132
+      ClientHeight = 182
       ClientWidth = 301
       TabOrder = 3
       object ComboBoxSelection: TComboBox
@@ -152,6 +155,7 @@ object FormGenetic: TFormGenetic
           'Случайная селекция'
           'Элитная селекция'
         )
+        OnChange = ComboBoxSelectionChange
         Style = csDropDownList
         TabOrder = 0
         Text = 'Случайная селекция'
@@ -159,7 +163,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxCrossingover: TComboBox
         Left = 8
         Height = 23
-        Top = 39
+        Top = 64
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -170,6 +174,7 @@ object FormGenetic: TFormGenetic
           'Частично соответствующий одноточечный кроссинговер'
           'Кроссинговер на основе "Золотого сечения"'
         )
+        OnChange = ComboBoxCrossingoverChange
         Style = csDropDownList
         TabOrder = 1
         Text = 'Стандартный одноточечный кроссинговер'
@@ -177,7 +182,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxMutation: TComboBox
         Left = 8
         Height = 23
-        Top = 70
+        Top = 120
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -187,6 +192,7 @@ object FormGenetic: TFormGenetic
           'Обмен на основе "Золотого сечения"'
           'Инверсия'
         )
+        OnChange = ComboBoxMutationChange
         Style = csDropDownList
         TabOrder = 2
         Text = 'Обмен на основе "Золотого сечения"'
@@ -194,7 +200,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxSampling: TComboBox
         Left = 8
         Height = 23
-        Top = 101
+        Top = 151
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -203,10 +209,52 @@ object FormGenetic: TFormGenetic
         Items.Strings = (
           'Пропорциональный отбор'
         )
+        OnChange = ComboBoxSamplingChange
         Style = csDropDownList
         TabOrder = 3
         Text = 'Пропорциональный отбор'
       end
+      object TrackBarCrossingoverRate: TTrackBar
+        Left = 8
+        Height = 17
+        Hint = 'Вероятность кроссинговера'
+        Top = 39
+        Width = 285
+        Frequency = 0
+        Max = 100
+        OnChange = TrackBarCrossingoverRateChange
+        Position = 70
+        Align = alTop
+        BorderSpacing.Around = 8
+        TabOrder = 4
+      end
+      object TrackBarMutationRate: TTrackBar
+        Left = 8
+        Height = 17
+        Hint = 'Вероятность мутации'
+        Top = 95
+        Width = 285
+        Frequency = 0
+        Max = 100
+        OnChange = TrackBarMutationRateChange
+        Position = 20
+        Align = alTop
+        BorderSpacing.Around = 8
+        TabOrder = 5
+      end
+    end
+    object ButtonTimerIterations: TButton
+      Left = 8
+      Height = 25
+      Top = 461
+      Width = 289
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Around = 8
+      Caption = 'Запуск непрерывных итераций'
+      Enabled = False
+      OnClick = ButtonTimerIterationsClick
+      TabOrder = 4
     end
   end
   object GroupBoxVisualisation: TGroupBox
@@ -301,5 +349,12 @@ object FormGenetic: TFormGenetic
     Height = 647
     Top = 0
     Width = 5
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer1Timer
+    left = 418
+    top = 134
   end
 end

@@ -13,6 +13,7 @@ type
   { TFormGenetic }
 
   TFormGenetic = class(TForm)
+    ButtonTimerIterations: TButton;
     ButtonStart: TButton;
     ButtonGenerateStartPopulation: TButton;
     ComboBoxSampling: TComboBox;
@@ -33,10 +34,19 @@ type
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Splitter3: TSplitter;
+    Timer1:    TTimer;
+    TrackBarCrossingoverRate: TTrackBar;
+    TrackBarMutationRate: TTrackBar;
     TrackBarPopulationSize: TTrackBar;
     TrackBarIterations: TTrackBar;
+    procedure ButtonTimerIterationsClick(Sender: TObject);
     procedure ButtonGenerateStartPopulationClick(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
+    procedure ComboBoxCrossingoverChange(Sender: TObject);
+    procedure ComboBoxMutationChange(Sender: TObject);
+    procedure ComboBoxPopulationStrategyChange(Sender: TObject);
+    procedure ComboBoxSamplingChange(Sender: TObject);
+    procedure ComboBoxSelectionChange(Sender: TObject);
     procedure EditIterationsCountEditingDone(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -49,12 +59,10 @@ type
       Shift: TShiftState; X, Y: integer);
     procedure ImageGraphicMouseWheel(Sender: TObject; Shift: TShiftState;
       WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
-    procedure RadioGroupCrossingoverSelectionChanged(Sender: TObject);
-    procedure RadioGroupMutationAndInvertionSelectionChanged(Sender: TObject);
-    procedure RadioGroupSamplingTypeSelectionChanged(Sender: TObject);
-    procedure RadioGroupSelectionTypesSelectionChanged(Sender: TObject);
-    procedure RadioGroupStartPopulationStrategySelectionChanged(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure TrackBarCrossingoverRateChange(Sender: TObject);
     procedure TrackBarIterationsChange(Sender: TObject);
+    procedure TrackBarMutationRateChange(Sender: TObject);
     procedure TrackBarPopulationSizeChange(Sender: TObject);
   private
     { private declarations }
@@ -78,7 +86,7 @@ implementation
 
 function rAimFunction(x: real): real;
 begin
-  Result := x;
+  Result := -x * x + 4 * x;
 end;
 
 function AimFunction(x: longint): longint;
@@ -117,7 +125,7 @@ end;
 
 procedure TFormGenetic.FormShow(Sender: TObject);
 begin
-  repaintGraph;
+  updateUI;
 end;
 
 procedure TFormGenetic.ImageGraphicChangeBounds(Sender: TObject);
@@ -144,7 +152,7 @@ begin
   if CanDrag then
   begin
     GraphicOrigin.x -= StartMousePoint.x - x;
-    GraphicOrigin.y -= StartMousePoint.y - y;
+    GraphicOrigin.y += StartMousePoint.y - y;
     StartMousePoint.x := x;
     StartMousePoint.y := y;
     repaintGraph;
@@ -164,51 +172,26 @@ begin
   repaintGraph;
 end;
 
-procedure TFormGenetic.RadioGroupCrossingoverSelectionChanged(Sender: TObject);
+procedure TFormGenetic.Timer1Timer(Sender: TObject);
 begin
-  case TRadioGroup(Sender).ItemIndex of
-    0: Organysm.CrossingoverType := CT_STANDARD_ONE_POINT;
-    1: Organysm.CrossingoverType := CT_PARTLY_APROPRIATE_ONE_POINT;
-    2: Organysm.CrossingoverType := CT_GOLDEN_SEPARATION;
-  end;
+  Organysm.NextIteration;
+  updateUI;
 end;
 
-procedure TFormGenetic.RadioGroupMutationAndInvertionSelectionChanged(Sender: TObject);
+procedure TFormGenetic.TrackBarCrossingoverRateChange(Sender: TObject);
 begin
-  case TRadioGroup(Sender).ItemIndex of
-    0: Organysm.MutationType := MT_CHANGING_GOLDEN_SEPARATION;
-    1: Organysm.MutationType := MT_INVERSION;
-  end;
-end;
-
-procedure TFormGenetic.RadioGroupSamplingTypeSelectionChanged(Sender: TObject);
-begin
-  case TRadioGroup(Sender).ItemIndex of
-    0: Organysm.SamplingType := SAT_PROPORTIONAL;
-  end;
-end;
-
-procedure TFormGenetic.RadioGroupSelectionTypesSelectionChanged(Sender: TObject);
-begin
-  case TRadioGroup(Sender).ItemIndex of
-    0: Organysm.SelectionType := ST_RANDOM;
-    1: Organysm.SelectionType := ST_ELITE;
-  end;
-end;
-
-procedure TFormGenetic.RadioGroupStartPopulationStrategySelectionChanged(
-  Sender: TObject);
-begin
-  case TRadioGroup(Sender).ItemIndex of
-    0: Organysm.StartPopulationStrategy := SPS_DROBOVIK;
-    1: Organysm.StartPopulationStrategy := SPS_FOCUS;
-  end;
+  Organysm.CrossingoverRate := TrackBarCrossingoverRate.Position / 100;
 end;
 
 procedure TFormGenetic.TrackBarIterationsChange(Sender: TObject);
 begin
   LabelPerformNIterations.Caption :=
     'Выполнить ' + IntToStr(TrackBarIterations.Position) + ' итераций';
+end;
+
+procedure TFormGenetic.TrackBarMutationRateChange(Sender: TObject);
+begin
+  Organysm.MutationRate := TrackBarMutationRate.Position / 100;
 end;
 
 procedure TFormGenetic.TrackBarPopulationSizeChange(Sender: TObject);
@@ -225,20 +208,13 @@ var
   ii, aWidth, aHeight: integer;
   TempPoint: TPoint;
 
-  function GetLocalCoords(x, y: integer): TPoint;
-  begin
-    Result.x := round(GraphicScale * x + GraphicOrigin.x);
-    Result.y := round(GraphicScale * y + GraphicOrigin.y);
-    Result.x += aWidth div 2;
-    Result.y += aHeight div 2;
-  end;
-
   function GetLocalCoords(x, y: real): TPoint;
   begin
     Result.x := round(GraphicScale * x + GraphicOrigin.x);
     Result.y := round(GraphicScale * y + GraphicOrigin.y);
     Result.x += aWidth div 2;
     Result.y += aHeight div 2;
+    Result.y := aHeight - Result.y;
   end;
 
 begin
@@ -248,8 +224,11 @@ begin
   begin
     Canvas.Brush.Color := clWindow;
     Canvas.FillRect(0, 0, Width, Height);
+    Canvas.Pen.Color := clRed;
+    Canvas.Line(GetLocalCoords(0, 0), GetLocalCoords(0, 10));
+    Canvas.Pen.Color := clGreen;
+    Canvas.Line(GetLocalCoords(0, 0), GetLocalCoords(10, 0));
     Canvas.Pen.Color := clBlack;
-    //Canvas.AntialiasingMode := amOn;
     i := Organysm.Interval.IStart;
     Canvas.MoveTo(GetLocalCoords(i, rAimFunction(i)));
     while i < Organysm.Interval.IEnd do
@@ -261,7 +240,7 @@ begin
     begin
       TempPoint := GetLocalCoords(Organysm.Population[ii].GetLongint,
         Organysm.Population[ii].AimFunctionResult);
-      Canvas.Ellipse(TempPoint.x, TempPoint.y, TempPoint.x + 5, TempPoint.y + 5);
+      Canvas.Ellipse(TempPoint.x - 2, TempPoint.y - 2, TempPoint.x + 2, TempPoint.y + 2);
     end;
   end;
 end;
@@ -297,10 +276,63 @@ begin
   updateUI;
 end;
 
+procedure TFormGenetic.ComboBoxCrossingoverChange(Sender: TObject);
+begin
+  case ComboBoxCrossingover.ItemIndex of
+    0: Organysm.CrossingoverType := CT_STANDARD_ONE_POINT;
+    1: Organysm.CrossingoverType := CT_PARTLY_APROPRIATE_ONE_POINT;
+    2: Organysm.CrossingoverType := CT_GOLDEN_SEPARATION;
+  end;
+end;
+
+procedure TFormGenetic.ComboBoxMutationChange(Sender: TObject);
+begin
+  case ComboBoxMutation.ItemIndex of
+    0: Organysm.MutationType := MT_CHANGING_GOLDEN_SEPARATION;
+    1: Organysm.MutationType := MT_INVERSION;
+  end;
+end;
+
+procedure TFormGenetic.ComboBoxPopulationStrategyChange(Sender: TObject);
+begin
+  case ComboBoxPopulationStrategy.ItemIndex of
+    0: Organysm.StartPopulationStrategy := SPS_DROBOVIK;
+    1: Organysm.StartPopulationStrategy := SPS_FOCUS;
+  end;
+end;
+
+procedure TFormGenetic.ComboBoxSamplingChange(Sender: TObject);
+begin
+  case TRadioGroup(Sender).ItemIndex of
+    0: Organysm.SamplingType := SAT_PROPORTIONAL;
+  end;
+end;
+
+procedure TFormGenetic.ComboBoxSelectionChange(Sender: TObject);
+begin
+  case ComboBoxSelection.ItemIndex of
+    0: Organysm.SelectionType := ST_RANDOM;
+    1: Organysm.SelectionType := ST_ELITE;
+  end;
+end;
+
 procedure TFormGenetic.ButtonGenerateStartPopulationClick(Sender: TObject);
 begin
   Organysm.GeneratePopulation;
   updateUI;
+  ButtonStart.Enabled := True;
+  ButtonTimerIterations.Enabled := True;
+end;
+
+procedure TFormGenetic.ButtonTimerIterationsClick(Sender: TObject);
+begin
+  Timer1.Enabled := not Timer1.Enabled;
+  if Timer1.Enabled then
+    ButtonTimerIterations.Caption :=
+      'Остановка непрерывных итераций'
+  else
+    ButtonTimerIterations.Caption :=
+      'Запуск непрерывных итераций';
 end;
 
 end.
