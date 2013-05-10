@@ -86,7 +86,6 @@ type
     _Interval: TInterval;
     procedure updateAimFunctionInChromosomes;
     procedure reproduction;
-    procedure nextIteration;
     function compare(a, b: TChromosom): boolean;
     function select: TChromosomArray;
     function crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
@@ -107,10 +106,12 @@ type
     CrossingoverType: longint;
     MutationType:     longint;
     SamplingType:     longint;
+    NewGeneration:    TChromosomArray;
     property Interval: TInterval read _Interval write SetInterval;
     property Population: TChromosomArray read _Population;
     function GetResult(): integer;
     procedure DoAllIterations;
+    procedure NextIteration;
     procedure GeneratePopulation;
     function GetBest: longint;
   end;
@@ -122,6 +123,16 @@ uses
 
 var
   DnkLength: integer;
+
+function CopyChromosome(AChromosome: TChromosom): TChromosom;
+var
+  i: integer;
+begin
+  SetLength(Result.DNK, Length(AChromosome.DNK));
+  for i := 0 to High(Result.DNK) do
+    Result.DNK[i] := AChromosome.DNK[i];
+  Result.AimFunctionResult := 0;
+end;
 
 function COrganysm.compare(a, b: TChromosom): boolean;
 begin
@@ -184,10 +195,10 @@ var
   begin
     i := 0;
     while i <= high(_Population) do
-      if not Interval.IsValueInInterval(_Population[i].GetLongint) then
-        DeleteThis
+      if Interval.IsValueInInterval(_Population[i].GetLongint) then
+        i += 1
       else
-        i += 1;
+        DeleteThis;
   end;
 
 begin
@@ -246,6 +257,7 @@ var
   i: integer;
 begin
   SetLength(DNK, DnkLength);
+  FillChar(DNK[0],SizeOf(DNK),0);
   i := 0;
   while ADNK <> 0 do
   begin
@@ -321,16 +333,13 @@ begin
   SetLength(Result, i);
   case SelectionType of
     ST_RANDOM:
-      for i := 1 to High(Result) do
-      begin
-        Result[i - 1] := _Population[random(Length(_Population))];
-        Result[i] := _Population[random(Length(_Population))];
-      end;
+      for i := 0 to High(Result) do
+        Result[i] := CopyChromosome(_Population[random(Length(_Population))]);
     ST_ELITE:
     begin
       sortChromosomes;
       for i := 0 to High(Result) do
-        Result[i] := _Population[i];
+        Result[i] := CopyChromosome(_Population[i]);
     end;
   end;
 end;
@@ -361,17 +370,20 @@ var
   i: integer;
 begin
   Result := Chromosomes;
-  for i := 0 to High(Result) do
-    if random() < MutationRate then
-      case MutationType of
-        MT_CHANGING_GOLDEN_SEPARATION: ;
-        MT_INVERSION: Result[i].Invert;
-      end;
+  for i := 1 to round(MutationRate * length(Result)) do
+    case MutationType of
+      MT_CHANGING_GOLDEN_SEPARATION: ;
+      MT_INVERSION: Result[random(Length(Result))].Invert;
+    end;
 end;
 
 procedure COrganysm.nextIteration;
 begin
-  addNewGenerationToOld(mutate(crossOver(select)));
+  NewGeneration := select;
+  NewGeneration := crossOver(NewGeneration);
+  NewGeneration := mutate(NewGeneration);
+  addNewGenerationToOld(NewGeneration);
+  //updateAimFunctionInChromosomes;
   sample;
 end;
 
@@ -406,14 +418,17 @@ end;
 
 procedure COrganysm.GeneratePopulation();
 var
-  i: integer;
+  i, temp: integer;
 begin
   SetLength(_Population, PopulationCount);
   for i := 0 to High(_Population) do
     case StartPopulationStrategy of
       SPS_DROBOVIK:
-        with Interval do
-          _Population[i].SetFromLongint(IStart + Random(IEnd - IStart));
+        with _Interval do
+        begin
+          temp := IStart + Random(IEnd - IStart) + 1;
+          _Population[i].SetFromLongint(temp);
+        end;
       SPS_FOCUS: ;//TODO: Закончить
     end;
   updateAimFunctionInChromosomes();

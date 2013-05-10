@@ -1,333 +1,237 @@
 object FormGenetic: TFormGenetic
-  Left = 1319
-  Height = 600
-  Top = 195
-  Width = 965
+  Left = 1731
+  Height = 647
+  Top = 144
+  Width = 1086
   Caption = 'Генетический алгоритм поиска'
-  ClientHeight = 600
-  ClientWidth = 965
+  ClientHeight = 647
+  ClientWidth = 1086
   Constraints.MinHeight = 600
   Constraints.MinWidth = 800
   OnCreate = FormCreate
+  OnShow = FormShow
+  ShowHint = True
   LCLVersion = '1.0.8.0'
   object GroupBoxOptions: TGroupBox
     Left = 0
-    Height = 600
+    Height = 647
     Top = 0
-    Width = 280
+    Width = 309
     Align = alLeft
     Caption = 'Настройки алгоритма'
-    ClientHeight = 582
-    ClientWidth = 276
+    ClientHeight = 629
+    ClientWidth = 305
     Constraints.MinWidth = 280
     TabOrder = 0
-    object LabelPerform: TLabel
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = GroupBoxOptions
+    object LabelPerformNIterations: TLabel
       Left = 8
       Height = 16
-      Top = 8
-      Width = 63
+      Top = 321
+      Width = 289
+      Align = alTop
       BorderSpacing.Around = 8
-      Caption = 'Выполнить'
-      ParentColor = False
-    end
-    object EditIterationsCount: TEdit
-      AnchorSideLeft.Control = LabelPerform
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = LabelPerform
-      AnchorSideTop.Side = asrCenter
-      Left = 79
-      Height = 23
-      Top = 5
-      Width = 25
-      Alignment = taCenter
-      BorderSpacing.Around = 8
-      OnEditingDone = EditIterationsCountEditingDone
-      TabOrder = 0
-      Text = '10'
-    end
-    object LabelIterations: TLabel
-      AnchorSideLeft.Control = EditIterationsCount
-      AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = EditIterationsCount
-      AnchorSideTop.Side = asrCenter
-      Left = 112
-      Height = 16
-      Top = 8
-      Width = 53
-      BorderSpacing.Around = 8
-      Caption = 'итераций'
+      Caption = 'Выполнить 10 итераций'
       ParentColor = False
     end
     object GroupBoxStartPopulation: TGroupBox
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = EditIterationsCount
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 166
-      Top = 36
-      Width = 276
-      Anchors = [akTop, akLeft, akRight]
+      Height = 147
+      Top = 8
+      Width = 305
+      Align = alTop
+      AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Стартовая популяция'
-      ClientHeight = 148
-      ClientWidth = 272
-      TabOrder = 1
+      ClientHeight = 129
+      ClientWidth = 301
+      TabOrder = 0
       object ButtonGenerateStartPopulation: TButton
-        AnchorSideLeft.Control = GroupBoxStartPopulation
-        AnchorSideTop.Control = EditStartPopulationSize
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = GroupBoxStartPopulation
-        AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 8
         Height = 25
-        Top = 115
-        Width = 256
-        Anchors = [akTop, akLeft, akRight]
+        Top = 96
+        Width = 285
+        Align = alTop
         AutoSize = True
         BorderSpacing.Around = 8
         Caption = 'Сгенерировать'
         OnClick = ButtonGenerateStartPopulationClick
-        TabOrder = 2
+        TabOrder = 0
       end
-      object RadioGroupStartPopulationStrategy: TRadioGroup
-        AnchorSideLeft.Control = GroupBoxStartPopulation
-        AnchorSideTop.Control = GroupBoxStartPopulation
-        AnchorSideRight.Control = GroupBoxStartPopulation
-        AnchorSideRight.Side = asrBottom
+      object LabelStartPopulationSize: TLabel
         Left = 8
-        Height = 68
-        Top = 8
-        Width = 256
-        Anchors = [akTop, akLeft, akRight]
-        AutoFill = True
-        AutoSize = True
+        Height = 16
+        Top = 39
+        Width = 285
+        Align = alTop
         BorderSpacing.Around = 8
-        Caption = 'Стратегия генерации'
-        ChildSizing.LeftRightSpacing = 6
-        ChildSizing.TopBottomSpacing = 6
-        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-        ChildSizing.EnlargeVertical = crsHomogenousChildResize
-        ChildSizing.ShrinkHorizontal = crsScaleChilds
-        ChildSizing.ShrinkVertical = crsScaleChilds
-        ChildSizing.Layout = cclLeftToRightThenTopToBottom
-        ChildSizing.ControlsPerLine = 1
-        ClientHeight = 50
-        ClientWidth = 252
+        Caption = 'Размер стартовой популяции: 10'
+        ParentColor = False
+      end
+      object ComboBoxPopulationStrategy: TComboBox
+        Left = 8
+        Height = 23
+        Hint = 'Стратегия генерации'
+        Top = 8
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        ItemHeight = 15
         ItemIndex = 0
         Items.Strings = (
           '"Дробовик"'
           'Фокусировка'
         )
-        OnSelectionChanged = RadioGroupStartPopulationStrategySelectionChanged
-        TabOrder = 0
-      end
-      object LabelStartPopulationSize: TLabel
-        AnchorSideLeft.Control = GroupBoxStartPopulation
-        AnchorSideTop.Control = EditStartPopulationSize
-        AnchorSideTop.Side = asrCenter
-        Left = 8
-        Height = 16
-        Top = 87
-        Width = 164
-        BorderSpacing.Around = 8
-        Caption = 'Размер стартовой популяции'
-        ParentColor = False
-      end
-      object EditStartPopulationSize: TEdit
-        AnchorSideLeft.Control = LabelStartPopulationSize
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = RadioGroupStartPopulationStrategy
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Side = asrBottom
-        Left = 180
-        Height = 23
-        Top = 84
-        Width = 25
-        Alignment = taCenter
-        BorderSpacing.Around = 8
-        OnEditingDone = EditStartPopulationSizeEditingDone
+        Style = csDropDownList
         TabOrder = 1
-        Text = '10'
+        Text = '"Дробовик"'
       end
-    end
-    object RadioGroupSelectionTypes: TRadioGroup
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = GroupBoxStartPopulation
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 68
-      Top = 210
-      Width = 260
-      Anchors = [akTop, akLeft, akRight]
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Вид селекции'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 50
-      ClientWidth = 256
-      ItemIndex = 0
-      Items.Strings = (
-        'Случайная'
-        'Элитная'
-      )
-      OnSelectionChanged = RadioGroupSelectionTypesSelectionChanged
-      TabOrder = 2
-    end
-    object RadioGroupCrossingover: TRadioGroup
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = RadioGroupSelectionTypes
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 87
-      Top = 286
-      Width = 260
-      Anchors = [akTop, akLeft, akRight]
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Оператор кроссинговера'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 69
-      ClientWidth = 256
-      ItemIndex = 0
-      Items.Strings = (
-        'Стандартный одноточечный'
-        'Частично соответствующий одноточечный'
-        'На основе "Золотого сечения"'
-      )
-      OnSelectionChanged = RadioGroupCrossingoverSelectionChanged
-      TabOrder = 3
-    end
-    object RadioGroupMutationAndInvertion: TRadioGroup
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = RadioGroupCrossingover
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 68
-      Top = 381
-      Width = 260
-      Anchors = [akTop, akLeft, akRight]
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Операторы мутации и инверсии'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 50
-      ClientWidth = 256
-      ItemIndex = 0
-      Items.Strings = (
-        'Обмен на основе "Золотого сечения"'
-        'Инверсия'
-      )
-      OnSelectionChanged = RadioGroupMutationAndInvertionSelectionChanged
-      TabOrder = 4
-    end
-    object RadioGroupSamplingType: TRadioGroup
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = RadioGroupMutationAndInvertion
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 49
-      Top = 457
-      Width = 260
-      Anchors = [akTop, akLeft, akRight]
-      AutoFill = True
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Оператор отбора'
-      ChildSizing.LeftRightSpacing = 6
-      ChildSizing.TopBottomSpacing = 6
-      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-      ChildSizing.EnlargeVertical = crsHomogenousChildResize
-      ChildSizing.ShrinkHorizontal = crsScaleChilds
-      ChildSizing.ShrinkVertical = crsScaleChilds
-      ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 31
-      ClientWidth = 256
-      ItemIndex = 0
-      Items.Strings = (
-        'Пропорциональный'
-      )
-      OnSelectionChanged = RadioGroupSamplingTypeSelectionChanged
-      TabOrder = 5
+      object TrackBarPopulationSize: TTrackBar
+        Left = 8
+        Height = 25
+        Top = 63
+        Width = 285
+        Frequency = 0
+        Max = 100
+        Min = 2
+        OnChange = TrackBarPopulationSizeChange
+        Position = 10
+        Align = alTop
+        BorderSpacing.Around = 8
+        TabOrder = 2
+      end
     end
     object ButtonStart: TButton
-      AnchorSideLeft.Control = GroupBoxOptions
-      AnchorSideTop.Control = RadioGroupSamplingType
-      AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = GroupBoxOptions
-      AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 33
-      Top = 514
-      Width = 260
-      Anchors = [akTop, akLeft, akRight]
+      Top = 378
+      Width = 289
+      Align = alTop
       BorderSpacing.Around = 8
       Caption = 'Старт'
       OnClick = ButtonStartClick
-      TabOrder = 6
+      TabOrder = 1
+    end
+    object TrackBarIterations: TTrackBar
+      Left = 8
+      Height = 25
+      Top = 345
+      Width = 289
+      Frequency = 0
+      Max = 100
+      Min = 1
+      OnChange = TrackBarIterationsChange
+      Position = 10
+      Align = alTop
+      BorderSpacing.Around = 8
+      TabOrder = 2
+    end
+    object GroupBoxOperators: TGroupBox
+      Left = 0
+      Height = 150
+      Top = 163
+      Width = 305
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Top = 8
+      Caption = 'Операторы'
+      ClientHeight = 132
+      ClientWidth = 301
+      TabOrder = 3
+      object ComboBoxSelection: TComboBox
+        Left = 8
+        Height = 23
+        Hint = 'Селекция'
+        Top = 8
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Случайная селекция'
+          'Элитная селекция'
+        )
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'Случайная селекция'
+      end
+      object ComboBoxCrossingover: TComboBox
+        Left = 8
+        Height = 23
+        Top = 39
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Стандартный одноточечный кроссинговер'
+          'Частично соответствующий одноточечный кроссинговер'
+          'Кроссинговер на основе "Золотого сечения"'
+        )
+        Style = csDropDownList
+        TabOrder = 1
+        Text = 'Стандартный одноточечный кроссинговер'
+      end
+      object ComboBoxMutation: TComboBox
+        Left = 8
+        Height = 23
+        Top = 70
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Обмен на основе "Золотого сечения"'
+          'Инверсия'
+        )
+        Style = csDropDownList
+        TabOrder = 2
+        Text = 'Обмен на основе "Золотого сечения"'
+      end
+      object ComboBoxSampling: TComboBox
+        Left = 8
+        Height = 23
+        Top = 101
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'Пропорциональный отбор'
+        )
+        Style = csDropDownList
+        TabOrder = 3
+        Text = 'Пропорциональный отбор'
+      end
     end
   end
   object GroupBoxVisualisation: TGroupBox
-    Left = 285
-    Height = 600
+    Left = 314
+    Height = 647
     Top = 0
-    Width = 680
+    Width = 772
     Align = alClient
     Caption = 'Результаты работы'
-    ClientHeight = 582
-    ClientWidth = 676
+    ClientHeight = 629
+    ClientWidth = 768
     TabOrder = 1
     object ImageGraphic: TImage
-      AnchorSideLeft.Control = GroupBoxVisualisation
-      AnchorSideTop.Control = GroupBoxVisualisation
-      AnchorSideRight.Control = MemoChromosomes
-      AnchorSideBottom.Control = LabelResult
       Left = 8
-      Height = 542
+      Height = 613
       Top = 8
-      Width = 489
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      AutoSize = True
+      Width = 426
+      Align = alClient
       BorderSpacing.Around = 8
       OnChangeBounds = ImageGraphicChangeBounds
+      OnMouseDown = ImageGraphicMouseDown
+      OnMouseMove = ImageGraphicMouseMove
+      OnMouseUp = ImageGraphicMouseUp
       OnMouseWheel = ImageGraphicMouseWheel
+      Transparent = True
     end
     object LabelResult: TLabel
       AnchorSideLeft.Control = GroupBoxVisualisation
@@ -337,8 +241,8 @@ object FormGenetic: TFormGenetic
       AnchorSideBottom.Side = asrBottom
       Left = 8
       Height = 16
-      Top = 558
-      Width = 489
+      Top = 605
+      Width = 613
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Around = 8
       Caption = 'Лучший результат: не вычислен...'
@@ -347,26 +251,54 @@ object FormGenetic: TFormGenetic
     object MemoChromosomes: TMemo
       AnchorSideLeft.Control = ImageGraphic
       AnchorSideLeft.Side = asrBottom
-      AnchorSideTop.Control = GroupBoxVisualisation
-      AnchorSideRight.Control = GroupBoxVisualisation
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = GroupBoxVisualisation
-      AnchorSideBottom.Side = asrBottom
-      Left = 505
-      Height = 566
+      Left = 629
+      Height = 613
       Top = 8
-      Width = 163
-      Anchors = [akTop, akRight, akBottom]
+      Width = 131
+      Align = alRight
       BorderSpacing.Around = 8
       Lines.Strings = (
-        'MemoChromosomes'
+        'MemoChromosom'
+        'es'
       )
+      ScrollBars = ssAutoVertical
       TabOrder = 0
+    end
+    object MemoNewGeneration: TMemo
+      AnchorSideLeft.Control = ImageGraphic
+      AnchorSideLeft.Side = asrBottom
+      Left = 455
+      Height = 613
+      Top = 8
+      Width = 153
+      Align = alRight
+      BorderSpacing.Around = 8
+      Lines.Strings = (
+        'MemoNewGeneration'
+      )
+      ScrollBars = ssAutoVertical
+      TabOrder = 1
+    end
+    object Splitter2: TSplitter
+      Left = 442
+      Height = 629
+      Top = 0
+      Width = 5
+      Align = alRight
+      ResizeAnchor = akRight
+    end
+    object Splitter3: TSplitter
+      Left = 616
+      Height = 629
+      Top = 0
+      Width = 5
+      Align = alRight
+      ResizeAnchor = akRight
     end
   end
   object Splitter1: TSplitter
-    Left = 280
-    Height = 600
+    Left = 309
+    Height = 647
     Top = 0
     Width = 5
   end
