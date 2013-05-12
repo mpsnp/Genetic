@@ -26,6 +26,7 @@ type
     GroupBoxOptions: TGroupBox;
     GroupBoxVisualisation: TGroupBox;
     ImageGraphic: TImage;
+    LabelDNKLength: TLabel;
     LabelResult: TLabel;
     LabelStartPopulationSize: TLabel;
     LabelPerformNIterations: TLabel;
@@ -35,6 +36,7 @@ type
     Splitter2: TSplitter;
     Splitter3: TSplitter;
     Timer1:    TTimer;
+    TrackBarDNKLength: TTrackBar;
     TrackBarCrossingoverRate: TTrackBar;
     TrackBarMutationRate: TTrackBar;
     TrackBarPopulationSize: TTrackBar;
@@ -60,6 +62,7 @@ type
     procedure ImageGraphicMouseWheel(Sender: TObject; Shift: TShiftState;
       WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
     procedure Timer1Timer(Sender: TObject);
+    procedure TrackBarDNKLengthChange(Sender: TObject);
     procedure TrackBarCrossingoverRateChange(Sender: TObject);
     procedure TrackBarIterationsChange(Sender: TObject);
     procedure TrackBarMutationRateChange(Sender: TObject);
@@ -82,11 +85,13 @@ var
 
 implementation
 
+uses Math;
+
 {$R *.lfm}
 
 function rAimFunction(x: real): real;
 begin
-  Result := -x * x + 4 * x;
+  Result := -x ** 4 + 5 * x ** 2 - 4 * x;
 end;
 
 function AimFunction(x: longint): longint;
@@ -101,7 +106,7 @@ var
   TempInterval: TInterval;
 begin
   Organysm := COrganysm.Create;
-  Organysm.BestResultType := BRT_MAX;
+  Organysm.BestResultType := BRT_MIN;
   Organysm.IterationCount := 10;
   Organysm.PopulationCount := 10;
   Organysm.SamplingType := SAT_PROPORTIONAL;
@@ -111,10 +116,11 @@ begin
   Organysm.CrossingoverType := CT_STANDARD_ONE_POINT;
   Organysm.CrossingoverRate := 0.7;
   Organysm.MutationRate := 0.2;
-  TempInterval.IStart := 1;
-  TempInterval.IEnd := 12;
+  Organysm.DnkLength := 8;
+  TempInterval.IStart := -3;
+  TempInterval.IEnd := 2;
   Organysm.Interval := TempInterval;
-  Organysm.AimFunction := @AimFunction;
+  Organysm.AimFunction := @rAimFunction;
   repaintGraph;
   GraphicScale := 10;
   GraphicOrigin.x := 20;
@@ -178,6 +184,13 @@ begin
   updateUI;
 end;
 
+procedure TFormGenetic.TrackBarDNKLengthChange(Sender: TObject);
+begin
+  Organysm.DnkLength := TrackBarDNKLength.Position;
+  LabelDNKLength.Caption := 'Длина хромосомы: ' +
+    IntToStr(Organysm.DnkLength);
+end;
+
 procedure TFormGenetic.TrackBarCrossingoverRateChange(Sender: TObject);
 begin
   Organysm.CrossingoverRate := TrackBarCrossingoverRate.Position / 100;
@@ -231,17 +244,19 @@ begin
     Canvas.Pen.Color := clBlack;
     i := Organysm.Interval.IStart;
     Canvas.MoveTo(GetLocalCoords(i, rAimFunction(i)));
-    while i < Organysm.Interval.IEnd do
+    while i <= Organysm.Interval.IEnd do
     begin
       i += 0.05;
       Canvas.LineTo(GetLocalCoords(i, rAimFunction(i)));
     end;
-    for ii := 0 to High(Organysm.Population) do
-    begin
-      TempPoint := GetLocalCoords(Organysm.Population[ii].GetLongint,
-        Organysm.Population[ii].AimFunctionResult);
-      Canvas.Ellipse(TempPoint.x - 2, TempPoint.y - 2, TempPoint.x + 2, TempPoint.y + 2);
-    end;
+    with Organysm do
+      for ii := 0 to High(Population) do
+      begin
+        TempPoint := GetLocalCoords(Interval.IStart + Population[ii].GetReal *
+          Interval.Width, Organysm.Population[ii].AimFunctionResult);
+        Canvas.Ellipse(TempPoint.x - 2, TempPoint.y - 2, TempPoint.x +
+          2, TempPoint.y + 2);
+      end;
   end;
 end;
 
@@ -251,15 +266,15 @@ var
 begin
   repaintGraph;
   LabelResult.Caption := 'Лучший результат: ' +
-    IntToStr(Organysm.GetBest);
+    FloatToStr(Organysm.GetBest);
   MemoChromosomes.Lines.Clear;
   for i := 0 to High(Organysm.Population) do
-    MemoChromosomes.Lines.Add(IntToStr(Organysm.Population[i].GetLongint) +
-      ' ' + IntToStr(Organysm.Population[i].AimFunctionResult));
+    MemoChromosomes.Lines.Add(IntToStr(Organysm.Population[i].GetLongword) +
+      ' ' + FloatToStr(Organysm.Population[i].AimFunctionResult));
   MemoNewGeneration.Lines.Clear;
   for i := 0 to High(Organysm.NewGeneration) do
-    MemoNewGeneration.Lines.Add(IntToStr(Organysm.NewGeneration[i].GetLongint) +
-      ' ' + IntToStr(Organysm.NewGeneration[i].AimFunctionResult));
+    MemoNewGeneration.Lines.Add(IntToStr(Organysm.NewGeneration[i].GetLongword) +
+      ' ' + FloatToStr(Organysm.NewGeneration[i].AimFunctionResult));
 end;
 
 procedure TFormGenetic.EditIterationsCountEditingDone(Sender: TObject);
