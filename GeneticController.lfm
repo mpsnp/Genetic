@@ -1,7 +1,7 @@
 object FormGenetic: TFormGenetic
-  Left = 1682
+  Left = 1665
   Height = 647
-  Top = 202
+  Top = 160
   Width = 1086
   Caption = 'Генетический алгоритм поиска'
   ClientHeight = 647
@@ -26,7 +26,7 @@ object FormGenetic: TFormGenetic
     object LabelPerformNIterations: TLabel
       Left = 8
       Height = 16
-      Top = 371
+      Top = 428
       Width = 289
       Align = alTop
       BorderSpacing.Around = 8
@@ -35,21 +35,21 @@ object FormGenetic: TFormGenetic
     end
     object GroupBoxStartPopulation: TGroupBox
       Left = 0
-      Height = 147
+      Height = 204
       Top = 8
       Width = 305
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Стартовая популяция'
-      ClientHeight = 129
+      ClientHeight = 186
       ClientWidth = 301
       TabOrder = 0
       object ButtonGenerateStartPopulation: TButton
         AnchorSideBottom.Side = asrBottom
         Left = 8
         Height = 25
-        Top = 96
+        Top = 153
         Width = 285
         Align = alTop
         AutoSize = True
@@ -61,7 +61,7 @@ object FormGenetic: TFormGenetic
       object LabelStartPopulationSize: TLabel
         Left = 8
         Height = 16
-        Top = 39
+        Top = 96
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -72,7 +72,7 @@ object FormGenetic: TFormGenetic
         Left = 8
         Height = 23
         Hint = 'Стратегия генерации'
-        Top = 8
+        Top = 65
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -90,7 +90,7 @@ object FormGenetic: TFormGenetic
       object TrackBarPopulationSize: TTrackBar
         Left = 8
         Height = 25
-        Top = 63
+        Top = 120
         Width = 285
         Frequency = 0
         Max = 100
@@ -101,11 +101,34 @@ object FormGenetic: TFormGenetic
         BorderSpacing.Around = 8
         TabOrder = 2
       end
+      object TrackBarDNKLength: TTrackBar
+        Left = 8
+        Height = 25
+        Top = 32
+        Width = 285
+        Max = 32
+        Min = 4
+        OnChange = TrackBarDNKLengthChange
+        Position = 8
+        Align = alTop
+        BorderSpacing.Around = 8
+        TabOrder = 3
+      end
+      object LabelDNKLength: TLabel
+        Left = 8
+        Height = 16
+        Top = 8
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        Caption = 'Длина хрмосомы: 8'
+        ParentColor = False
+      end
     end
     object ButtonStart: TButton
       Left = 8
       Height = 25
-      Top = 428
+      Top = 485
       Width = 289
       Align = alTop
       AutoSize = True
@@ -118,7 +141,7 @@ object FormGenetic: TFormGenetic
     object TrackBarIterations: TTrackBar
       Left = 8
       Height = 25
-      Top = 395
+      Top = 452
       Width = 289
       Frequency = 0
       Max = 100
@@ -132,7 +155,7 @@ object FormGenetic: TFormGenetic
     object GroupBoxOperators: TGroupBox
       Left = 0
       Height = 200
-      Top = 163
+      Top = 220
       Width = 305
       Align = alTop
       AutoSize = True
@@ -246,7 +269,7 @@ object FormGenetic: TFormGenetic
     object ButtonTimerIterations: TButton
       Left = 8
       Height = 25
-      Top = 461
+      Top = 518
       Width = 289
       Align = alTop
       AutoSize = True
