@@ -1,7 +1,7 @@
 object FormGenetic: TFormGenetic
-  Left = 1665
+  Left = 1650
   Height = 647
-  Top = 160
+  Top = 149
   Width = 1086
   Caption = 'Генетический алгоритм поиска'
   ClientHeight = 647
@@ -128,7 +128,7 @@ object FormGenetic: TFormGenetic
     object ButtonStart: TButton
       Left = 8
       Height = 25
-      Top = 485
+      Top = 516
       Width = 289
       Align = alTop
       AutoSize = True
@@ -269,7 +269,7 @@ object FormGenetic: TFormGenetic
     object ButtonTimerIterations: TButton
       Left = 8
       Height = 25
-      Top = 518
+      Top = 549
       Width = 289
       Align = alTop
       AutoSize = True
@@ -278,6 +278,24 @@ object FormGenetic: TFormGenetic
       Enabled = False
       OnClick = ButtonTimerIterationsClick
       TabOrder = 4
+    end
+    object ComboBoxFindingType: TComboBox
+      Left = 8
+      Height = 23
+      Top = 485
+      Width = 289
+      Align = alTop
+      BorderSpacing.Around = 8
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'Поиск максимального'
+        'Поиск минимального'
+      )
+      OnChange = ComboBoxFindingTypeChange
+      Style = csDropDownList
+      TabOrder = 5
+      Text = 'Поиск максимального'
     end
   end
   object GroupBoxVisualisation: TGroupBox
@@ -290,81 +308,67 @@ object FormGenetic: TFormGenetic
     ClientHeight = 629
     ClientWidth = 768
     TabOrder = 1
-    object ImageGraphic: TImage
-      Left = 8
-      Height = 613
-      Top = 8
-      Width = 426
-      Align = alClient
-      BorderSpacing.Around = 8
-      OnChangeBounds = ImageGraphicChangeBounds
-      OnMouseDown = ImageGraphicMouseDown
-      OnMouseMove = ImageGraphicMouseMove
-      OnMouseUp = ImageGraphicMouseUp
-      OnMouseWheel = ImageGraphicMouseWheel
-      Transparent = True
-    end
     object LabelResult: TLabel
-      AnchorSideLeft.Control = GroupBoxVisualisation
-      AnchorSideTop.Control = ImageGraphic
-      AnchorSideRight.Control = MemoChromosomes
-      AnchorSideBottom.Control = GroupBoxVisualisation
-      AnchorSideBottom.Side = asrBottom
       Left = 8
       Height = 16
       Top = 605
-      Width = 613
-      Anchors = [akLeft, akRight, akBottom]
+      Width = 752
+      Align = alBottom
       BorderSpacing.Around = 8
       Caption = 'Лучший результат: не вычислен...'
       ParentColor = False
     end
-    object MemoChromosomes: TMemo
-      AnchorSideLeft.Control = ImageGraphic
-      AnchorSideLeft.Side = asrBottom
-      Left = 629
-      Height = 613
-      Top = 8
-      Width = 131
-      Align = alRight
-      BorderSpacing.Around = 8
-      Lines.Strings = (
-        'MemoChromosom'
-        'es'
-      )
-      ScrollBars = ssAutoVertical
-      TabOrder = 0
-    end
-    object MemoNewGeneration: TMemo
-      AnchorSideLeft.Control = ImageGraphic
-      AnchorSideLeft.Side = asrBottom
-      Left = 455
-      Height = 613
-      Top = 8
-      Width = 153
-      Align = alRight
-      BorderSpacing.Around = 8
-      Lines.Strings = (
-        'MemoNewGeneration'
-      )
-      ScrollBars = ssAutoVertical
-      TabOrder = 1
-    end
-    object Splitter2: TSplitter
-      Left = 442
-      Height = 629
+    object Chart: TChart
+      Left = 0
+      Height = 597
       Top = 0
-      Width = 5
-      Align = alRight
-      ResizeAnchor = akRight
-    end
-    object Splitter3: TSplitter
-      Left = 616
-      Height = 629
-      Top = 0
-      Width = 5
-      Align = alRight
-      ResizeAnchor = akRight
+      Width = 768
+      AxisList = <      
+        item
+          Grid.Color = 10329501
+          Arrow.BaseLength = 5
+          Arrow.Length = 5
+          Arrow.Visible = True
+          Arrow.Width = 3
+          Minors = <>
+          Range.Max = 10
+          Range.Min = 4
+          Title.LabelFont.Orientation = 900
+        end      
+        item
+          Grid.Color = 10329501
+          Alignment = calBottom
+          Arrow.BaseLength = 5
+          Arrow.Length = 5
+          Arrow.Visible = True
+          Arrow.Width = 3
+          Minors = <>
+          Range.UseMax = True
+          Range.UseMin = True
+        end>
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TAChart'
+      )
+      Toolset = ChartToolset
+      Align = alClient
+      ParentColor = False
+      object ChartFuncSeriesAimFunction: TFuncSeries
+        AxisIndexX = 1
+        AxisIndexY = 0
+        OnCalculate = ChartFuncSeriesAimFunctionCalculate
+      end
+      object ChartLineSeriesChromosomes: TLineSeries
+        AxisIndexX = 1
+        AxisIndexY = 0
+        LineType = ltNone
+        Pointer.Style = psCircle
+        ShowPoints = True
+        Source = SourceChromosomes
+      end
     end
   end
   object Splitter1: TSplitter
@@ -373,11 +377,29 @@ object FormGenetic: TFormGenetic
     Top = 0
     Width = 5
   end
-  object Timer1: TTimer
+  object TimerIterations: TTimer
     Enabled = False
-    Interval = 100
-    OnTimer = Timer1Timer
+    Interval = 250
+    OnTimer = TimerIterationsTimer
     left = 418
     top = 134
+  end
+  object ChartToolset: TChartToolset
+    left = 616
+    top = 264
+    object ChartToolsetZoomMouseWheelTool1: TZoomMouseWheelTool
+      AnimationInterval = 1
+      AnimationSteps = 5
+      ZoomRatio = 1.5
+    end
+    object ChartToolsetPanDragTool1: TPanDragTool
+      Shift = [ssLeft]
+      Directions = [pdUp, pdDown]
+    end
+  end
+  object SourceChromosomes: TUserDefinedChartSource
+    OnGetChartDataItem = SourceChromosomesGetChartDataItem
+    left = 429
+    top = 273
   end
 end

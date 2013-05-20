@@ -5,8 +5,10 @@ unit GeneticController;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, ActnList, ComCtrls, GeneticBrain, types;
+  Classes, SysUtils, FileUtil, OpenGLContext, TAGraph, TAFuncSeries,
+  TATransformations, TATools, TASources, TAMultiSeries, TASeries, Forms,
+  Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, ActnList, ComCtrls,
+  GeneticBrain, types, GraphView, gl, TACustomSource;
 
 type
 
@@ -16,6 +18,13 @@ type
     ButtonTimerIterations: TButton;
     ButtonStart: TButton;
     ButtonGenerateStartPopulation: TButton;
+    Chart:      TChart;
+    ChartFuncSeriesAimFunction: TFuncSeries;
+    ChartLineSeriesChromosomes: TLineSeries;
+    ChartToolset: TChartToolset;
+    ChartToolsetPanDragTool1: TPanDragTool;
+    ChartToolsetZoomMouseWheelTool1: TZoomMouseWheelTool;
+    ComboBoxFindingType:   TComboBox;
     ComboBoxSampling: TComboBox;
     ComboBoxMutation: TComboBox;
     ComboBoxCrossingover: TComboBox;
@@ -25,25 +34,23 @@ type
     GroupBoxStartPopulation: TGroupBox;
     GroupBoxOptions: TGroupBox;
     GroupBoxVisualisation: TGroupBox;
-    ImageGraphic: TImage;
     LabelDNKLength: TLabel;
     LabelResult: TLabel;
     LabelStartPopulationSize: TLabel;
     LabelPerformNIterations: TLabel;
-    MemoNewGeneration: TMemo;
-    MemoChromosomes: TMemo;
-    Splitter1: TSplitter;
-    Splitter2: TSplitter;
-    Splitter3: TSplitter;
-    Timer1:    TTimer;
+    Splitter1:   TSplitter;
+    TimerIterations: TTimer;
     TrackBarDNKLength: TTrackBar;
     TrackBarCrossingoverRate: TTrackBar;
     TrackBarMutationRate: TTrackBar;
     TrackBarPopulationSize: TTrackBar;
     TrackBarIterations: TTrackBar;
+    SourceChromosomes: TUserDefinedChartSource;
     procedure ButtonTimerIterationsClick(Sender: TObject);
     procedure ButtonGenerateStartPopulationClick(Sender: TObject);
     procedure ButtonStartClick(Sender: TObject);
+    procedure ChartFuncSeriesAimFunctionCalculate(const AX: double; out AY: double);
+    procedure ComboBoxFindingTypeChange(Sender: TObject);
     procedure ComboBoxCrossingoverChange(Sender: TObject);
     procedure ComboBoxMutationChange(Sender: TObject);
     procedure ComboBoxPopulationStrategyChange(Sender: TObject);
@@ -52,21 +59,14 @@ type
     procedure EditIterationsCountEditingDone(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ImageGraphicChangeBounds(Sender: TObject);
-    procedure ImageGraphicMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: integer);
-    procedure ImageGraphicMouseMove(Sender: TObject; Shift: TShiftState;
-      X, Y: integer);
-    procedure ImageGraphicMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: integer);
-    procedure ImageGraphicMouseWheel(Sender: TObject; Shift: TShiftState;
-      WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
-    procedure Timer1Timer(Sender: TObject);
+    procedure TimerIterationsTimer(Sender: TObject);
     procedure TrackBarDNKLengthChange(Sender: TObject);
     procedure TrackBarCrossingoverRateChange(Sender: TObject);
     procedure TrackBarIterationsChange(Sender: TObject);
     procedure TrackBarMutationRateChange(Sender: TObject);
     procedure TrackBarPopulationSizeChange(Sender: TObject);
+    procedure SourceChromosomesGetChartDataItem(
+      ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
   private
     { private declarations }
     Organysm: COrganysm;
@@ -74,7 +74,6 @@ type
     GraphicOrigin: TPoint;
     StartMousePoint: TPoint;
     CanDrag: boolean;
-    procedure repaintGraph;
     procedure updateUI;
   public
     { public declarations }
@@ -91,7 +90,7 @@ uses Math;
 
 function rAimFunction(x: real): real;
 begin
-  Result := -x ** 4 + 5 * x ** 2 - 4 * x;
+  Result := x ** 2;
 end;
 
 function AimFunction(x: longint): longint;
@@ -106,7 +105,7 @@ var
   TempInterval: TInterval;
 begin
   Organysm := COrganysm.Create;
-  Organysm.BestResultType := BRT_MIN;
+  Organysm.BestResultType := BRT_MAX;
   Organysm.IterationCount := 10;
   Organysm.PopulationCount := 10;
   Organysm.SamplingType := SAT_PROPORTIONAL;
@@ -117,16 +116,12 @@ begin
   Organysm.CrossingoverRate := 0.7;
   Organysm.MutationRate := 0.2;
   Organysm.DnkLength := 8;
-  TempInterval.IStart := -3;
-  TempInterval.IEnd := 2;
+  TempInterval.IStart := 0;
+  TempInterval.IEnd := 3;
   Organysm.Interval := TempInterval;
   Organysm.AimFunction := @rAimFunction;
-  repaintGraph;
-  GraphicScale := 10;
-  GraphicOrigin.x := 20;
-  GraphicOrigin.y := 20;
-  ImageGraphic.Picture.Bitmap.Width := ImageGraphic.Width;
-  ImageGraphic.Picture.Bitmap.Height := ImageGraphic.Height;
+  Chart.AxisList.BottomAxis.Range.Min := Organysm.Interval.IStart;
+  Chart.AxisList.BottomAxis.Range.Max := Organysm.Interval.IEnd;
 end;
 
 procedure TFormGenetic.FormShow(Sender: TObject);
@@ -134,51 +129,7 @@ begin
   updateUI;
 end;
 
-procedure TFormGenetic.ImageGraphicChangeBounds(Sender: TObject);
-begin
-  ImageGraphic.Picture.Bitmap.Width := ImageGraphic.Width;
-  ImageGraphic.Picture.Bitmap.Height := ImageGraphic.Height;
-  repaintGraph;
-end;
-
-procedure TFormGenetic.ImageGraphicMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-begin
-  if Button = mbLeft then
-  begin
-    StartMousePoint.x := x;
-    StartMousePoint.y := y;
-    CanDrag := True;
-  end;
-end;
-
-procedure TFormGenetic.ImageGraphicMouseMove(Sender: TObject;
-  Shift: TShiftState; X, Y: integer);
-begin
-  if CanDrag then
-  begin
-    GraphicOrigin.x -= StartMousePoint.x - x;
-    GraphicOrigin.y += StartMousePoint.y - y;
-    StartMousePoint.x := x;
-    StartMousePoint.y := y;
-    repaintGraph;
-  end;
-end;
-
-procedure TFormGenetic.ImageGraphicMouseUp(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: integer);
-begin
-  CanDrag := False;
-end;
-
-procedure TFormGenetic.ImageGraphicMouseWheel(Sender: TObject;
-  Shift: TShiftState; WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
-begin
-  GraphicScale += WheelDelta / 120 * 0.5;
-  repaintGraph;
-end;
-
-procedure TFormGenetic.Timer1Timer(Sender: TObject);
+procedure TFormGenetic.TimerIterationsTimer(Sender: TObject);
 begin
   Organysm.NextIteration;
   updateUI;
@@ -213,50 +164,18 @@ begin
     'Размер стартовой популяции: ' +
     IntToStr(TrackBarPopulationSize.Position);
   Organysm.PopulationCount := TrackBarPopulationSize.Position;
+  SourceChromosomes.PointsNumber := TrackBarPopulationSize.Position;
 end;
 
-procedure TFormGenetic.repaintGraph;
-var
-  i: real;
-  ii, aWidth, aHeight: integer;
-  TempPoint: TPoint;
-
-  function GetLocalCoords(x, y: real): TPoint;
-  begin
-    Result.x := round(GraphicScale * x + GraphicOrigin.x);
-    Result.y := round(GraphicScale * y + GraphicOrigin.y);
-    Result.x += aWidth div 2;
-    Result.y += aHeight div 2;
-    Result.y := aHeight - Result.y;
-  end;
-
+procedure TFormGenetic.SourceChromosomesGetChartDataItem(
+  ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
 begin
-  aWidth := ImageGraphic.Picture.Bitmap.Width;
-  aHeight := ImageGraphic.Picture.Bitmap.Height;
-  with ImageGraphic.Picture.Bitmap do
+  if High(Organysm.Population) >= AIndex then
   begin
-    Canvas.Brush.Color := clWindow;
-    Canvas.FillRect(0, 0, Width, Height);
-    Canvas.Pen.Color := clRed;
-    Canvas.Line(GetLocalCoords(0, 0), GetLocalCoords(0, 10));
-    Canvas.Pen.Color := clGreen;
-    Canvas.Line(GetLocalCoords(0, 0), GetLocalCoords(10, 0));
-    Canvas.Pen.Color := clBlack;
-    i := Organysm.Interval.IStart;
-    Canvas.MoveTo(GetLocalCoords(i, rAimFunction(i)));
-    while i <= Organysm.Interval.IEnd do
-    begin
-      i += 0.05;
-      Canvas.LineTo(GetLocalCoords(i, rAimFunction(i)));
-    end;
-    with Organysm do
-      for ii := 0 to High(Population) do
-      begin
-        TempPoint := GetLocalCoords(Interval.IStart + Population[ii].GetReal *
-          Interval.Width, Organysm.Population[ii].AimFunctionResult);
-        Canvas.Ellipse(TempPoint.x - 2, TempPoint.y - 2, TempPoint.x +
-          2, TempPoint.y + 2);
-      end;
+    AItem.X := (Organysm.Interval.IStart + Organysm.Population[AIndex].GetReal *
+      Organysm.Interval.Width);
+    AItem.Y := Organysm.Population[AIndex].AimFunctionResult;
+    AItem.Color := clBlue;
   end;
 end;
 
@@ -264,17 +183,10 @@ procedure TFormGenetic.updateUI;
 var
   i: integer;
 begin
-  repaintGraph;
+  SourceChromosomes.BeginUpdate;
   LabelResult.Caption := 'Лучший результат: ' +
     FloatToStr(Organysm.GetBest);
-  MemoChromosomes.Lines.Clear;
-  for i := 0 to High(Organysm.Population) do
-    MemoChromosomes.Lines.Add(IntToStr(Organysm.Population[i].GetLongword) +
-      ' ' + FloatToStr(Organysm.Population[i].AimFunctionResult));
-  MemoNewGeneration.Lines.Clear;
-  for i := 0 to High(Organysm.NewGeneration) do
-    MemoNewGeneration.Lines.Add(IntToStr(Organysm.NewGeneration[i].GetLongword) +
-      ' ' + FloatToStr(Organysm.NewGeneration[i].AimFunctionResult));
+  SourceChromosomes.EndUpdate;
 end;
 
 procedure TFormGenetic.EditIterationsCountEditingDone(Sender: TObject);
@@ -289,6 +201,19 @@ begin
   for i := 1 to TrackBarIterations.Position do
     Organysm.NextIteration;
   updateUI;
+end;
+
+procedure TFormGenetic.ChartFuncSeriesAimFunctionCalculate(const AX: double; out AY: double);
+begin
+  AY := rAimFunction(AX);
+end;
+
+procedure TFormGenetic.ComboBoxFindingTypeChange(Sender: TObject);
+begin
+  case ComboBoxFindingType.ItemIndex of
+    0: Organysm.BestResultType := BRT_MAX;
+    1: Organysm.BestResultType := BRT_MIN;
+  end;
 end;
 
 procedure TFormGenetic.ComboBoxCrossingoverChange(Sender: TObject);
@@ -335,14 +260,15 @@ procedure TFormGenetic.ButtonGenerateStartPopulationClick(Sender: TObject);
 begin
   Organysm.GeneratePopulation;
   updateUI;
+  SourceChromosomes.PointsNumber := TrackBarPopulationSize.Position;
   ButtonStart.Enabled := True;
   ButtonTimerIterations.Enabled := True;
 end;
 
 procedure TFormGenetic.ButtonTimerIterationsClick(Sender: TObject);
 begin
-  Timer1.Enabled := not Timer1.Enabled;
-  if Timer1.Enabled then
+  TimerIterations.Enabled := not TimerIterations.Enabled;
+  if TimerIterations.Enabled then
     ButtonTimerIterations.Caption :=
       'Остановка непрерывных итераций'
   else
