@@ -259,7 +259,7 @@ end;
 
 function TChromosom.GetReal: real;
 begin
-  Result := GetLongword / 2 ** Length(DNK);
+  Result := GetLongword / (2 ** Length(DNK) - 1);
 end;
 
 procedure TChromosom.Invert;
@@ -390,7 +390,7 @@ var
   i:   integer;
   max: int64;
 begin
-  max := 2 ** DnkLength;
+  max := 2 ** DnkLength - 1;
   for i := 0 to High(_Population) do
     with _Population[i] do
       AimFunctionResult := AimFunction(Interval.IStart + GetLongword /

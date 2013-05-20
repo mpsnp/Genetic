@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, GeneticController, GeneticBrain, lazopenglcontext, tachartlazaruspkg;
+  Forms, GeneticController, GeneticBrain, tachartlazaruspkg;
 
 {$R *.res}
 

@@ -5,10 +5,10 @@ unit GeneticController;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, OpenGLContext, TAGraph, TAFuncSeries,
+  Classes, SysUtils, FileUtil, TAGraph, TAFuncSeries,
   TATransformations, TATools, TASources, TAMultiSeries, TASeries, Forms,
   Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, ActnList, ComCtrls,
-  GeneticBrain, types, GraphView, gl, TACustomSource;
+  GeneticBrain, types, TACustomSource;
 
 type
 
@@ -18,13 +18,13 @@ type
     ButtonTimerIterations: TButton;
     ButtonStart: TButton;
     ButtonGenerateStartPopulation: TButton;
-    Chart:      TChart;
+    Chart:     TChart;
     ChartFuncSeriesAimFunction: TFuncSeries;
     ChartLineSeriesChromosomes: TLineSeries;
     ChartToolset: TChartToolset;
     ChartToolsetPanDragTool1: TPanDragTool;
     ChartToolsetZoomMouseWheelTool1: TZoomMouseWheelTool;
-    ComboBoxFindingType:   TComboBox;
+    ComboBoxFindingType: TComboBox;
     ComboBoxSampling: TComboBox;
     ComboBoxMutation: TComboBox;
     ComboBoxCrossingover: TComboBox;
@@ -38,7 +38,7 @@ type
     LabelResult: TLabel;
     LabelStartPopulationSize: TLabel;
     LabelPerformNIterations: TLabel;
-    Splitter1:   TSplitter;
+    Splitter1: TSplitter;
     TimerIterations: TTimer;
     TrackBarDNKLength: TTrackBar;
     TrackBarCrossingoverRate: TTrackBar;
@@ -65,8 +65,8 @@ type
     procedure TrackBarIterationsChange(Sender: TObject);
     procedure TrackBarMutationRateChange(Sender: TObject);
     procedure TrackBarPopulationSizeChange(Sender: TObject);
-    procedure SourceChromosomesGetChartDataItem(
-      ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
+    procedure SourceChromosomesGetChartDataItem(ASource: TUserDefinedChartSource;
+      AIndex: integer; var AItem: TChartDataItem);
   private
     { private declarations }
     Organysm: COrganysm;
@@ -203,7 +203,8 @@ begin
   updateUI;
 end;
 
-procedure TFormGenetic.ChartFuncSeriesAimFunctionCalculate(const AX: double; out AY: double);
+procedure TFormGenetic.ChartFuncSeriesAimFunctionCalculate(const AX: double;
+  out AY: double);
 begin
   AY := rAimFunction(AX);
 end;

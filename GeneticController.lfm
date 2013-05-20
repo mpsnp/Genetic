@@ -1,15 +1,16 @@
 object FormGenetic: TFormGenetic
-  Left = 1650
+  Left = 1647
   Height = 647
-  Top = 149
-  Width = 1086
+  Top = 148
+  Width = 800
   Caption = 'Генетический алгоритм поиска'
   ClientHeight = 647
-  ClientWidth = 1086
+  ClientWidth = 800
   Constraints.MinHeight = 600
   Constraints.MinWidth = 800
   OnCreate = FormCreate
   OnShow = FormShow
+  Position = poScreenCenter
   ShowHint = True
   LCLVersion = '1.0.8.0'
   object GroupBoxOptions: TGroupBox
@@ -302,17 +303,17 @@ object FormGenetic: TFormGenetic
     Left = 314
     Height = 647
     Top = 0
-    Width = 772
+    Width = 486
     Align = alClient
     Caption = 'Результаты работы'
     ClientHeight = 629
-    ClientWidth = 768
+    ClientWidth = 482
     TabOrder = 1
     object LabelResult: TLabel
       Left = 8
       Height = 16
       Top = 605
-      Width = 752
+      Width = 466
       Align = alBottom
       BorderSpacing.Around = 8
       Caption = 'Лучший результат: не вычислен...'
@@ -322,7 +323,7 @@ object FormGenetic: TFormGenetic
       Left = 0
       Height = 597
       Top = 0
-      Width = 768
+      Width = 482
       AxisList = <      
         item
           Grid.Color = 10329501
