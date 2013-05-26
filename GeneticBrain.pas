@@ -4,56 +4,55 @@ unit GeneticBrain;
 interface
 
 type
-  TStartPopulationStrategy = (SPS_BLANKET, SPS_DROBOVIK, SPS_FOCUS);
+  TStartPopulationStrategy = (
+    SPS_BLANKET,
+    SPS_SHOTGUN,
+    SPS_FOCUS
+    );
+  TSelectionTypes    = (
+    ST_RANDOM,
+    ST_SPECIFIED_GRAPH,
+    ST_ELITE,
+    ST_TOURNIR,
+    ST_INBREADING,
+    ST_GIBRIDISATION
+    );
+  TCrossingoverTypes = (
+    CT_STANDARD_ONE_POINT,
+    CT_STANDARD_TWO_POINT,
+    CT_STANDARD_SEVERAL_POINT,
+    CT_UNIVERSAL,
+    CT_SORTING_ONE_POINT,
+    CT_SORTING_TWO_POINT,
+    CT_PARTLY_APROPRIATE_ONE_POINT,
+    CT_PARTLY_APROPRIATE_TWO_POINT,
+    CT_CYCLE,
+    CT_COMPLEX,
+    CT_GREEDY,
+    CT_GOLDEN_SEPARATION,
+    CT_FIBONACHI
+    );
+  TMutationTypes     = (
+    MT_SIMPLE,
+    MT_POINT,
+    MT_CHANGING,
+    MT_CHANGING_GOLDEN_SEPARATION,
+    MT_CHANGING_FIBONACHI,
+    MT_INVERSION,
+    MT_DUPLICATION,
+    MT_TRANSLOCATION,
+    MT_TRANSPOSITION
+    );
+  TSamplingTypes     = (
+    SAT_PROPORTIONAL,
+    SAT_ELITE,
+    SAT_EQUAL
+    );
+  TBestResultTypes   = (
+    BRT_MIN,
+    BRT_MAX
+    );
 
-const
-  //Start population strategies
-
-
-  //Selection types
-  ST_RANDOM     = 1;
-  ST_SPECIFIED_GRAPH = 2;
-  ST_ELITE      = 4;
-  ST_TOURNIR    = 8;
-  ST_INBREADING = 16;
-  ST_GIBRIDISATION = 32;
-
-  //Crossingover types
-  CT_STANDARD_ONE_POINT = 1;
-  CT_STANDARD_TWO_POINT = 2;
-  CT_STANDARD_SEVERAL_POINT = 4;
-  CT_UNIVERSAL = 8;
-  CT_SORTING_ONE_POINT = 16;
-  CT_SORTING_TWO_POINT = 32;
-  CT_PARTLY_APROPRIATE_ONE_POINT = 64;
-  CT_PARTLY_APROPRIATE_TWO_POINT = 128;
-  CT_CYCLE     = 256;
-  CT_COMPLEX   = 512;
-  CT_GREEDY    = 1024;
-  CT_GOLDEN_SEPARATION = 2048;
-  CT_FIBONACHI = 4096;
-
-  //Mutation types
-  MT_SIMPLE    = 1;
-  MT_POINT     = 2;
-  MT_CHANGING  = 4;
-  MT_CHANGING_GOLDEN_SEPARATION = 8;
-  MT_CHANGING_FIBONACHI = 16;
-  MT_INVERSION = 32;
-  MT_DUPLICATION = 64;
-  MT_TRANSLOCATION = 128;
-  MT_TRANSPOSITION = 256;
-
-  //Sampling type
-  SAT_PROPORTIONAL = 1;
-  SAT_ELITE = 2;
-  SAT_EQUAL = 4;
-
-  //Best result type
-  BRT_MIN = 1;
-  BRT_MAX = 2;
-
-type
   TGenes = array of byte;
   TAimFunction = function(x: real): real;
 
@@ -85,30 +84,40 @@ type
   private
     _Population:     TChromosomArray;
     _SumAimFunction: real;
-    procedure updateAimFunctionInChromosomes;
-    procedure reproduction;
+
+    //Start population generation
+    procedure shotgunPopulationGeneration;
+
+    //Selection
+    function randomSelect: TChromosomArray;
+    function eliteSelect: TChromosomArray;
+
+    //Crossingover
+    function standartOnePointCrossover
+      (const Chromosomes: TChromosomArray): TChromosomArray;
+
     function compare(a, b: TChromosom): boolean;
     function getChromosomeRatio(a, min, max: TChromosom): real;
     function select: TChromosomArray;
     function crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
     function mutate(const Chromosomes: TChromosomArray): TChromosomArray;
+    procedure updateAimFunctionInChromosomes;
     procedure sortChromosomes;
-    procedure addNewGenerationToOld(Chromosomes: TChromosomArray);
-    procedure sample;
+    procedure addNewGenerationToOld(const Chromosomes: TChromosomArray);
+    procedure reproduction;
     procedure calculateSumAimFunction;
   public
     AimFunction: TAimFunction;
     DnkLength: integer;
     CrossingoverRate: real;
     MutationRate: real;
-    BestResultType: integer;
+    BestResultType: TBestResultTypes;
     PopulationCount: integer;
-    IterationCount: integer;
     StartPopulationStrategy: TStartPopulationStrategy;
-    SelectionType: longint;
-    CrossingoverType: longint;
-    MutationType: longint;
-    SamplingType: longint;
+    SelectionType: TSelectionTypes;
+    CrossingoverType: TCrossingoverTypes;
+    MutationType: TMutationTypes;
+    SamplingType: TSamplingTypes;
     NewGeneration: TChromosomArray;
     Interval: TInterval;
     property Population: TChromosomArray read _Population;
@@ -166,7 +175,7 @@ begin
       end;
 end;
 
-procedure COrganysm.addNewGenerationToOld(Chromosomes: TChromosomArray);
+procedure COrganysm.addNewGenerationToOld(const Chromosomes: TChromosomArray);
 var
   i: integer;
 begin
@@ -175,7 +184,7 @@ begin
     _Population[High(_Population) - i] := Chromosomes[i];
 end;
 
-procedure COrganysm.sample;
+procedure COrganysm.reproduction;
 var
   i, ii: longint;
   NewPopulation: TChromosomArray;
@@ -282,11 +291,6 @@ begin
   Result := a.DNK = b.DNK;
 end;
 
-procedure COrganysm.reproduction;
-begin
-
-end;
-
 function TInterval.IsValueInInterval(x: integer): boolean;
 begin
   Result := (IStart <= x) and (x <= IEnd);
@@ -307,6 +311,61 @@ begin
 
 end;
 
+procedure COrganysm.shotgunPopulationGeneration;
+var
+  i, ii: integer;
+begin
+  SetLength(_Population, PopulationCount);
+  for i := 0 to High(_Population) do
+  begin
+    SetLength(_Population[i].DNK, DnkLength);
+    for ii := 0 to High(_Population[i].DNK) do
+      _Population[i].DNK[ii] := Random(2);
+  end;
+end;
+
+function COrganysm.randomSelect: TChromosomArray;
+var
+  i: integer;
+begin
+  i := round(CrossingoverRate * Length(_Population));
+  i := i - i mod 2;
+  SetLength(Result, i);
+  for i := 0 to High(Result) do
+    Result[i] := CopyChromosome(_Population[random(Length(_Population))]);
+end;
+
+function COrganysm.eliteSelect: TChromosomArray;
+var
+  i: integer;
+begin
+  i := round(CrossingoverRate * Length(_Population));
+  i := i - i mod 2;
+  SetLength(Result, i);
+  sortChromosomes;
+  for i := 0 to High(Result) do
+    Result[i] := CopyChromosome(_Population[i]);
+end;
+
+function COrganysm.standartOnePointCrossover
+  (const Chromosomes: TChromosomArray): TChromosomArray;
+var
+  i, ii, cut: integer;
+  temp: byte;
+begin
+  Result := Chromosomes;
+  for i := 0 to High(Result) - 1 do
+  begin
+    cut := random(DnkLength);
+    for ii := cut to High(Result[i].DNK) do
+    begin
+      temp := Result[i].DNK[ii];
+      Result[i].DNK[ii] := Result[i + 1].DNK[ii];
+      Result[i + 1].DNK[ii] := temp;
+    end;
+  end;
+end;
+
 function COrganysm.getBest: real;
 var
   i: integer;
@@ -324,44 +383,20 @@ begin
 end;
 
 function COrganysm.select: TChromosomArray;
-var
-  i: integer;
 begin
-  i := round(CrossingoverRate * Length(_Population));
-  i := i - i mod 2;
-  SetLength(Result, i);
   case SelectionType of
     ST_RANDOM:
-      for i := 0 to High(Result) do
-        Result[i] := CopyChromosome(_Population[random(Length(_Population))]);
+      Result := randomSelect;
     ST_ELITE:
-    begin
-      sortChromosomes;
-      for i := 0 to High(Result) do
-        Result[i] := CopyChromosome(_Population[i]);
-    end;
+      Result := eliteSelect;
   end;
 end;
 
 function COrganysm.crossOver(const Chromosomes: TChromosomArray): TChromosomArray;
-var
-  i, ii, cut: integer;
-  temp: byte;
 begin
-  Result := Chromosomes;
-  for i := 0 to High(Result) - 1 do
-    case CrossingoverType of
-      CT_STANDARD_ONE_POINT:
-      begin
-        cut := random(DnkLength);
-        for ii := cut to High(Result[i].DNK) do
-        begin
-          temp := Result[i].DNK[ii];
-          Result[i].DNK[ii] := Result[i + 1].DNK[ii];
-          Result[i + 1].DNK[ii] := temp;
-        end;
-      end;
-    end;
+  case CrossingoverType of
+    CT_STANDARD_ONE_POINT: Result := standartOnePointCrossover(Chromosomes);
+  end;
 end;
 
 function COrganysm.mutate(const Chromosomes: TChromosomArray): TChromosomArray;
@@ -382,7 +417,7 @@ begin
   NewGeneration := crossOver(NewGeneration);
   NewGeneration := mutate(NewGeneration);
   addNewGenerationToOld(NewGeneration);
-  sample;
+  reproduction;
 end;
 
 procedure COrganysm.updateAimFunctionInChromosomes();
@@ -398,20 +433,11 @@ begin
 end;
 
 procedure COrganysm.GeneratePopulation();
-var
-  i, ii, temp: integer;
 begin
-  SetLength(_Population, PopulationCount);
-  for i := 0 to High(_Population) do
-    case StartPopulationStrategy of
-      SPS_DROBOVIK:
-      begin
-        SetLength(_Population[i].DNK, DnkLength);
-        for ii := 0 to High(_Population[i].DNK) do
-          _Population[i].DNK[ii] := Random(2);
-      end;
-      SPS_FOCUS: ;//TODO: Закончить
-    end;
+  case StartPopulationStrategy of
+    SPS_SHOTGUN: shotgunPopulationGeneration;
+    SPS_FOCUS: ;//TODO: Закончить
+  end;
   updateAimFunctionInChromosomes();
 end;
 

@@ -37,10 +37,10 @@ type
     LabelCrossingover: TLabel;
     LabelMutation: TLabel;
     LabelDNKLength: TLabel;
-    LabelResult: TLabel;
     LabelStartPopulationSize: TLabel;
     LabelPerformNIterations: TLabel;
     Splitter1: TSplitter;
+    StatusBar: TStatusBar;
     TimerIterations: TTimer;
     TrackBarDNKLength: TTrackBar;
     TrackBarCrossingoverRate: TTrackBar;
@@ -58,7 +58,6 @@ type
     procedure ComboBoxPopulationStrategyChange(Sender: TObject);
     procedure ComboBoxSamplingChange(Sender: TObject);
     procedure ComboBoxSelectionChange(Sender: TObject);
-    procedure EditIterationsCountEditingDone(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TimerIterationsTimer(Sender: TObject);
@@ -72,10 +71,6 @@ type
   private
     { private declarations }
     Organysm: COrganysm;
-    GraphicScale: real;
-    GraphicOrigin: TPoint;
-    StartMousePoint: TPoint;
-    CanDrag: boolean;
     procedure updateUI;
   public
     { public declarations }
@@ -108,12 +103,11 @@ var
 begin
   Organysm := COrganysm.Create;
   Organysm.BestResultType := BRT_MAX;
-  Organysm.IterationCount := 10;
   Organysm.PopulationCount := 10;
   Organysm.SamplingType := SAT_PROPORTIONAL;
   Organysm.SelectionType := ST_RANDOM;
   Organysm.MutationType := MT_CHANGING_GOLDEN_SEPARATION;
-  Organysm.StartPopulationStrategy := SPS_DROBOVIK;
+  Organysm.StartPopulationStrategy := SPS_SHOTGUN;
   Organysm.CrossingoverType := CT_STANDARD_ONE_POINT;
   Organysm.CrossingoverRate := 0.7;
   Organysm.MutationRate := 0.2;
@@ -195,14 +189,9 @@ var
   i: integer;
 begin
   SourceChromosomes.BeginUpdate;
-  LabelResult.Caption := 'Лучший результат: ' +
-    FloatToStr(Organysm.GetBest);
+  StatusBar.Panels.Items[0].Text :=
+    'Лучший результат: ' + FloatToStr(Organysm.GetBest);
   SourceChromosomes.EndUpdate;
-end;
-
-procedure TFormGenetic.EditIterationsCountEditingDone(Sender: TObject);
-begin
-  Organysm.IterationCount := StrToInt(TEdit(Sender).Text);
 end;
 
 procedure TFormGenetic.ButtonStartClick(Sender: TObject);
@@ -248,7 +237,7 @@ end;
 procedure TFormGenetic.ComboBoxPopulationStrategyChange(Sender: TObject);
 begin
   case ComboBoxPopulationStrategy.ItemIndex of
-    0: Organysm.StartPopulationStrategy := SPS_DROBOVIK;
+    0: Organysm.StartPopulationStrategy := SPS_SHOTGUN;
     1: Organysm.StartPopulationStrategy := SPS_FOCUS;
   end;
 end;
