@@ -54,8 +54,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="25"/>
-        <CursorPos X="55" Y="70"/>
+        <TopLine Value="51"/>
+        <CursorPos X="22" Y="90"/>
         <UsageCount Value="86"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -76,7 +76,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="37"/>
         <CursorPos X="1" Y="66"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit3>
       <Unit4>
         <Filename Value="../../Lazarus/lcl/graphics.pp"/>
@@ -84,7 +84,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="879"/>
         <CursorPos X="3" Y="904"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit4>
       <Unit5>
         <Filename Value="Utils.pas"/>
@@ -92,14 +92,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit5>
       <Unit6>
         <Filename Value="../../Lazarus/lcl/include/wincontrol.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1503"/>
         <CursorPos X="1" Y="1520"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit6>
       <Unit7>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/types.pp"/>
@@ -107,28 +107,28 @@
         <WindowIndex Value="0"/>
         <TopLine Value="42"/>
         <CursorPos X="3" Y="68"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit7>
       <Unit8>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/win/wininc/struct.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="191"/>
         <CursorPos X="6" Y="217"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../Lazarus/lcl/include/control.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3614"/>
         <CursorPos X="1" Y="3640"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit9>
       <Unit10>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/sysutils/sysstrh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="131"/>
         <CursorPos X="10" Y="109"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit10>
       <Unit11>
         <Filename Value="graphview.pas"/>
@@ -136,7 +136,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="15"/>
         <CursorPos X="1" Y="56"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="21"/>
       </Unit11>
       <Unit12>
         <Filename Value="../../Lazarus/lcl/extctrls.pp"/>
@@ -144,14 +144,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="471"/>
         <CursorPos X="14" Y="497"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit12>
       <Unit13>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/classes/classesh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="4" Y="32"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit13>
       <Unit14>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/packages/opengl/src/gl.pp"/>
@@ -159,7 +159,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1112"/>
         <CursorPos X="3" Y="1138"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../Lazarus/components/tachart/tatransformations.pas"/>
@@ -167,7 +167,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="652"/>
         <CursorPos X="1" Y="678"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit15>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">

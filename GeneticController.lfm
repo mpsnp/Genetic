@@ -81,7 +81,6 @@ object FormGenetic: TFormGenetic
         ItemIndex = 0
         Items.Strings = (
           '"Дробовик"'
-          'Фокусировка'
         )
         OnChange = ComboBoxPopulationStrategyChange
         Style = csDropDownList

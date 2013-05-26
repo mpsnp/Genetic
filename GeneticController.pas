@@ -87,7 +87,7 @@ uses Math;
 
 function rAimFunction(x: real): real;
 begin
-  Result := x ** 2;
+  Result := -x ** 2 + 4 * x;
 end;
 
 function AimFunction(x: longint): longint;
