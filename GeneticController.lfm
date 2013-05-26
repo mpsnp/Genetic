@@ -27,7 +27,7 @@ object FormGenetic: TFormGenetic
     object LabelPerformNIterations: TLabel
       Left = 8
       Height = 16
-      Top = 428
+      Top = 476
       Width = 289
       Align = alTop
       BorderSpacing.Around = 8
@@ -129,7 +129,7 @@ object FormGenetic: TFormGenetic
     object ButtonStart: TButton
       Left = 8
       Height = 25
-      Top = 516
+      Top = 564
       Width = 289
       Align = alTop
       AutoSize = True
@@ -142,7 +142,7 @@ object FormGenetic: TFormGenetic
     object TrackBarIterations: TTrackBar
       Left = 8
       Height = 25
-      Top = 452
+      Top = 500
       Width = 289
       Frequency = 0
       Max = 100
@@ -155,14 +155,14 @@ object FormGenetic: TFormGenetic
     end
     object GroupBoxOperators: TGroupBox
       Left = 0
-      Height = 200
+      Height = 248
       Top = 220
       Width = 305
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 8
       Caption = 'Операторы'
-      ClientHeight = 182
+      ClientHeight = 230
       ClientWidth = 301
       TabOrder = 3
       object ComboBoxSelection: TComboBox
@@ -187,7 +187,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxCrossingover: TComboBox
         Left = 8
         Height = 23
-        Top = 64
+        Top = 88
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -206,7 +206,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxMutation: TComboBox
         Left = 8
         Height = 23
-        Top = 120
+        Top = 168
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -224,7 +224,7 @@ object FormGenetic: TFormGenetic
       object ComboBoxSampling: TComboBox
         Left = 8
         Height = 23
-        Top = 151
+        Top = 199
         Width = 285
         Align = alTop
         BorderSpacing.Around = 8
@@ -242,7 +242,7 @@ object FormGenetic: TFormGenetic
         Left = 8
         Height = 17
         Hint = 'Вероятность кроссинговера'
-        Top = 39
+        Top = 63
         Width = 285
         Frequency = 0
         Max = 100
@@ -256,7 +256,7 @@ object FormGenetic: TFormGenetic
         Left = 8
         Height = 17
         Hint = 'Вероятность мутации'
-        Top = 95
+        Top = 143
         Width = 285
         Frequency = 0
         Max = 100
@@ -266,11 +266,31 @@ object FormGenetic: TFormGenetic
         BorderSpacing.Around = 8
         TabOrder = 5
       end
+      object LabelMutation: TLabel
+        Left = 8
+        Height = 16
+        Top = 119
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        Caption = 'Вероятность мутации: 20%'
+        ParentColor = False
+      end
+      object LabelCrossingover: TLabel
+        Left = 8
+        Height = 16
+        Top = 39
+        Width = 285
+        Align = alTop
+        BorderSpacing.Around = 8
+        Caption = 'Вероятность кроссинговера: 70%'
+        ParentColor = False
+      end
     end
     object ButtonTimerIterations: TButton
       Left = 8
       Height = 25
-      Top = 549
+      Top = 597
       Width = 289
       Align = alTop
       AutoSize = True
@@ -283,7 +303,7 @@ object FormGenetic: TFormGenetic
     object ComboBoxFindingType: TComboBox
       Left = 8
       Height = 23
-      Top = 485
+      Top = 533
       Width = 289
       Align = alTop
       BorderSpacing.Around = 8

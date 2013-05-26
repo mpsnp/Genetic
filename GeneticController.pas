@@ -34,6 +34,8 @@ type
     GroupBoxStartPopulation: TGroupBox;
     GroupBoxOptions: TGroupBox;
     GroupBoxVisualisation: TGroupBox;
+    LabelCrossingover: TLabel;
+    LabelMutation: TLabel;
     LabelDNKLength: TLabel;
     LabelResult: TLabel;
     LabelStartPopulationSize: TLabel;
@@ -130,8 +132,11 @@ begin
 end;
 
 procedure TFormGenetic.TimerIterationsTimer(Sender: TObject);
+var
+  i: integer;
 begin
-  Organysm.NextIteration;
+  for i := 1 to TrackBarIterations.Position do
+    Organysm.NextIteration;
   updateUI;
 end;
 
@@ -145,6 +150,9 @@ end;
 procedure TFormGenetic.TrackBarCrossingoverRateChange(Sender: TObject);
 begin
   Organysm.CrossingoverRate := TrackBarCrossingoverRate.Position / 100;
+  LabelCrossingover.Caption :=
+    'Вероятность кроссинговера: ' +
+    IntToStr(TrackBarCrossingoverRate.Position) + '%';
 end;
 
 procedure TFormGenetic.TrackBarIterationsChange(Sender: TObject);
@@ -156,6 +164,9 @@ end;
 procedure TFormGenetic.TrackBarMutationRateChange(Sender: TObject);
 begin
   Organysm.MutationRate := TrackBarMutationRate.Position / 100;
+  LabelMutation.Caption :=
+    'Вероятность мутации: ' +
+    IntToStr(TrackBarMutationRate.Position) + '%';
 end;
 
 procedure TFormGenetic.TrackBarPopulationSizeChange(Sender: TObject);
