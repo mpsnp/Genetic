@@ -1,398 +1,490 @@
 object FormGenetic: TFormGenetic
-  Left = 1647
-  Height = 670
-  Top = 148
-  Width = 800
-  Caption = 'Генетический алгоритм поиска'
-  ClientHeight = 670
-  ClientWidth = 800
-  Constraints.MinHeight = 670
+  Left = 1697
+  Height = 716
+  Top = 151
+  Width = 870
+  Caption = 'Генетический алгоритм поиска оптимума'
+  ClientHeight = 716
+  ClientWidth = 870
+  Constraints.MinHeight = 685
   Constraints.MinWidth = 800
   OnCreate = FormCreate
-  OnShow = FormShow
   Position = poScreenCenter
   ShowHint = True
   LCLVersion = '1.0.8.0'
-  object GroupBoxOptions: TGroupBox
+  object PageControl: TPageControl
     Left = 0
-    Height = 647
+    Height = 693
     Top = 0
-    Width = 280
-    Align = alLeft
-    Caption = 'Настройки алгоритма'
-    ClientHeight = 629
-    ClientWidth = 276
-    Constraints.MinWidth = 280
-    TabOrder = 0
-    object LabelPerformNIterations: TLabel
-      Left = 8
-      Height = 16
-      Top = 476
-      Width = 260
-      Align = alTop
-      BorderSpacing.Around = 8
-      Caption = 'Выполнить 10 итераций'
-      ParentColor = False
-    end
-    object GroupBoxStartPopulation: TGroupBox
-      Left = 0
-      Height = 204
-      Top = 8
-      Width = 276
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Top = 8
-      Caption = 'Стартовая популяция'
-      ClientHeight = 186
-      ClientWidth = 272
-      TabOrder = 0
-      object ButtonGenerateStartPopulation: TButton
-        AnchorSideBottom.Side = asrBottom
-        Left = 8
-        Height = 25
-        Top = 153
-        Width = 256
-        Align = alTop
-        AutoSize = True
-        BorderSpacing.Around = 8
-        Caption = 'Сгенерировать'
-        OnClick = ButtonGenerateStartPopulationClick
-        TabOrder = 0
-      end
-      object LabelStartPopulationSize: TLabel
-        Left = 8
-        Height = 16
-        Top = 96
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        Caption = 'Размер стартовой популяции: 10'
-        ParentColor = False
-      end
-      object ComboBoxPopulationStrategy: TComboBox
-        Left = 8
-        Height = 23
-        Hint = 'Стратегия генерации'
-        Top = 65
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          '"Дробовик"'
-          'Фокусировка'
-        )
-        OnChange = ComboBoxPopulationStrategyChange
-        Style = csDropDownList
-        TabOrder = 1
-        Text = '"Дробовик"'
-      end
-      object TrackBarPopulationSize: TTrackBar
-        Left = 8
-        Height = 25
-        Top = 120
-        Width = 256
-        Frequency = 0
-        Max = 100
-        Min = 2
-        OnChange = TrackBarPopulationSizeChange
-        Position = 10
-        Align = alTop
-        BorderSpacing.Around = 8
-        TabOrder = 2
-      end
-      object TrackBarDNKLength: TTrackBar
-        Left = 8
-        Height = 25
-        Top = 32
-        Width = 256
-        Max = 32
-        Min = 4
-        OnChange = TrackBarDNKLengthChange
-        Position = 8
-        Align = alTop
-        BorderSpacing.Around = 8
-        TabOrder = 3
-      end
-      object LabelDNKLength: TLabel
-        Left = 8
-        Height = 16
-        Top = 8
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        Caption = 'Длина хрмосомы: 8'
-        ParentColor = False
-      end
-    end
-    object ButtonStart: TButton
-      Left = 8
-      Height = 25
-      Top = 564
-      Width = 260
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Старт'
-      Enabled = False
-      OnClick = ButtonStartClick
-      TabOrder = 1
-    end
-    object TrackBarIterations: TTrackBar
-      Left = 8
-      Height = 25
-      Top = 500
-      Width = 260
-      Frequency = 0
-      Max = 100
-      Min = 1
-      OnChange = TrackBarIterationsChange
-      Position = 10
-      Align = alTop
-      BorderSpacing.Around = 8
-      TabOrder = 2
-    end
-    object GroupBoxOperators: TGroupBox
-      Left = 0
-      Height = 248
-      Top = 220
-      Width = 276
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Top = 8
-      Caption = 'Операторы'
-      ClientHeight = 230
-      ClientWidth = 272
-      TabOrder = 3
-      object ComboBoxSelection: TComboBox
-        Left = 8
-        Height = 23
-        Hint = 'Селекция'
-        Top = 8
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Случайная селекция'
-          'Элитная селекция'
-        )
-        OnChange = ComboBoxSelectionChange
-        Style = csDropDownList
-        TabOrder = 0
-        Text = 'Случайная селекция'
-      end
-      object ComboBoxCrossingover: TComboBox
-        Left = 8
-        Height = 23
-        Top = 88
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Стандартный одноточечный кроссинговер'
-          'Частично соответствующий одноточечный кроссинговер'
-          'Кроссинговер на основе "Золотого сечения"'
-        )
-        OnChange = ComboBoxCrossingoverChange
-        Style = csDropDownList
-        TabOrder = 1
-        Text = 'Стандартный одноточечный кроссинговер'
-      end
-      object ComboBoxMutation: TComboBox
-        Left = 8
-        Height = 23
-        Top = 168
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Обмен на основе "Золотого сечения"'
-          'Инверсия'
-        )
-        OnChange = ComboBoxMutationChange
-        Style = csDropDownList
-        TabOrder = 2
-        Text = 'Обмен на основе "Золотого сечения"'
-      end
-      object ComboBoxSampling: TComboBox
-        Left = 8
-        Height = 23
-        Top = 199
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        ItemHeight = 15
-        ItemIndex = 0
-        Items.Strings = (
-          'Пропорциональный отбор'
-        )
-        OnChange = ComboBoxSamplingChange
-        Style = csDropDownList
-        TabOrder = 3
-        Text = 'Пропорциональный отбор'
-      end
-      object TrackBarCrossingoverRate: TTrackBar
-        Left = 8
-        Height = 17
-        Hint = 'Вероятность кроссинговера'
-        Top = 63
-        Width = 256
-        Frequency = 0
-        Max = 100
-        OnChange = TrackBarCrossingoverRateChange
-        Position = 70
-        Align = alTop
-        BorderSpacing.Around = 8
-        TabOrder = 4
-      end
-      object TrackBarMutationRate: TTrackBar
-        Left = 8
-        Height = 17
-        Hint = 'Вероятность мутации'
-        Top = 143
-        Width = 256
-        Frequency = 0
-        Max = 100
-        OnChange = TrackBarMutationRateChange
-        Position = 20
-        Align = alTop
-        BorderSpacing.Around = 8
-        TabOrder = 5
-      end
-      object LabelMutation: TLabel
-        Left = 8
-        Height = 16
-        Top = 119
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        Caption = 'Вероятность мутации: 20%'
-        ParentColor = False
-      end
-      object LabelCrossingover: TLabel
-        Left = 8
-        Height = 16
-        Top = 39
-        Width = 256
-        Align = alTop
-        BorderSpacing.Around = 8
-        Caption = 'Вероятность кроссинговера: 70%'
-        ParentColor = False
-      end
-    end
-    object ButtonTimerIterations: TButton
-      Left = 8
-      Height = 25
-      Top = 597
-      Width = 260
-      Align = alTop
-      AutoSize = True
-      BorderSpacing.Around = 8
-      Caption = 'Запуск непрерывных итераций'
-      Enabled = False
-      OnClick = ButtonTimerIterationsClick
-      TabOrder = 4
-    end
-    object ComboBoxFindingType: TComboBox
-      Left = 8
-      Height = 23
-      Top = 533
-      Width = 260
-      Align = alTop
-      BorderSpacing.Around = 8
-      ItemHeight = 15
-      ItemIndex = 0
-      Items.Strings = (
-        'Поиск максимального'
-        'Поиск минимального'
-      )
-      OnChange = ComboBoxFindingTypeChange
-      Style = csDropDownList
-      TabOrder = 5
-      Text = 'Поиск максимального'
-    end
-  end
-  object GroupBoxVisualisation: TGroupBox
-    Left = 285
-    Height = 647
-    Top = 0
-    Width = 515
+    Width = 870
+    ActivePage = TabSheetMain
     Align = alClient
-    Caption = 'Результаты работы'
-    ClientHeight = 629
-    ClientWidth = 511
-    TabOrder = 1
-    object Chart: TChart
-      Left = 0
-      Height = 629
-      Top = 0
-      Width = 511
-      AxisList = <      
-        item
-          Grid.Color = 10329501
-          Arrow.BaseLength = 5
-          Arrow.Length = 5
-          Arrow.Visible = True
-          Arrow.Width = 3
-          Minors = <>
-          Range.Max = 10
-          Range.Min = 4
-          Title.LabelFont.Orientation = 900
-        end      
-        item
-          Grid.Color = 10329501
-          Alignment = calBottom
-          Arrow.BaseLength = 5
-          Arrow.Length = 5
-          Arrow.Visible = True
-          Arrow.Width = 3
-          Minors = <>
-          Range.UseMax = True
-          Range.UseMin = True
-        end>
-      Foot.Brush.Color = clBtnFace
-      Foot.Font.Color = clBlue
-      Title.Brush.Color = clBtnFace
-      Title.Font.Color = clBlue
-      Title.Text.Strings = (
-        'TAChart'
-      )
-      Toolset = ChartToolset
-      Align = alClient
-      ParentColor = False
-      object ChartFuncSeriesAimFunction: TFuncSeries
-        AxisIndexX = 1
-        AxisIndexY = 0
-        OnCalculate = ChartFuncSeriesAimFunctionCalculate
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheetMain: TTabSheet
+      Caption = 'Настройки работы и вывод'
+      ClientHeight = 665
+      ClientWidth = 862
+      object GroupBoxVisualisation: TGroupBox
+        Left = 293
+        Height = 665
+        Top = 0
+        Width = 569
+        Align = alClient
+        Caption = 'Результаты работы'
+        ClientHeight = 647
+        ClientWidth = 565
+        TabOrder = 0
+        object Chart: TChart
+          Left = 0
+          Height = 588
+          Top = 0
+          Width = 565
+          AxisList = <          
+            item
+              Grid.Color = 10329501
+              Arrow.BaseLength = 5
+              Arrow.Length = 5
+              Arrow.Visible = True
+              Arrow.Width = 3
+              Minors = <>
+              Range.Max = 10
+              Range.Min = 4
+              Title.LabelFont.Orientation = 900
+            end          
+            item
+              Grid.Color = 10329501
+              Alignment = calBottom
+              Arrow.BaseLength = 5
+              Arrow.Length = 5
+              Arrow.Visible = True
+              Arrow.Width = 3
+              Minors = <>
+              Range.UseMax = True
+              Range.UseMin = True
+            end>
+          Foot.Brush.Color = clBtnFace
+          Foot.Font.Color = clBlue
+          Title.Brush.Color = clBtnFace
+          Title.Font.Color = clBlue
+          Title.Text.Strings = (
+            'TAChart'
+          )
+          Toolset = ChartToolset
+          Align = alClient
+          OnClick = ChartClick
+          object ChartFuncSeriesAimFunction: TFuncSeries
+            AxisIndexX = 1
+            AxisIndexY = 0
+            OnCalculate = ChartFuncSeriesAimFunctionCalculate
+          end
+          object ChartLineSeriesChromosomes: TLineSeries
+            AxisIndexX = 1
+            AxisIndexY = 0
+            LineType = ltNone
+            Pointer.Style = psCircle
+            ShowPoints = True
+            Source = SourceChromosomes
+          end
+          object ChartLineSeriesFocusPoint: TLineSeries
+            Active = False
+            Marks.Distance = 50
+            Marks.Format = '%2:s'
+            Marks.LinkPen.Color = clBlack
+            Marks.Style = smsLabel
+            LineType = ltNone
+            Pointer.Style = psDiamond
+            ShowPoints = True
+            Source = SourceFocusPoint
+          end
+        end
+        object GroupBoxTools: TGroupBox
+          Left = 0
+          Height = 59
+          Top = 588
+          Width = 565
+          Align = alBottom
+          AutoSize = True
+          Caption = 'Инструменты'
+          ClientHeight = 41
+          ClientWidth = 561
+          TabOrder = 1
+          object ButtonAddToLog: TButton
+            Left = 8
+            Height = 25
+            Top = 8
+            Width = 109
+            Action = ActionAddToLog
+            AutoSize = True
+            BorderSpacing.Around = 8
+            TabOrder = 0
+          end
+        end
       end
-      object ChartLineSeriesChromosomes: TLineSeries
-        AxisIndexX = 1
-        AxisIndexY = 0
-        LineType = ltNone
-        Pointer.Style = psCircle
-        ShowPoints = True
-        Source = SourceChromosomes
+      object Splitter1: TSplitter
+        Left = 288
+        Height = 665
+        Top = 0
+        Width = 5
+      end
+      object GroupBoxOptions: TGroupBox
+        Left = 0
+        Height = 665
+        Top = 0
+        Width = 288
+        Align = alLeft
+        Caption = 'Настройки алгоритма'
+        ClientHeight = 647
+        ClientWidth = 284
+        Constraints.MinWidth = 280
+        TabOrder = 2
+        object LabelPerformNIterations: TLabel
+          Left = 8
+          Height = 16
+          Top = 492
+          Width = 268
+          Align = alTop
+          BorderSpacing.Around = 8
+          Caption = 'Выполнить 10 итераций'
+          ParentColor = False
+        end
+        object GroupBoxStartPopulation: TGroupBox
+          Left = 0
+          Height = 204
+          Top = 8
+          Width = 284
+          Align = alTop
+          AutoSize = True
+          BorderSpacing.Top = 8
+          Caption = 'Стартовая популяция'
+          ClientHeight = 186
+          ClientWidth = 280
+          TabOrder = 0
+          object ButtonGenerateStartPopulation: TButton
+            AnchorSideBottom.Side = asrBottom
+            Left = 8
+            Height = 25
+            Top = 153
+            Width = 264
+            Action = ActionGeneratePopulation
+            Align = alTop
+            AutoSize = True
+            BorderSpacing.Around = 8
+            TabOrder = 0
+          end
+          object LabelStartPopulationSize: TLabel
+            Left = 8
+            Height = 16
+            Top = 96
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            Caption = 'Размер стартовой популяции: 10'
+            ParentColor = False
+          end
+          object ComboBoxPopulationStrategy: TComboBox
+            Left = 8
+            Height = 23
+            Hint = 'Стратегия генерации'
+            Top = 65
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              '"Дробовик"'
+              'Фокусировка'
+            )
+            OnChange = ComboBoxPopulationStrategyChange
+            Style = csDropDownList
+            TabOrder = 1
+            Text = '"Дробовик"'
+          end
+          object TrackBarPopulationSize: TTrackBar
+            Left = 8
+            Height = 25
+            Top = 120
+            Width = 264
+            Frequency = 0
+            Max = 100
+            Min = 2
+            OnChange = TrackBarPopulationSizeChange
+            Position = 10
+            Align = alTop
+            BorderSpacing.Around = 8
+            TabOrder = 2
+          end
+          object TrackBarDNKLength: TTrackBar
+            Left = 8
+            Height = 25
+            Top = 32
+            Width = 264
+            Max = 32
+            Min = 4
+            OnChange = TrackBarDNKLengthChange
+            Position = 8
+            Align = alTop
+            BorderSpacing.Around = 8
+            TabOrder = 3
+          end
+          object LabelDNKLength: TLabel
+            Left = 8
+            Height = 16
+            Top = 8
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            Caption = 'Длина хрмосомы: 8'
+            ParentColor = False
+          end
+        end
+        object ButtonStart: TButton
+          Left = 8
+          Height = 25
+          Top = 580
+          Width = 268
+          Action = ActionStart
+          Align = alTop
+          AutoSize = True
+          BorderSpacing.Around = 8
+          TabOrder = 1
+        end
+        object TrackBarIterations: TTrackBar
+          Left = 8
+          Height = 25
+          Top = 516
+          Width = 268
+          Frequency = 0
+          Max = 100
+          Min = 1
+          OnChange = TrackBarIterationsChange
+          Position = 10
+          Align = alTop
+          BorderSpacing.Around = 8
+          TabOrder = 2
+        end
+        object GroupBoxOperators: TGroupBox
+          Left = 0
+          Height = 264
+          Top = 220
+          Width = 284
+          Align = alTop
+          AutoSize = True
+          BorderSpacing.Top = 8
+          Caption = 'Операторы'
+          ClientHeight = 246
+          ClientWidth = 280
+          TabOrder = 3
+          object ComboBoxSelection: TComboBox
+            Left = 8
+            Height = 23
+            Hint = 'Селекция'
+            Top = 8
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Случайная селекция'
+              'Элитная селекция'
+            )
+            OnChange = ComboBoxSelectionChange
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'Случайная селекция'
+          end
+          object ComboBoxCrossingover: TComboBox
+            Left = 8
+            Height = 23
+            Top = 96
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Стандартный одноточечный кроссинговер'
+              'Частично соответствующий одноточечный кроссинговер'
+              'Кроссинговер на основе "Золотого сечения"'
+            )
+            OnChange = ComboBoxCrossingoverChange
+            Style = csDropDownList
+            TabOrder = 1
+            Text = 'Стандартный одноточечный кроссинговер'
+          end
+          object ComboBoxMutation: TComboBox
+            Left = 8
+            Height = 23
+            Top = 184
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Обмен на основе "Золотого сечения"'
+              'Инверсия'
+            )
+            OnChange = ComboBoxMutationChange
+            Style = csDropDownList
+            TabOrder = 2
+            Text = 'Обмен на основе "Золотого сечения"'
+          end
+          object ComboBoxSampling: TComboBox
+            Left = 8
+            Height = 23
+            Top = 215
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'Пропорциональный отбор'
+            )
+            OnChange = ComboBoxSamplingChange
+            Style = csDropDownList
+            TabOrder = 3
+            Text = 'Пропорциональный отбор'
+          end
+          object TrackBarCrossingoverRate: TTrackBar
+            Left = 8
+            Height = 25
+            Hint = 'Вероятность кроссинговера'
+            Top = 63
+            Width = 264
+            Frequency = 0
+            Max = 100
+            OnChange = TrackBarCrossingoverRateChange
+            Position = 70
+            Align = alTop
+            BorderSpacing.Around = 8
+            TabOrder = 4
+          end
+          object TrackBarMutationRate: TTrackBar
+            Left = 8
+            Height = 25
+            Hint = 'Вероятность мутации'
+            Top = 151
+            Width = 264
+            Frequency = 0
+            Max = 100
+            OnChange = TrackBarMutationRateChange
+            Position = 20
+            Align = alTop
+            BorderSpacing.Around = 8
+            TabOrder = 5
+          end
+          object LabelMutation: TLabel
+            Left = 8
+            Height = 16
+            Top = 127
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            Caption = 'Вероятность мутации: 20%'
+            ParentColor = False
+          end
+          object LabelCrossingover: TLabel
+            Left = 8
+            Height = 16
+            Top = 39
+            Width = 264
+            Align = alTop
+            BorderSpacing.Around = 8
+            Caption = 'Вероятность кроссинговера: 70%'
+            ParentColor = False
+          end
+        end
+        object ButtonTimerIterations: TButton
+          Left = 8
+          Height = 25
+          Top = 613
+          Width = 268
+          Action = ActionIterate
+          Align = alTop
+          AutoSize = True
+          BorderSpacing.Around = 8
+          TabOrder = 4
+        end
+        object ComboBoxFindingType: TComboBox
+          Left = 8
+          Height = 23
+          Top = 549
+          Width = 268
+          Align = alTop
+          BorderSpacing.Around = 8
+          ItemHeight = 15
+          ItemIndex = 0
+          Items.Strings = (
+            'Поиск максимального'
+            'Поиск минимального'
+          )
+          OnChange = ComboBoxFindingTypeChange
+          Style = csDropDownList
+          TabOrder = 5
+          Text = 'Поиск максимального'
+        end
       end
     end
-  end
-  object Splitter1: TSplitter
-    Left = 280
-    Height = 647
-    Top = 0
-    Width = 5
+    object TabSheetLog: TTabSheet
+      Caption = 'Log'
+      ClientHeight = 665
+      ClientWidth = 862
+      object TreeViewLog: TTreeView
+        Left = 0
+        Height = 606
+        Top = 0
+        Width = 862
+        Align = alClient
+        DefaultItemHeight = 18
+        TabOrder = 0
+      end
+      object GroupBoxLogOptions: TGroupBox
+        Left = 0
+        Height = 59
+        Top = 606
+        Width = 862
+        Align = alBottom
+        AutoSize = True
+        Caption = 'Управление логом'
+        ClientHeight = 41
+        ClientWidth = 858
+        TabOrder = 1
+        object ButtonClearLog: TButton
+          Left = 8
+          Height = 25
+          Top = 8
+          Width = 83
+          Align = alLeft
+          AutoSize = True
+          BorderSpacing.Around = 8
+          Caption = 'Отчистить'
+          OnClick = ButtonClearLogClick
+          TabOrder = 0
+        end
+        object ButtonExport: TButton
+          Left = 99
+          Height = 25
+          Top = 8
+          Width = 109
+          Align = alLeft
+          AutoSize = True
+          BorderSpacing.Around = 8
+          Caption = 'Экспорт в Excel'
+          TabOrder = 1
+          Visible = False
+        end
+      end
+    end
   end
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 647
-    Width = 800
+    Top = 693
+    Width = 870
     Panels = <    
       item
         Text = 'Лучший результат: не вычислен..'
@@ -422,10 +514,65 @@ object FormGenetic: TFormGenetic
       Shift = [ssLeft]
       Directions = [pdUp, pdDown]
     end
+    object ChartToolsetDataPointClickTool: TDataPointClickTool
+      Shift = [ssRight]
+      GrabRadius = 20
+      ActiveCursor = crCross
+      OnPointClick = ChartToolsetDataPointClickToolPointClick
+    end
   end
   object SourceChromosomes: TUserDefinedChartSource
     OnGetChartDataItem = SourceChromosomesGetChartDataItem
     left = 720
     top = 48
+  end
+  object PopupNotifierFocus: TPopupNotifier
+    Color = 14483455
+    Icon.Data = {
+      07544269746D617000000000
+    }
+    Text = 'Кликните на графике, чтобы задать точку фокусировки'
+    Title = 'Точка фокусировки'
+    Visible = False
+    left = 376
+    top = 48
+  end
+  object SourceFocusPoint: TUserDefinedChartSource
+    OnGetChartDataItem = SourceFocusPointGetChartDataItem
+    PointsNumber = 1
+    left = 720
+    top = 120
+  end
+  object ActionList: TActionList
+    left = 376
+    top = 120
+    object ActionAddToLog: TAction
+      Caption = 'Добавить в лог'
+      Hint = 'Добавить в лог текущий срез популяции'
+      OnExecute = ActionAddToLogExecute
+      ShortCut = 16460
+    end
+    object ActionUpdateUI: TAction
+      Caption = 'ActionUpdateUI'
+      OnExecute = ActionUpdateUIExecute
+    end
+    object ActionStart: TAction
+      Caption = 'Старт'
+      Hint = 'Запуск однократного выполненя'#13#10'указанного количесва итераций'
+      OnExecute = ActionStartExecute
+      ShortCut = 13
+    end
+    object ActionIterate: TAction
+      Caption = 'Запуск непрерывных итераций'
+      Hint = 'Запуск многократного выполнения '#13#10'указанного количества итераций'#13#10'с шагом 0.5 секунды'
+      OnExecute = ActionIterateExecute
+      ShortCut = 16397
+    end
+    object ActionGeneratePopulation: TAction
+      Caption = 'Сгенерировать популяцию'
+      Hint = 'Сгенерировать новую популяцию'#13#10'с выбранными параметрами'
+      OnExecute = ActionGeneratePopulationExecute
+      ShortCut = 16455
+    end
   end
 end

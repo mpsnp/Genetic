@@ -87,6 +87,7 @@ type
 
     //Start population generation
     procedure shotgunPopulationGeneration;
+    procedure focusPopulationGeneration;
 
     //Selection
     function randomSelect: TChromosomArray;
@@ -108,7 +109,7 @@ type
     procedure calculateSumAimFunction;
   public
     AimFunction: TAimFunction;
-    DnkLength: integer;
+    DnkLength:  integer;
     CrossingoverRate: real;
     MutationRate: real;
     BestResultType: TBestResultTypes;
@@ -119,7 +120,9 @@ type
     MutationType: TMutationTypes;
     SamplingType: TSamplingTypes;
     NewGeneration: TChromosomArray;
-    Interval: TInterval;
+    Interval:   TInterval;
+    FocusPoint: real;
+    GenerationNumber: longint;
     property Population: TChromosomArray read _Population;
     procedure NextIteration;
     procedure GeneratePopulation;
@@ -303,7 +306,6 @@ end;
 
 constructor COrganysm.Create();
 begin
-
 end;
 
 destructor COrganysm.Destroy();
@@ -312,6 +314,25 @@ begin
 end;
 
 procedure COrganysm.shotgunPopulationGeneration;
+var
+  i, ii: integer;
+begin
+  SetLength(_Population, PopulationCount);
+  for i := 0 to High(_Population) do
+  begin
+    SetLength(_Population[i].DNK, DnkLength);
+    for ii := 0 to High(_Population[i].DNK) do
+      _Population[i].DNK[ii] := Random(2);
+  end;
+end;
+
+procedure COrganysm.focusPopulationGeneration;
+
+  function GaussianDistribution(x: real): real;
+  begin
+    Result := 1 / sqrt(2 * pi) * exp(-(x * x) / 2);
+  end;
+
 var
   i, ii: integer;
 begin
@@ -418,6 +439,7 @@ begin
   NewGeneration := mutate(NewGeneration);
   addNewGenerationToOld(NewGeneration);
   reproduction;
+  GenerationNumber += 1;
 end;
 
 procedure COrganysm.updateAimFunctionInChromosomes();
@@ -436,8 +458,9 @@ procedure COrganysm.GeneratePopulation();
 begin
   case StartPopulationStrategy of
     SPS_SHOTGUN: shotgunPopulationGeneration;
-    SPS_FOCUS: ;//TODO: Закончить
+    SPS_FOCUS: focusPopulationGeneration;
   end;
+  GenerationNumber := 1;
   updateAimFunctionInChromosomes();
 end;
 
