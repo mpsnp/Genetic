@@ -2,7 +2,11 @@
 \lyxformat 413
 \begin_document
 \begin_header
-\textclass article
+\textclass extarticle
+\begin_preamble
+\usepackage{indentfirst}
+\usepackage{cmap}
+\end_preamble
 \use_default_options true
 \begin_modules
 theorems-starred
@@ -63,7 +67,7 @@ theorems-starred
 \topmargin 2cm
 \rightmargin 2cm
 \bottommargin 2cm
-\secnumdepth 1
+\secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
@@ -181,8 +185,189 @@ LatexCommand tableofcontents
 Постановка задачи
 \end_layout
 
+\begin_layout Standard
+Написать программу, которая вычисляет минимальное значение функции 
+\begin_inset Formula $f(x)=5x2+2x-10$
+\end_inset
+
+ на интервале 
+\begin_inset Formula $[5;\,15]$
+\end_inset
+
+ с помощью простого генетического алгоритма.
+ 
+\end_layout
+
+\begin_layout Standard
+Разработанная программа должна отвечать следующим требованиям: 
+\end_layout
+
+\begin_layout Itemize
+Кодирование хромосом: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Бинарное.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Стратегии создания начальной популяции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Стратегия 
+\begin_inset Quotes eld
+\end_inset
+
+дробовика
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Стратегия фокусировки.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Виды селекции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Случайная.
+ 
+\end_layout
+
+\begin_layout Itemize
+Элитная.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Операторы кроссинговера: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Стандартный одноточечный.
+ 
+\end_layout
+
+\begin_layout Itemize
+Частично-соответствующий одноточечный.
+ 
+\end_layout
+
+\begin_layout Itemize
+На основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Операторы мутации и инверсии: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Обмена на основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Инверсия.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Оператор отбора: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Пропорциональный.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Схема эволюции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Микроэволюция.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Должна быть возможность выбора вариантов различных генетических операторов
+ пользователем, а также размера начальной популяции, количества генераций,
+ вероятностей операторов кроссинговера и мутации.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Анализ технического задания
+\end_layout
+
+\begin_layout Standard
+Генетический алгоритм представляет собой метод, отражающий естественную
+ эволюцию методов решения проблем, и в первую очередь задач оптимизации.
+ 
+\end_layout
+
+\begin_layout Standard
+Генетический алгоритм - это эвристический метод поиска, основанный на механизмах
+ естественного отбора и наследования.
+ В них используется эволюционный принцип выживания наиболее приспособленных
+ особей.
+\end_layout
+
+\begin_layout Standard
+Таким образом, решение проблемы нахождения оптимума функции сводится к поиску
+ наиболее приспособленной хромосомы, которая удовлетворяет всем условиям
+ поставленной задачи.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -199,8 +384,11 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Definition
-Хромосома – это последовательность символов из алфавита {0, 1}, называемых
- генами.
+Хромосома – это последовательность символов из алфавита 
+\begin_inset Formula $\{0,\,1\}$
+\end_inset
+
+, называемых генами.
  
 \end_layout
 
@@ -636,6 +824,10 @@ LatexCommand tableofcontents
 Структурная схема алгоритма
 \end_layout
 
+\begin_layout Subsection
+Словесное описание
+\end_layout
+
 \begin_layout Standard
 При разработке программного обеспечения использовался следующий алгоритм
  (является модификацией генетических алгоритмов, разработанных Д.
@@ -747,12 +939,553 @@ LatexCommand tableofcontents
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Блок-схема
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Scheme.png
+	height 20cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Псевдокод
+\end_layout
+
+\begin_layout Subsubsection
+Стратегии создания начальной популяции
+\end_layout
+
+\begin_layout Paragraph
+Дробовика
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Population, PopulationCount);   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Population) do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Population[i].DNK, DnkLength);     
+\end_layout
+
+\begin_layout LyX-Code
+for ii := 0 to High(_Population[i].DNK) do       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i].DNK[ii] := Random(2);   
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Фокусировки
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы селекции
+\end_layout
+
+\begin_layout Paragraph
+Случайная
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+i := round(CrossingoverRate * PopulationCount);   
+\end_layout
+
+\begin_layout LyX-Code
+i := i - i mod 2;   
+\end_layout
+
+\begin_layout LyX-Code
+SetLength(Result, i);   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) do
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result[i] := Population[random(PopulationCount)]; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Элитная
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Count := round(CrossingoverRate * Length(Population));   
+\end_layout
+
+\begin_layout LyX-Code
+Count := Count - Count mod 2;      
+\end_layout
+
+\begin_layout LyX-Code
+SortChromosomes;
+\end_layout
+
+\begin_layout LyX-Code
+SetLength(Result, Count);  
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) do     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result[i] := Population[i]; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы кроссинговера
+\end_layout
+
+\begin_layout Paragraph
+Стандартный одноточечный
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := InputChromosomes;   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to (High(Result) - 1) div 2 do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Cut := Random(DnkLength);     
+\end_layout
+
+\begin_layout LyX-Code
+for ii := Cut to High(Result[i].DNK) do     
+\end_layout
+
+\begin_layout LyX-Code
+begin       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Temp := Result[i * 2].DNK[ii];       
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];       
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2 + 1].DNK[ii] := Temp;     
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Частично соответствующий
+\end_layout
+
+\begin_layout Paragraph
+На основе золотого сечения
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы мутации и инверсии
+\end_layout
+
+\begin_layout Paragraph
+Мутация на основе золотого сечения
+\end_layout
+
+\begin_layout Paragraph
+Инверсия
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+s := random(Length(DNK));         //Начальная точка разреза
+\end_layout
+
+\begin_layout LyX-Code
+e := s + random(Length(DNK) - s); //Конечная точка разреза
+\end_layout
+
+\begin_layout LyX-Code
+for i := s to (e - s) div 2 do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+temp := DNK[i];     
+\end_layout
+
+\begin_layout LyX-Code
+DNK[i] := DNK[e - i];     
+\end_layout
+
+\begin_layout LyX-Code
+DNK[e - i] := temp;   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Subsubsection
+Оператор отбора
+\end_layout
+
+\begin_layout Paragraph
+Пропорциональный
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+UpdateAimFunctionInChromosomes;  
+\end_layout
+
+\begin_layout LyX-Code
+FindMinMax;   
+\end_layout
+
+\begin_layout LyX-Code
+CalculateRatioSum;   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 1 to PopulationCount do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+RandomNumber := random();     
+\end_layout
+
+\begin_layout LyX-Code
+ii := 0;     
+\end_layout
+
+\begin_layout LyX-Code
+Ratio := GetChromosomeRatio(Population[ii], 
+\end_layout
+
+\begin_layout LyX-Code
+                            min, 
+\end_layout
+
+\begin_layout LyX-Code
+                            max) / RatioSum;     
+\end_layout
+
+\begin_layout LyX-Code
+while RandomNumber > Ratio do     
+\end_layout
+
+\begin_layout LyX-Code
+begin       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+RandomNumber -= Ratio;       
+\end_layout
+
+\begin_layout LyX-Code
+ii += 1;       
+\end_layout
+
+\begin_layout LyX-Code
+Ratio := GetChromosomeRatio(Population[ii], 
+\end_layout
+
+\begin_layout LyX-Code
+                            min, 
+\end_layout
+
+\begin_layout LyX-Code
+                            max) / RatioSum;     
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;     
+\end_layout
+
+\begin_layout LyX-Code
+AddChromosomeToNewPopulation(Population[ii]);   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;   
+\end_layout
+
+\begin_layout LyX-Code
+Population := NewPopulation; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Subparagraph
+GetChromosomeRatio
+\end_layout
+
+\begin_layout Standard
+Предназначена для универсального вычисления коэфициента приспособленности
+ хромосомы как для поиска минимума, так и максимума целевой функции.
+\end_layout
+
+\begin_layout LyX-Code
+function GetChromosomeRatio(a, min, max: TChromosom): real; 
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+//Исключаем возможность деления на 0, 
+\end_layout
+
+\begin_layout LyX-Code
+//если целевая функция у всех хромосом совпала
+\end_layout
+
+\begin_layout LyX-Code
+if max.AimFunc <> min.AimFunc then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := a.AimFunc / (max.AimFunc - min.AimFunc)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else     //В таком случае, все равны
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := 0.5;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+//Если необходимо найти минимум, инвертируем результат.
+\end_layout
+
+\begin_layout LyX-Code
+if BestResultType = BRT_MIN then     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := 1 - Result; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Экспериментальные результаты
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Заключение
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "Bibliography"
+options "bibtotoc,gost780"
+
+\end_inset
+
+
 \end_layout
 
 \end_body

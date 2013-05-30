@@ -226,7 +226,6 @@ var
 
 begin
   updateAimFunctionInChromosomes;
-  calculateSumAimFunction;
   FindMinMax;
   CalculateRatioSum;
   for i := 1 to PopulationCount do
@@ -373,18 +372,18 @@ function COrganysm.standartOnePointCrossover
 var
   i, ii, cut: integer;
   temp: byte;
-begin
-  Result := Chromosomes;
-  for i := 0 to High(Result) - 1 do
-  begin
-    cut := random(DnkLength);
-    for ii := cut to High(Result[i].DNK) do
-    begin
-      temp := Result[i].DNK[ii];
-      Result[i].DNK[ii] := Result[i + 1].DNK[ii];
-      Result[i + 1].DNK[ii] := temp;
-    end;
-  end;
+begin   
+	Result := InputChromosomes;   
+	for i := 0 to (High(Result) - 1) div 2 do   
+	begin     
+		Cut := random(DnkLength);     
+		for ii := Cut to High(Result[i].DNK) do     
+		begin       
+			Temp := Result[i * 2].DNK[ii];       
+			Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];       
+			Result[i * 2 + 1].DNK[ii] := Temp;     
+		end;   
+	end; 
 end;
 
 function COrganysm.getBest: real;
@@ -460,7 +459,7 @@ begin
     SPS_SHOTGUN: shotgunPopulationGeneration;
     SPS_FOCUS: focusPopulationGeneration;
   end;
-  GenerationNumber := 1;
+  GenerationNumber := 0;
   updateAimFunctionInChromosomes();
 end;
 
