@@ -1,7 +1,7 @@
 object FormGenetic: TFormGenetic
-  Left = 1697
+  Left = 1558
   Height = 716
-  Top = 151
+  Top = 152
   Width = 870
   Caption = 'Генетический алгоритм поиска оптимума'
   ClientHeight = 716
@@ -72,6 +72,7 @@ object FormGenetic: TFormGenetic
           )
           Toolset = ChartToolset
           Align = alClient
+          ParentColor = False
           OnClick = ChartClick
           object ChartFuncSeriesAimFunction: TFuncSeries
             AxisIndexX = 1
@@ -207,8 +208,8 @@ object FormGenetic: TFormGenetic
             Top = 120
             Width = 264
             Frequency = 0
-            Max = 100
-            Min = 2
+            Max = 300
+            Min = 10
             OnChange = TrackBarPopulationSizeChange
             Position = 10
             Align = alTop

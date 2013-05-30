@@ -7,7 +7,7 @@ interface
 uses
   SysUtils, TAGraph, TAFuncSeries, TATools, TASources, TASeries,
   Forms, Graphics, StdCtrls, ExtCtrls, ComCtrls, PopupNotifier,
-  GeneticBrain, TACustomSource, Classes, Controls, ActnList, types;
+  GeneticBrain, TACustomSource, Classes, Controls, ActnList, types, TACustomSeries;
 
 type
 
@@ -74,8 +74,7 @@ type
     procedure ButtonClearLogClick(Sender: TObject);
     procedure ChartClick(Sender: TObject);
     procedure ChartFuncSeriesAimFunctionCalculate(const AX: double; out AY: double);
-    procedure ChartToolsetDataPointClickToolPointClick(ATool: TChartTool;
-      APoint: TPoint);
+    procedure ChartToolsetDataPointClickToolPointClick(ATool: TChartTool; APoint: TPoint);
     procedure ComboBoxFindingTypeChange(Sender: TObject);
     procedure ComboBoxCrossingoverChange(Sender: TObject);
     procedure ComboBoxMutationChange(Sender: TObject);
@@ -83,16 +82,14 @@ type
     procedure ComboBoxSamplingChange(Sender: TObject);
     procedure ComboBoxSelectionChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure SourceFocusPointGetChartDataItem(ASource: TUserDefinedChartSource;
-      AIndex: integer; var AItem: TChartDataItem);
+    procedure SourceFocusPointGetChartDataItem(ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
     procedure TimerIterationsTimer(Sender: TObject);
     procedure TrackBarDNKLengthChange(Sender: TObject);
     procedure TrackBarCrossingoverRateChange(Sender: TObject);
     procedure TrackBarIterationsChange(Sender: TObject);
     procedure TrackBarMutationRateChange(Sender: TObject);
     procedure TrackBarPopulationSizeChange(Sender: TObject);
-    procedure SourceChromosomesGetChartDataItem(ASource: TUserDefinedChartSource;
-      AIndex: integer; var AItem: TChartDataItem);
+    procedure SourceChromosomesGetChartDataItem(ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
   private
     { private declarations }
     Organysm: COrganysm;
@@ -114,7 +111,7 @@ uses Math;
 
 function AimFunction(x: real): real;
 begin
-  Result := x;
+  Result := -x**2+3*x;
 end;
 
 { TFormGenetic }
@@ -145,13 +142,11 @@ begin
   ActionStart.Enabled := False;
 end;
 
-procedure TFormGenetic.SourceFocusPointGetChartDataItem(
-  ASource: TUserDefinedChartSource;
-  AIndex: integer; var AItem: TChartDataItem);
+procedure TFormGenetic.SourceFocusPointGetChartDataItem(ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
 begin
   AItem.Text := 'Точка фокусировки';
   AItem.Color := clRed;
-  AItem.X := Organysm.FocusPoint;
+  AItem.X := Organysm.Interval.IStart + Organysm.FocusPoint / 2 ** Organysm.DnkLength * Organysm.Interval.Width;
   AItem.Y := AimFunction(AItem.X);
 end;
 
@@ -163,16 +158,14 @@ end;
 procedure TFormGenetic.TrackBarDNKLengthChange(Sender: TObject);
 begin
   Organysm.DnkLength := TrackBarDNKLength.Position;
-  LabelDNKLength.Caption := 'Длина хромосомы: ' +
-    IntToStr(Organysm.DnkLength);
+  LabelDNKLength.Caption := 'Длина хромосомы: ' + IntToStr(Organysm.DnkLength);
 end;
 
 procedure TFormGenetic.TrackBarCrossingoverRateChange(Sender: TObject);
 begin
   Organysm.CrossingoverRate := TrackBarCrossingoverRate.Position / 100;
   LabelCrossingover.Caption :=
-    'Вероятность кроссинговера: ' +
-    IntToStr(TrackBarCrossingoverRate.Position) + '%';
+    'Вероятность кроссинговера: ' + IntToStr(TrackBarCrossingoverRate.Position) + '%';
 end;
 
 procedure TFormGenetic.TrackBarIterationsChange(Sender: TObject);
@@ -185,26 +178,22 @@ procedure TFormGenetic.TrackBarMutationRateChange(Sender: TObject);
 begin
   Organysm.MutationRate := TrackBarMutationRate.Position / 100;
   LabelMutation.Caption :=
-    'Вероятность мутации: ' +
-    IntToStr(TrackBarMutationRate.Position) + '%';
+    'Вероятность мутации: ' + IntToStr(TrackBarMutationRate.Position) + '%';
 end;
 
 procedure TFormGenetic.TrackBarPopulationSizeChange(Sender: TObject);
 begin
   LabelStartPopulationSize.Caption :=
-    'Размер стартовой популяции: ' +
-    IntToStr(TrackBarPopulationSize.Position);
+    'Размер стартовой популяции: ' + IntToStr(TrackBarPopulationSize.Position);
   Organysm.PopulationCount := TrackBarPopulationSize.Position;
   SourceChromosomes.PointsNumber := TrackBarPopulationSize.Position;
 end;
 
-procedure TFormGenetic.SourceChromosomesGetChartDataItem(
-  ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
+procedure TFormGenetic.SourceChromosomesGetChartDataItem(ASource: TUserDefinedChartSource; AIndex: integer; var AItem: TChartDataItem);
 begin
   if High(Organysm.Population) >= AIndex then
   begin
-    AItem.X := (Organysm.Interval.IStart + Organysm.Population[AIndex].GetReal *
-      Organysm.Interval.Width);
+    AItem.X := (Organysm.Interval.IStart + Organysm.Population[AIndex].GetReal * Organysm.Interval.Width);
     AItem.Y := Organysm.Population[AIndex].AimFunctionResult;
     AItem.Color := clBlue;
   end;
@@ -215,28 +204,24 @@ begin
   _CanAddFocusPoint := a;
 end;
 
-
-
 procedure TFormGenetic.ChartClick(Sender: TObject);
 begin
   if Organysm.StartPopulationStrategy = SPS_FOCUS then
     CanAddFocusPoint := not CanAddFocusPoint;
 end;
 
-procedure TFormGenetic.ChartFuncSeriesAimFunctionCalculate(const AX: double;
-  out AY: double);
+procedure TFormGenetic.ChartFuncSeriesAimFunctionCalculate(const AX: double; out AY: double);
 begin
   AY := AimFunction(AX);
 end;
 
-procedure TFormGenetic.ChartToolsetDataPointClickToolPointClick(ATool: TChartTool;
-  APoint: TPoint);
+procedure TFormGenetic.ChartToolsetDataPointClickToolPointClick(ATool: TChartTool; APoint: TPoint);
 begin
   if CanAddFocusPoint then
     with ATool as TDataPointClickTool do
     begin
       SourceFocusPoint.BeginUpdate;
-      Organysm.FocusPoint := (APoint.x / Chart.Width) * Organysm.Interval.Width;
+      Organysm.FocusPoint := round((APoint.x / Chart.Width) * 2 ** Organysm.DnkLength);
       StatusBar.Panels.Items[1].Text := FloatToStr(Organysm.FocusPoint);
       ChartLineSeriesFocusPoint.Active := True;
       SourceFocusPoint.EndUpdate;
@@ -272,11 +257,18 @@ procedure TFormGenetic.ComboBoxPopulationStrategyChange(Sender: TObject);
 begin
   CanAddFocusPoint := False;
   case ComboBoxPopulationStrategy.ItemIndex of
-    0: Organysm.StartPopulationStrategy := SPS_SHOTGUN;
+    0:
+    begin
+      Organysm.StartPopulationStrategy := SPS_SHOTGUN;
+      CanAddFocusPoint := False;
+      ChartLineSeriesFocusPoint.Active := False;
+    end;
     1:
     begin
       Organysm.StartPopulationStrategy := SPS_FOCUS;
       CanAddFocusPoint := True;
+      Organysm.FocusPoint := 2 ** Organysm.DnkLength div 2;
+      ChartLineSeriesFocusPoint.Active := True;
     end;
   end;
 end;
@@ -307,17 +299,14 @@ var
   i:    integer;
   Temp: string;
 begin
-  Root := TreeViewLog.Items.Add(nil, 'Поколение ' +
-    IntToStr(Organysm.GenerationNumber));
+  Root := TreeViewLog.Items.Add(nil, 'Поколение ' + IntToStr(Organysm.GenerationNumber));
   for i := 0 to High(Organysm.Population) do
     with Organysm.Population[i] do
     begin
       Temp := FloatToStr(Organysm.Interval.IStart + Organysm.Interval.Width * GetReal);
-      CurrNode := TreeViewLog.Items.AddChild(Root, 'DNK = ' +
-        IntToStr(Organysm.Population[i].GetLongword));
+      CurrNode := TreeViewLog.Items.AddChild(Root, 'DNK = ' + IntToStr(Organysm.Population[i].GetLongword));
       TreeViewLog.Items.AddChild(CurrNode, ' x = ' + Temp);
-      TreeViewLog.Items.AddChild(CurrNode, ' y = ' +
-        FloatToStr(Organysm.Population[i].AimFunctionResult));
+      TreeViewLog.Items.AddChild(CurrNode, ' y = ' + FloatToStr(Organysm.Population[i].AimFunctionResult));
     end;
 end;
 

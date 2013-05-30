@@ -61,6 +61,7 @@ type
   TChromosom = object
     DNK: TGenes;
     AimFunctionResult: real;
+    procedure Init(Position: longword; DNKLength: longword);
     function GetLongword: longword;
     function GetReal: real;
     procedure Invert();
@@ -96,6 +97,10 @@ type
     //Crossingover
     function standartOnePointCrossover
       (const Chromosomes: TChromosomArray): TChromosomArray;
+    function goldenSeparationCrossover
+      (const Chromosomes: TChromosomArray): TChromosomArray;
+    function partlyApropriateCrossover
+      (const Chromosomes: TChromosomArray): TChromosomArray;
 
     function compare(a, b: TChromosom): boolean;
     function getChromosomeRatio(a, min, max: TChromosom): real;
@@ -121,7 +126,7 @@ type
     SamplingType: TSamplingTypes;
     NewGeneration: TChromosomArray;
     Interval:   TInterval;
-    FocusPoint: real;
+    FocusPoint: longword;
     GenerationNumber: longint;
     property Population: TChromosomArray read _Population;
     procedure NextIteration;
@@ -255,6 +260,21 @@ begin
     _SumAimFunction += _Population[i].AimFunctionResult;
 end;
 
+procedure TChromosom.Init(Position: longword; DNKLength: longword);
+var
+  i: integer;
+begin
+  SetLength(DNK, DNKLength);
+  FillChar(DNK[0], SizeOf(DNK), 0);
+  i := High(DNK);
+  while Position > 0 do
+  begin
+    DNK[i] := Position mod 2;
+    Position := Position div 2;
+    i -= 1;
+  end;
+end;
+
 function TChromosom.GetLongword: longword;
 var
   i, t: longword;
@@ -306,6 +326,7 @@ end;
 
 constructor COrganysm.Create();
 begin
+
 end;
 
 destructor COrganysm.Destroy();
@@ -327,21 +348,21 @@ begin
 end;
 
 procedure COrganysm.focusPopulationGeneration;
-
-  function GaussianDistribution(x: real): real;
-  begin
-    Result := 1 / sqrt(2 * pi) * exp(-(x * x) / 2);
-  end;
-
 var
-  i, ii: integer;
+  i: integer;
+  y: longword;
+  k: real;
+
 begin
   SetLength(_Population, PopulationCount);
-  for i := 0 to High(_Population) do
+  k := 2 ** DnkLength / (3 * PopulationCount);
+  for i := 0 to High(_Population) div 2 do
   begin
-    SetLength(_Population[i].DNK, DnkLength);
-    for ii := 0 to High(_Population[i].DNK) do
-      _Population[i].DNK[ii] := Random(2);
+    y := round(k * i);
+    if FocusPoint + y < 2 ** DnkLength then
+      _Population[i].Init(FocusPoint + y, DnkLength);
+    if FocusPoint - y > 0 then
+      _Population[i + High(_Population) div 2 + 1].Init(FocusPoint - y, DnkLength);
   end;
 end;
 
@@ -371,19 +392,101 @@ end;
 function COrganysm.standartOnePointCrossover
   (const Chromosomes: TChromosomArray): TChromosomArray;
 var
-  i, ii, cut: integer;
-  temp: byte;
+  i, ii, Cut: integer;
+  Temp: byte;
 begin
   Result := Chromosomes;
-  for i := 0 to High(Result) - 1 do
+  for i := 0 to High(Result) div 2 do
   begin
-    cut := random(DnkLength);
-    for ii := cut to High(Result[i].DNK) do
+    Cut := random(DnkLength);
+    for ii := Cut to High(Result[i].DNK) do
     begin
-      temp := Result[i].DNK[ii];
-      Result[i].DNK[ii] := Result[i + 1].DNK[ii];
-      Result[i + 1].DNK[ii] := temp;
+      Temp := Result[i * 2].DNK[ii];
+      Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];
+      Result[i * 2 + 1].DNK[ii] := Temp;
     end;
+  end;
+end;
+
+function COrganysm.goldenSeparationCrossover(const Chromosomes: TChromosomArray): TChromosomArray;
+var
+  i, ii, Cut: integer;
+  Temp: byte;
+begin
+  Result := Chromosomes;
+  for i := 0 to High(Result) div 2 do
+  begin
+    if random(2) = 1 then
+      Cut := round(0.62 * DnkLength)
+    else
+      Cut := round(0.38 * DnkLength);
+    for ii := Cut to High(Result[i].DNK) do
+    begin
+      Temp := Result[i * 2].DNK[ii];
+      Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];
+      Result[i * 2 + 1].DNK[ii] := Temp;
+    end;
+  end;
+end;
+
+function COrganysm.partlyApropriateCrossover(const Chromosomes: TChromosomArray): TChromosomArray;
+var
+  i, ii, p, l: integer;
+  Temp: byte;
+  s1, s2, OutString1, OutString2, InString1, InString2: string;
+
+  function ChromosomeToString(Ch: TChromosom): string;
+  var
+    i: integer;
+  begin
+    Result := '';
+    for i := 0 to High(Ch.DNK) do
+      if ch.DNK[i] = 0 then
+        Result += '0'
+      else
+        Result += '1';
+  end;
+
+  function StringToChromosome(s: string): TChromosom;
+  var
+    i: integer;
+  begin
+    SetLength(Result.DNK, DnkLength);
+    for i := 1 to Length(s) do
+      if s[i] = '0' then
+        Result.DNK[i - 1] := 0
+      else
+        Result.DNK[i - 1] := 1;
+  end;
+
+begin
+  SetLength(Result, Length(Chromosomes));
+    //Индусский код
+    //Времени нет.....
+  for i := 0 to High(Result) div 2 do
+  begin
+    InString1 := ChromosomeToString(Chromosomes[2 * i]);
+    InString2 := ChromosomeToString(Chromosomes[2 * i + 1]);
+    OutString1 := '';
+    OutString2 := '';
+    p := random(length(InString1) - 1) + 1;
+    l := length(InString1) - p;
+    s2 := copy(InString2, p + 1, l);
+    s1 := copy(InString1, p + 1, l);
+    for ii := 1 to p do
+      if pos(InString1[ii], s2) = 0 then
+        OutString1 := OutString1 + InString1[ii]
+      else
+        OutString1 := OutString1 + copy(s1, pos(InString1[ii], s2), 1);
+    OutString1 := OutString1 + s2;
+    for ii := 1 to p do
+      if pos(InString2[ii], s1) = 0 then
+        OutString2 := OutString2 + InString2[ii]
+      else
+        OutString2 := OutString2 + copy(s2, pos(InString2[ii], s1), 1);
+    OutString2 := OutString2 + s1;
+    Result[2 * i] := StringToChromosome(OutString1);
+    Result[2 * i + 1] := StringToChromosome(OutString2);
   end;
 end;
 
@@ -417,6 +520,8 @@ function COrganysm.crossOver(const Chromosomes: TChromosomArray): TChromosomArra
 begin
   case CrossingoverType of
     CT_STANDARD_ONE_POINT: Result := standartOnePointCrossover(Chromosomes);
+    CT_PARTLY_APROPRIATE_ONE_POINT: Result := partlyApropriateCrossover(Chromosomes);
+    CT_GOLDEN_SEPARATION: Result := goldenSeparationCrossover(Chromosomes);
   end;
 end;
 
@@ -450,8 +555,7 @@ begin
   max := 2 ** DnkLength - 1;
   for i := 0 to High(_Population) do
     with _Population[i] do
-      AimFunctionResult := AimFunction(Interval.IStart + GetLongword /
-        max * Interval.Width);
+      AimFunctionResult := AimFunction(Interval.IStart + GetLongword / max * Interval.Width);
 end;
 
 procedure COrganysm.GeneratePopulation();

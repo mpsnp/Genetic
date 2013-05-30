@@ -37,12 +37,12 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="18">
+    <Units Count="19">
       <Unit0>
         <Filename Value="Genetic.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Genetic"/>
-        <UsageCount Value="108"/>
+        <UsageCount Value="115"/>
       </Unit0>
       <Unit1>
         <Filename Value="GeneticController.pas"/>
@@ -51,12 +51,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="GeneticController"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="312"/>
-        <CursorPos X="43" Y="291"/>
-        <UsageCount Value="108"/>
+        <TopLine Value="102"/>
+        <CursorPos X="19" Y="114"/>
+        <UsageCount Value="115"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -64,11 +63,12 @@
         <Filename Value="GeneticBrain.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="GeneticBrain"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="416"/>
-        <CursorPos X="25" Y="442"/>
-        <UsageCount Value="106"/>
+        <TopLine Value="435"/>
+        <CursorPos X="14" Y="471"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -76,7 +76,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="37"/>
         <CursorPos X="1" Y="66"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit3>
       <Unit4>
         <Filename Value="../../Lazarus/lcl/graphics.pp"/>
@@ -84,22 +84,24 @@
         <WindowIndex Value="0"/>
         <TopLine Value="879"/>
         <CursorPos X="3" Y="904"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit4>
       <Unit5>
         <Filename Value="Utils.pas"/>
         <UnitName Value="Utils"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="17" Y="24"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="../../Lazarus/lcl/include/wincontrol.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1503"/>
         <CursorPos X="1" Y="1520"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit6>
       <Unit7>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/types.pp"/>
@@ -107,28 +109,28 @@
         <WindowIndex Value="0"/>
         <TopLine Value="42"/>
         <CursorPos X="3" Y="68"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit7>
       <Unit8>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/win/wininc/struct.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="191"/>
         <CursorPos X="6" Y="217"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../Lazarus/lcl/include/control.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3614"/>
         <CursorPos X="1" Y="3640"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit9>
       <Unit10>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/sysutils/sysstrh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="131"/>
         <CursorPos X="10" Y="109"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit10>
       <Unit11>
         <Filename Value="graphview.pas"/>
@@ -136,7 +138,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="15"/>
         <CursorPos X="1" Y="56"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
       </Unit11>
       <Unit12>
         <Filename Value="../../Lazarus/lcl/extctrls.pp"/>
@@ -144,14 +146,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="471"/>
         <CursorPos X="14" Y="497"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit12>
       <Unit13>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/objpas/classes/classesh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="4" Y="32"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit13>
       <Unit14>
         <Filename Value="../../Lazarus/fpc/2.6.2/source/packages/opengl/src/gl.pp"/>
@@ -159,7 +161,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1112"/>
         <CursorPos X="3" Y="1138"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit14>
       <Unit15>
         <Filename Value="../../Lazarus/components/tachart/tatransformations.pas"/>
@@ -167,7 +169,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="652"/>
         <CursorPos X="1" Y="678"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit15>
       <Unit16>
         <Filename Value="../../Lazarus/components/tachart/tagraph.pas"/>
@@ -175,7 +177,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="42"/>
         <CursorPos X="14" Y="68"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit16>
       <Unit17>
         <Filename Value="../../Lazarus/components/tachart/tatools.pas"/>
@@ -183,129 +185,136 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1485"/>
         <CursorPos X="1" Y="1511"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit17>
+      <Unit18>
+        <Filename Value="../../Lazarus/fpc/2.6.2/source/rtl/inc/objpash.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="166"/>
+        <CursorPos X="23" Y="192"/>
+        <UsageCount Value="9"/>
+      </Unit18>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="93" Column="25" TopLine="65"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="273" Column="1" TopLine="251"/>
       </Position1>
       <Position2>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="244" Column="15" TopLine="231"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="274" Column="1" TopLine="251"/>
       </Position2>
       <Position3>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="248" Column="63" TopLine="232"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="369" Column="85" TopLine="318"/>
       </Position3>
       <Position4>
         <Filename Value="GeneticController.pas"/>
-        <Caret Line="365" Column="26" TopLine="291"/>
+        <Caret Line="265" Column="60" TopLine="239"/>
       </Position4>
       <Position5>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="108" Column="13" TopLine="97"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="357" Column="1" TopLine="349"/>
       </Position5>
       <Position6>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="110" Column="15" TopLine="82"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="366" Column="1" TopLine="349"/>
       </Position6>
       <Position7>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="111" Column="15" TopLine="83"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="361" Column="22" TopLine="349"/>
       </Position7>
       <Position8>
         <Filename Value="GeneticController.pas"/>
-        <Caret Line="112" Column="15" TopLine="96"/>
+        <Caret Line="149" Column="113" TopLine="136"/>
       </Position8>
       <Position9>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="113" Column="15" TopLine="97"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="487" Column="52" TopLine="445"/>
       </Position9>
       <Position10>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="115" Column="15" TopLine="99"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="446" Column="22" TopLine="419"/>
       </Position10>
       <Position11>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="98" Column="26" TopLine="62"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="434" Column="24" TopLine="417"/>
       </Position11>
       <Position12>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="239" Column="29" TopLine="215"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="468" Column="59" TopLine="444"/>
       </Position12>
       <Position13>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="226" Column="3" TopLine="221"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="483" Column="45" TopLine="439"/>
       </Position13>
       <Position14>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="228" Column="3" TopLine="223"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="465" Column="1" TopLine="439"/>
       </Position14>
       <Position15>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="99" Column="98" TopLine="80"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="467" Column="1" TopLine="439"/>
       </Position15>
       <Position16>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="142" Column="1" TopLine="120"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="468" Column="1" TopLine="439"/>
       </Position16>
       <Position17>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="159" Column="11" TopLine="133"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="442" Column="15" TopLine="429"/>
       </Position17>
       <Position18>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="160" Column="11" TopLine="134"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="466" Column="1" TopLine="429"/>
       </Position18>
       <Position19>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="224" Column="8" TopLine="221"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="468" Column="1" TopLine="429"/>
       </Position19>
       <Position20>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="362" Column="25" TopLine="315"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="469" Column="1" TopLine="429"/>
       </Position20>
       <Position21>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="219" Column="1" TopLine="219"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="470" Column="1" TopLine="429"/>
       </Position21>
       <Position22>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="154" Column="62" TopLine="133"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="471" Column="1" TopLine="429"/>
       </Position22>
       <Position23>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="155" Column="62" TopLine="134"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="472" Column="1" TopLine="432"/>
       </Position23>
       <Position24>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="300" Column="3" TopLine="274"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="473" Column="1" TopLine="432"/>
       </Position24>
       <Position25>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="301" Column="25" TopLine="275"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="474" Column="1" TopLine="432"/>
       </Position25>
       <Position26>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="306" Column="1" TopLine="292"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="475" Column="1" TopLine="432"/>
       </Position26>
       <Position27>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="339" Column="18" TopLine="306"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="478" Column="1" TopLine="435"/>
       </Position27>
       <Position28>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="144" Column="32" TopLine="121"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="475" Column="1" TopLine="435"/>
       </Position28>
       <Position29>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="145" Column="32" TopLine="122"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="478" Column="1" TopLine="435"/>
       </Position29>
       <Position30>
-        <Filename Value="GeneticController.pas"/>
-        <Caret Line="298" Column="1" TopLine="298"/>
+        <Filename Value="GeneticBrain.pas"/>
+        <Caret Line="475" Column="1" TopLine="435"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -330,17 +339,6 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Watches Count="3">
-      <Item1>
-        <Expression Value="_population[i]"/>
-      </Item1>
-      <Item2>
-        <Expression Value="i"/>
-      </Item2>
-      <Item3>
-        <Expression Value="_population[0].DNK[4]:=1"/>
-      </Item3>
-    </Watches>
     <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>
