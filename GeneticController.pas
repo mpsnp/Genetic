@@ -111,7 +111,7 @@ uses Math;
 
 function AimFunction(x: real): real;
 begin
-  Result := -x ** 2 + 3 * x;
+  Result := x ** 2 + 20 * x - 34;
 end;
 
 { TFormGenetic }
@@ -131,8 +131,8 @@ begin
   Organysm.CrossingoverRate := 0.7;
   Organysm.MutationRate := 0.2;
   Organysm.DnkLength := 8;
-  TempInterval.IStart := 0;
-  TempInterval.IEnd := 3;
+  TempInterval.IStart := 8;
+  TempInterval.IEnd := 12;
   Organysm.Interval := TempInterval;
   Organysm.AimFunction := @AimFunction;
   Chart.AxisList.BottomAxis.Range.Min := Organysm.Interval.IStart;

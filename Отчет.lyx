@@ -187,11 +187,15 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 Написать программу, которая вычисляет минимальное значение функции 
-\begin_inset Formula $f(x)=5x2+2x-10$
+\begin_inset Formula 
+\[
+f(x)=x^{2}+20x-34
+\]
+
 \end_inset
 
  на интервале 
-\begin_inset Formula $[5;\,15]$
+\begin_inset Formula $[8;\,12]$
 \end_inset
 
  с помощью простого генетического алгоритма.
@@ -354,6 +358,20 @@ LatexCommand tableofcontents
  естественного отбора и наследования.
  В них используется эволюционный принцип выживания наиболее приспособленных
  особей.
+ А так-же, как показывает практика, генетический алгоритм способен обойти
+ локальные минимумы/максимумы в отличае, например метода градиентов.
+\end_layout
+
+\begin_layout Standard
+Как известно, такого рода задачи, зачастую связаны с полным перебором, что
+ в большинстве случаев неприемлемо, из-за чрезвычайной сложности, и ресурсоемкос
+ти вычисления целевой функции (ЦФ).
+ Предложенные сравнительно недавно - в 1975 году в Мичиганском университете
+ Джоном Холландом (John Holland) генетические алгоритмы основаны на принципах
+ естественного отбора Ч.
+ Дарвина и относятся к стохастическим методам оптимизации и в свою очередь
+ позволяют ускорить этот процесс, за счет значительного уменьшения просчетов
+ ЦФ.
 \end_layout
 
 \begin_layout Standard
@@ -802,7 +820,7 @@ LatexCommand tableofcontents
 Оператор пропорционального отбора является видом оператора редукции и позволяет
  контролировать размер популяции, предоставляя наиболее приспособленным
  хромосомам более высокий шанс на выживание, чем менее приспособленным.
- В основе лежит 
+ В основе лежит так называемая 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1045,6 +1063,90 @@ end;
 Фокусировки
 \end_layout
 
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Population, PopulationCount);
+\end_layout
+
+\begin_layout LyX-Code
+//Шаг фокусировки
+\end_layout
+
+\begin_layout LyX-Code
+k := 2 ** DnkLength / (3 * PopulationCount);   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Population) div 2 do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+y := round(k * i);
+\end_layout
+
+\begin_layout LyX-Code
+if FocusPoint + y < 2 ** DnkLength then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i].Init(FocusPoint + y, DnkLength)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i].Init(FocusPoint, DnkLength);
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+if FocusPoint - y > 0 then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i + High(Population) div 2 + 1]
+\end_layout
+
+\begin_layout LyX-Code
+          .Init(FocusPoint - y, DnkLength)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i].Init(FocusPoint, DnkLength);
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
@@ -1206,11 +1308,272 @@ end;
 \end_layout
 
 \begin_layout Paragraph
-Частично соответствующий
+На основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+begin
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := Chromosomes;
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) div 2 do
+\end_layout
+
+\begin_layout LyX-Code
+begin
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+if random(2) = 1 then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Cut := round(0.62 * DnkLength)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Cut := round(0.38 * DnkLength);
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+for ii := Cut to High(Result[i].DNK) do
+\end_layout
+
+\begin_layout LyX-Code
+begin
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Temp := Result[i * 2].DNK[ii];
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2 + 1].DNK[ii] := Temp;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
-На основе золотого сечения
+Частично соответствующий
+\end_layout
+
+\begin_layout LyX-Code
+begin
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Result, Length(Chromosomes));
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) div 2 do
+\end_layout
+
+\begin_layout LyX-Code
+begin
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+//Преобразуем хромосомы в строки, 
+\end_layout
+
+\begin_layout LyX-Code
+// для удобства
+\end_layout
+
+\begin_layout LyX-Code
+InString1 := ChromosomeToString(Chromosomes[2 * i]);
+\end_layout
+
+\begin_layout LyX-Code
+InString2 := ChromosomeToString(Chromosomes[2 * i + 1]);
+\end_layout
+
+\begin_layout LyX-Code
+OutString1 := '';
+\end_layout
+
+\begin_layout LyX-Code
+OutString2 := '';
+\end_layout
+
+\begin_layout LyX-Code
+p := random(length(InString1) - 1) + 1;
+\end_layout
+
+\begin_layout LyX-Code
+l := length(InString1) - p;
+\end_layout
+
+\begin_layout LyX-Code
+//Копируем неизменные части
+\end_layout
+
+\begin_layout LyX-Code
+s1 := copy(InString1, p + 1, l);
+\end_layout
+
+\begin_layout LyX-Code
+s2 := copy(InString2, p + 1, l);
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+//Заполняем левые части 
+\end_layout
+
+\begin_layout LyX-Code
+// в частичном соответствии
+\end_layout
+
+\begin_layout LyX-Code
+for ii := 1 to p do
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+if pos(InString1[ii], s2) = 0 then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+OutString1 := OutString1 + InString1[ii]
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+OutString1 := OutString1 + 
+\end_layout
+
+\begin_layout LyX-Code
+              copy(s1, pos(InString1[ii], s2), 1);
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+OutString1 := OutString1 + s2;
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+for ii := 1 to p do
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+if pos(InString2[ii], s1) = 0 then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+OutString2 := OutString2 + InString2[ii]
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+OutString2 := OutString2 + 
+\end_layout
+
+\begin_layout LyX-Code
+              copy(s2, pos(InString2[ii], s1), 1);
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+OutString2 := OutString2 + s1;
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+//Преобразуем строки обратно в хромосомы
+\end_layout
+
+\begin_layout LyX-Code
+Result[2 * i] := StringToChromosome(OutString1);
+\end_layout
+
+\begin_layout LyX-Code
+Result[2 * i + 1] := StringToChromosome(OutString2);   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
 \end_layout
 
 \begin_layout Standard
@@ -1388,7 +1751,7 @@ GetChromosomeRatio
 
 \begin_layout Standard
 Предназначена для универсального вычисления коэфициента приспособленности
- хромосомы как для поиска минимума, так и максимума целевой функции.
+ хромосомы, как для поиска минимума, так и максимума целевой функции.
 \end_layout
 
 \begin_layout LyX-Code
@@ -1459,6 +1822,692 @@ end;
 \end_layout
 
 \begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+№
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ответ
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Кол-во генераций
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Размер популяции
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Мутация
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Кроссинговер
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Селекция
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Создание нач.
+ популяции
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
@@ -1467,6 +2516,32 @@ end;
 
 \begin_layout Section*
 Заключение
+\end_layout
+
+\begin_layout Standard
+Решена задача нахождения оптимума функции на заданном промежутке при помощи
+ простого генетического алгоритма, явным достоинством которого является
+ его универсальность.
+ Однако при реализации было выявлено несколько недостатков, главный из которых
+ – долгое время выполнения, а так же при более сложных задачах, колоссальная
+ сложность кодирования решения.
+\end_layout
+
+\begin_layout Standard
+Было выявлено, что работоспособность генетического алгоритма сильно зависит
+ от размера популяции, количества генераций и длины хромосомы.
+ Данная зависимость была выявлена на стадии эксперимента.
+ При небольших значениях этих параметров программе нужно большее время на
+ выдачу правильного результата, так как генетического материала слишком
+ мало, чтобы за небольшое количество шагов произвести хорошо приспособленные
+ хромосомы.
+ При значениях размера популяции или количества генераций не менее 20 в
+ большинстве случаев программа работает исправно.
+\end_layout
+
+\begin_layout Standard
+Таким образом, генетический алгоритм как стохастический метод является одним
+ из лучших, при решении задач оптимизации.
 \end_layout
 
 \begin_layout Standard
