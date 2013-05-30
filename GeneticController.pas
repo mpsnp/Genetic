@@ -5,22 +5,22 @@ unit GeneticController;
 interface
 
 uses
-  SysUtils, TAGraph, TAFuncSeries, TATools, TASources, TASeries,
-  Forms, Graphics, StdCtrls, ExtCtrls, ComCtrls, PopupNotifier,
-  GeneticBrain, TACustomSource, Classes, Controls, ActnList, types, TACustomSeries;
+  SysUtils, TAGraph, TAFuncSeries, TATools, TASources, TASeries, Forms,
+  Graphics, StdCtrls, ExtCtrls, ComCtrls, PopupNotifier, GeneticBrain,
+  TACustomSource, Classes, Controls, ActnList, Dialogs, types, TACustomSeries;
 
 type
 
   { TFormGenetic }
 
   TFormGenetic = class(TForm)
+    ActionExport: TAction;
     ActionGeneratePopulation: TAction;
     ActionIterate: TAction;
     ActionStart: TAction;
     ActionUpdateUI: TAction;
     ActionAddToLog: TAction;
     ActionList: TActionList;
-    ButtonAddToLog: TButton;
     ButtonExport: TButton;
     ButtonClearLog: TButton;
     ButtonTimerIterations: TButton;
@@ -40,7 +40,6 @@ type
     ComboBoxCrossingover: TComboBox;
     ComboBoxSelection: TComboBox;
     ComboBoxPopulationStrategy: TComboBox;
-    GroupBoxTools: TGroupBox;
     GroupBoxLogOptions: TGroupBox;
     GroupBoxOperators: TGroupBox;
     GroupBoxStartPopulation: TGroupBox;
@@ -67,6 +66,7 @@ type
     SourceFocusPoint: TUserDefinedChartSource;
     TreeViewLog: TTreeView;
     procedure ActionAddToLogExecute(Sender: TObject);
+    procedure ActionExportExecute(Sender: TObject);
     procedure ActionGeneratePopulationExecute(Sender: TObject);
     procedure ActionIterateExecute(Sender: TObject);
     procedure ActionStartExecute(Sender: TObject);
@@ -111,7 +111,7 @@ uses Math;
 
 function AimFunction(x: real): real;
 begin
-  Result := -x**2+3*x;
+  Result := -x ** 2 + 3 * x;
 end;
 
 { TFormGenetic }
@@ -267,6 +267,7 @@ begin
     begin
       Organysm.StartPopulationStrategy := SPS_FOCUS;
       CanAddFocusPoint := True;
+      PopupNotifierFocus.Show;
       Organysm.FocusPoint := 2 ** Organysm.DnkLength div 2;
       ChartLineSeriesFocusPoint.Active := True;
     end;
@@ -308,6 +309,23 @@ begin
       TreeViewLog.Items.AddChild(CurrNode, ' x = ' + Temp);
       TreeViewLog.Items.AddChild(CurrNode, ' y = ' + FloatToStr(Organysm.Population[i].AimFunctionResult));
     end;
+end;
+
+procedure TFormGenetic.ActionExportExecute(Sender: TObject);
+var
+  f:      Text;
+  Dialog: TSaveDialog;
+  i:      integer;
+begin
+  Dialog := TSaveDialog.Create(Self);
+  Dialog.Execute;
+  system.Assign(f, Dialog.FileName);
+  Rewrite(f);
+  for i := 0 to TreeViewLog.Items.Count - 1 do
+    with TreeViewLog.Items.Item[i] do
+      writeln(f, Text);
+  Dialog.Destroy;
+  system.Close(f);
 end;
 
 procedure TFormGenetic.ActionGeneratePopulationExecute(Sender: TObject);

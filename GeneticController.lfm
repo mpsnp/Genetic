@@ -37,7 +37,7 @@ object FormGenetic: TFormGenetic
         TabOrder = 0
         object Chart: TChart
           Left = 0
-          Height = 588
+          Height = 647
           Top = 0
           Width = 565
           AxisList = <          
@@ -97,28 +97,6 @@ object FormGenetic: TFormGenetic
             Pointer.Style = psDiamond
             ShowPoints = True
             Source = SourceFocusPoint
-          end
-        end
-        object GroupBoxTools: TGroupBox
-          Left = 0
-          Height = 59
-          Top = 588
-          Width = 565
-          Align = alBottom
-          AutoSize = True
-          Caption = 'Инструменты'
-          ClientHeight = 41
-          ClientWidth = 561
-          TabOrder = 1
-          object ButtonAddToLog: TButton
-            Left = 8
-            Height = 25
-            Top = 8
-            Width = 109
-            Action = ActionAddToLog
-            AutoSize = True
-            BorderSpacing.Around = 8
-            TabOrder = 0
           end
         end
       end
@@ -470,13 +448,12 @@ object FormGenetic: TFormGenetic
           Left = 99
           Height = 25
           Top = 8
-          Width = 109
+          Width = 195
+          Action = ActionExport
           Align = alLeft
           AutoSize = True
           BorderSpacing.Around = 8
-          Caption = 'Экспорт в Excel'
           TabOrder = 1
-          Visible = False
         end
       end
     end
@@ -532,7 +509,7 @@ object FormGenetic: TFormGenetic
     Icon.Data = {
       07544269746D617000000000
     }
-    Text = 'Кликните на графике, чтобы задать точку фокусировки'
+    Text = 'Кликните на графике правой кнопкой мыши, чтобы задать точку фокусировки'
     Title = 'Точка фокусировки'
     Visible = False
     left = 376
@@ -574,6 +551,10 @@ object FormGenetic: TFormGenetic
       Hint = 'Сгенерировать новую популяцию'#13#10'с выбранными параметрами'
       OnExecute = ActionGeneratePopulationExecute
       ShortCut = 16455
+    end
+    object ActionExport: TAction
+      Caption = 'Экспорт в текстовый документ'
+      OnExecute = ActionExportExecute
     end
   end
 end

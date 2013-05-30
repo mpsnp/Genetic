@@ -65,6 +65,7 @@ type
     function GetLongword: longword;
     function GetReal: real;
     procedure Invert();
+    procedure ChangeGoldenSeparation();
   end;
   TChromosomArray = array of TChromosom;
 
@@ -309,6 +310,21 @@ begin
   end;
 end;
 
+procedure TChromosom.ChangeGoldenSeparation;
+var
+  Cut, i: integer;
+  Temp:   TGenes;
+begin
+  Cut := Round(0.62 * Length(DNK));
+  SetLength(Temp, Cut);
+  for i := 0 to High(Temp) do
+    Temp[i] := DNK[i];
+  for i := Cut to High(DNK) do
+    DNK[i - Cut] := DNK[i];
+  for i := 0 to High(Temp) do
+    DNK[High(DNK) - Cut + i] := Temp[i];
+end;
+
 operator = (a, b: TChromosom): boolean;
 begin
   Result := a.DNK = b.DNK;
@@ -360,9 +376,14 @@ begin
   begin
     y := round(k * i);
     if FocusPoint + y < 2 ** DnkLength then
-      _Population[i].Init(FocusPoint + y, DnkLength);
+      _Population[i].Init(FocusPoint + y, DnkLength)
+    else
+      _Population[i].Init(FocusPoint, DnkLength);
+
     if FocusPoint - y > 0 then
-      _Population[i + High(_Population) div 2 + 1].Init(FocusPoint - y, DnkLength);
+      _Population[i + High(_Population) div 2 + 1].Init(FocusPoint - y, DnkLength)
+    else
+      _Population[i].Init(FocusPoint, DnkLength);
   end;
 end;
 
@@ -532,7 +553,7 @@ begin
   Result := Chromosomes;
   for i := 1 to round(MutationRate * length(Result)) do
     case MutationType of
-      MT_CHANGING_GOLDEN_SEPARATION: ;
+      MT_CHANGING_GOLDEN_SEPARATION: Result[random(Length(Result))].ChangeGoldenSeparation();
       MT_INVERSION: Result[random(Length(Result))].Invert;
     end;
 end;
@@ -564,7 +585,7 @@ begin
     SPS_SHOTGUN: shotgunPopulationGeneration;
     SPS_FOCUS: focusPopulationGeneration;
   end;
-  GenerationNumber := 1;
+  GenerationNumber := 0;
   updateAimFunctionInChromosomes();
 end;
 
