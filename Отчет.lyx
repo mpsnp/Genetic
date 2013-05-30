@@ -1,0 +1,1492 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass extarticle
+\begin_preamble
+\usepackage{indentfirst}
+\usepackage{cmap}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-starred
+\end_modules
+\maintain_unincluded_children false
+\language russian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "Отчет по учебной практике"
+\pdf_author "Кирий Г.Н."
+\pdf_subject "Разработка генетического алгоритма для нахождения оптимума функции"
+\pdf_keywords "Генетический алгоритм"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Введение
+\end_layout
+
+\begin_layout Standard
+В данной работе решается задача нахождения оптимума функции на заданном
+ промежутке.
+ Для этой цели используется генетический алгоритм.
+ 
+\end_layout
+
+\begin_layout Standard
+Генетический алгоритм - это эвристический метод поиска, который применяется
+ для решения задач оптимизации и моделирования путём случайного подбора,
+ комбинирования и вариации исходных параметров с использованием механизмов,
+ напоминающих биологическую эволюцию.
+ Является разновидностью эволюционных вычислений, с помощью которых решаются
+ оптимизационные задачи с использованием методов естественной эволюции.
+ 
+\end_layout
+
+\begin_layout Standard
+Отличительной особенностью генетического алгоритма является акцент на использова
+ние оператора «скрещивания», который производит операцию рекомбинации решений-ка
+ндидатов, роль которой аналогична роли скрещивания в живой природе.
+ 
+\end_layout
+
+\begin_layout Standard
+Представленный алгоритм реализован в среде программирования Lazarus.
+ В программе имеется возможность выбора: 
+\end_layout
+
+\begin_layout Enumerate
+Длины хромосомы 
+\end_layout
+
+\begin_layout Enumerate
+Различных способов создания начальной популяции
+\end_layout
+
+\begin_layout Enumerate
+Оператора селекции 
+\end_layout
+
+\begin_layout Enumerate
+Оператора кроссинговера 
+\end_layout
+
+\begin_layout Enumerate
+Оператора мутации 
+\end_layout
+
+\begin_layout Enumerate
+Размера начальной популяции 
+\end_layout
+
+\begin_layout Enumerate
+Количество генераций 
+\end_layout
+
+\begin_layout Enumerate
+Вероятности операторов кроссинговера и мутации.
+ 
+\end_layout
+
+\begin_layout Standard
+Программа ограничена работой только внутри конкретной популяции (микроэволюция),
+ а так же существует возможность запустить алгоритм в режиме "остановка
+ по требованию", в котором будут производиться итерации с задержкой, пока
+ пользователь не завершит данный процесс.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Постановка задачи
+\end_layout
+
+\begin_layout Standard
+Написать программу, которая вычисляет минимальное значение функции 
+\begin_inset Formula $f(x)=5x2+2x-10$
+\end_inset
+
+ на интервале 
+\begin_inset Formula $[5;\,15]$
+\end_inset
+
+ с помощью простого генетического алгоритма.
+ 
+\end_layout
+
+\begin_layout Standard
+Разработанная программа должна отвечать следующим требованиям: 
+\end_layout
+
+\begin_layout Itemize
+Кодирование хромосом: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Бинарное.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Стратегии создания начальной популяции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Стратегия 
+\begin_inset Quotes eld
+\end_inset
+
+дробовика
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Стратегия фокусировки.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Виды селекции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Случайная.
+ 
+\end_layout
+
+\begin_layout Itemize
+Элитная.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Операторы кроссинговера: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Стандартный одноточечный.
+ 
+\end_layout
+
+\begin_layout Itemize
+Частично-соответствующий одноточечный.
+ 
+\end_layout
+
+\begin_layout Itemize
+На основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Операторы мутации и инверсии: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Обмена на основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Инверсия.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Оператор отбора: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Пропорциональный.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Схема эволюции: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Микроэволюция.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Должна быть возможность выбора вариантов различных генетических операторов
+ пользователем, а также размера начальной популяции, количества генераций,
+ вероятностей операторов кроссинговера и мутации.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Анализ технического задания
+\end_layout
+
+\begin_layout Standard
+Генетический алгоритм представляет собой метод, отражающий естественную
+ эволюцию методов решения проблем, и в первую очередь задач оптимизации.
+ 
+\end_layout
+
+\begin_layout Standard
+Генетический алгоритм - это эвристический метод поиска, основанный на механизмах
+ естественного отбора и наследования.
+ В них используется эволюционный принцип выживания наиболее приспособленных
+ особей.
+\end_layout
+
+\begin_layout Standard
+Таким образом, решение проблемы нахождения оптимума функции сводится к поиску
+ наиболее приспособленной хромосомы, которая удовлетворяет всем условиям
+ поставленной задачи.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Разработка генетического алгоритма
+\end_layout
+
+\begin_layout Subsection
+Кодирование решения
+\end_layout
+
+\begin_layout Standard
+В представленной программе используется бинарный метод кодирования хромосом.
+ 
+\end_layout
+
+\begin_layout Definition
+Хромосома – это последовательность символов из алфавита 
+\begin_inset Formula $\{0,\,1\}$
+\end_inset
+
+, называемых генами.
+ 
+\end_layout
+
+\begin_layout Standard
+Каждая хромосома соответствует некоторому десятичному числу.
+ Это число (обозначим его за 
+\begin_inset Formula $X$
+\end_inset
+
+) варьируется в пределах 
+\begin_inset Formula $[0,\, N]$
+\end_inset
+
+ где 
+\begin_inset Formula $N=2^{n}-1$
+\end_inset
+
+, 
+\begin_inset Formula $n$
+\end_inset
+
+ - длина хромосомы.
+ Тогда умножив отношение 
+\begin_inset Formula $R=X/N$
+\end_inset
+
+ на длину анализируемого промежутка можно получить значение смещения внутри
+ промежутка.
+ В итоге прибавив абсциссу начала анализируемого отрезка мы получим реальное
+ значение 
+\begin_inset Formula $x$
+\end_inset
+
+ соответствующее хромосоме.
+\end_layout
+
+\begin_layout Example
+Найдем 
+\begin_inset Formula $x$
+\end_inset
+
+, соответствующий хромосоме
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Анализируемый отрезок: [2, 6] 
+\end_layout
+
+\begin_layout Itemize
+Длина хромосомы: 4 
+\end_layout
+
+\begin_layout Itemize
+Хромосома: 1000 = 8 
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Тогда 
+\begin_inset Formula $x=2+\dfrac{8}{16}\cdot(6-2)=4$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Зная 
+\begin_inset Formula $x$
+\end_inset
+
+ хромосомы несложно вычислить значение целевой функции.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Операторы кроссинговера (скрещивания).
+\end_layout
+
+\begin_layout Standard
+Оператор кроссинговера – это языковая конструкция, позволяющая на основе
+ преобразования (скрещивания) хромосом-родителей (или их частей) создавать
+ новые хромосомы - потомки.
+ 
+\end_layout
+
+\begin_layout Standard
+Функция оператора кроссинговера в представленной программе принимает две
+ хромосомы (родители), и возвращает две новые (потомки).
+ Перед началом работы любого из представленных операторов кроссинговера
+ определяются точки оператора кроссинговера, или разрезающие точки оператора
+ кроссинговера.
+\end_layout
+
+\begin_layout Subsubsection
+Стандартный одноточечный оператор кроссинговера.
+ 
+\end_layout
+
+\begin_layout Standard
+Случайно определяется точка разреза, и хромосомы-родители копируются в хромосом-
+потомков обмениваясь участками, расположенными после точки разреза.
+\end_layout
+
+\begin_layout Example
+Применим оператор кроссинговера к двум хромосомам длины 7
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $X_{1}=001|0101$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $X_{2}=101|1001$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Точка разреза = 3 
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Тогда 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $X_{1}'=001|1001$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $X_{2}'=101|0101$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Частично-соответствующий оператор кроссинговера.
+ 
+\end_layout
+
+\begin_layout Standard
+Здесь также случайно выбирается одна «разрезающая» точка или точка оператора
+ кроссинговера.
+ Дальше анализируются сегменты (части) в обеих хромосомах-родителях и устанавлив
+ается частичное соответствие между элементами первого и второго родителей
+ с формированием потомков.
+ При этом правый сегмент 
+\begin_inset Formula $Х_{2}$
+\end_inset
+
+ переносится в 
+\begin_inset Formula $Х_{1}'$
+\end_inset
+
+, а левый сегмент 
+\begin_inset Formula $Х_{1}$
+\end_inset
+
+ переносится в 
+\begin_inset Formula $Х_{2}'$
+\end_inset
+
+ с заменой повторяющихся генов на соответствующие по правому сегменту.
+\end_layout
+
+\begin_layout Example
+Применим оператор кроссинговера к двум хромосомам длины 5
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $Х_{1}=101|10$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Х_{2}=001|01$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Example
+Тогда
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $Х_{1}'=010|01$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Х_{2}'=110|10$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Оператор кроссинговера на основе «Золотого сечения» 
+\end_layout
+
+\begin_layout Standard
+Аналогичен стандартному одноточечному, но точка разреза задана и примерно
+ равна 
+\begin_inset Formula $0.62\cdot n$
+\end_inset
+
+, где 
+\begin_inset Formula $n$
+\end_inset
+
+ - длина хромосомы.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Операторы мутации и инверсии.
+ 
+\end_layout
+
+\begin_layout Definition
+Оператор мутации – это языковая конструкция, позволяющая на основе преобразовани
+я генов хромосомы получать новую хромосому, имеющую другие свойства.
+ 
+\end_layout
+
+\begin_layout Standard
+Функция оператора мутации принимает одну хромосому, возвращает мутировавшую.
+ Определяются разрезающие точки оператора мутации (аналогично разрезающим
+ точкам оператора кроссинговера).
+ Эти точки определяют последовательности генов, которые будут подвержены
+ мутации.
+\end_layout
+
+\begin_layout Subsubsection
+Оператор обмена на основе «золотого сечения».
+\end_layout
+
+\begin_layout Standard
+В поступившей на вход хромосоме выбирается одна разрезающая точка оператора
+ мутации 
+\begin_inset Formula $(P)$
+\end_inset
+
+, место которой вычисляется по формуле: 
+\begin_inset Formula $P=[n\cdot0.62]$
+\end_inset
+
+, где 
+\begin_inset Formula $n$
+\end_inset
+
+ – длина хромосомы.
+\end_layout
+
+\begin_layout Standard
+Далее происходит обмен частей хромосом местами.
+ Левая часть переходит в правую, а правая – в левую.
+ 
+\end_layout
+
+\begin_layout Example
+Рассмотрим это на примере хромосомы, которая имеет вид: 
+\begin_inset Formula $11001$
+\end_inset
+
+, тогда:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $P=[5\cdot0.62]=3$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Х=110|01$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Х'=01|110$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Оператор инверсии.
+\end_layout
+
+\begin_layout Definition
+Оператор инверсии – это языковая конструкция, которая позволяет на основе
+ инвертирования исходной хромосомы или её части получать новую хромосому,
+ обладающую новыми свойствами.
+ 
+\end_layout
+
+\begin_layout Definition
+При его реализации случайным образом выбираются точки разреза (инверсии),
+ внутри которых элементы инвертируются.
+ 
+\end_layout
+
+\begin_layout Example
+Пусть 
+\begin_inset Formula $Х=1|100|1$
+\end_inset
+
+, 1 и 4 – разрезающие точки, тогда: 
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $Х'=1|001|1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Операторы селекции.
+\end_layout
+
+\begin_layout Definition
+Оператор селекции – это процесс, посредством которого хромосомы, имеющие
+ лучшую приспособленность (значение целевой функции), получают большую возможнос
+ть для воспроизводства потомков, нежели «худшие» хромосомы.
+ 
+\end_layout
+
+\begin_layout Standard
+В представленном программном обеспечении каждый оператор селекции выбирает
+ ровно две хромосомы из популяции, которые подаются на вход одному из описанных
+ выше операторов кроссинговера, причем при последовательном применении нескольки
+х операторов селекции пары или хромосомы в разных парах могут повторяться.
+\end_layout
+
+\begin_layout Subsubsection
+Случайная селекция.
+\end_layout
+
+\begin_layout Standard
+При случайном выборе хромосом образование родительских пар не зависит от
+ значений целевой функции и полностью определяется численностью обрабатываемой
+ популяции и вероятностью кроссинговера.
+ 
+\end_layout
+
+\begin_layout Example
+Размер популяции равен 100, вероятность кроссинговера 70%.
+ 
+\end_layout
+
+\begin_layout Example
+Тогда на вход оператору кроссинговера будут подаваться 70 любых хромосом
+ из данной популяции.
+\end_layout
+
+\begin_layout Subsection
+Оператор пропорционального отбора.
+\end_layout
+
+\begin_layout Standard
+Оператор пропорционального отбора является видом оператора редукции и позволяет
+ контролировать размер популяции, предоставляя наиболее приспособленным
+ хромосомам более высокий шанс на выживание, чем менее приспособленным.
+ В основе лежит 
+\begin_inset Quotes eld
+\end_inset
+
+Рулетка
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Структурная схема алгоритма
+\end_layout
+
+\begin_layout Subsection
+Словесное описание
+\end_layout
+
+\begin_layout Standard
+При разработке программного обеспечения использовался следующий алгоритм
+ (является модификацией генетических алгоритмов, разработанных Д.
+ Холландом и Л.
+ Девисом):
+\end_layout
+
+\begin_layout Enumerate
+Начало работы алгоритма.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Инициализировать популяцию хромосом, основываясь на заданный интервал допустимых
+ значений.
+ Ввести точку отсчета поколений 
+\begin_inset Formula $t=0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Установить 
+\begin_inset Formula $t=t+1$
+\end_inset
+
+.
+ Определить 
+\begin_inset Formula $n$
+\end_inset
+
+ --- количество скрещиваемых пар.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Выбрать 
+\begin_inset Formula $n$
+\end_inset
+
+ пар оператором селекции.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Выполнить оператор кроссинговера для каждой пары.
+\end_layout
+
+\begin_layout Enumerate
+Определить 
+\begin_inset Formula $m$
+\end_inset
+
+ --- кол-во мутирующих хромосом, причем 
+\begin_inset Formula $m\leq2\cdot n$
+\end_inset
+
+, так как мутируют только 
+\begin_inset Quotes eld
+\end_inset
+
+новые
+\begin_inset Quotes erd
+\end_inset
+
+ хромосомы.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Выполнить оператор мутации 
+\begin_inset Formula $m$
+\end_inset
+
+ раз для случайных 
+\begin_inset Quotes eld
+\end_inset
+
+новых
+\begin_inset Quotes erd
+\end_inset
+
+ хромосом.
+\end_layout
+
+\begin_layout Enumerate
+Выполнить оператор редукции (пропорционального отбора).
+\end_layout
+
+\begin_layout Enumerate
+Если 
+\begin_inset Formula $t=T$
+\end_inset
+
+ (заданное количество генераций), то перейти к 10, если нет, то перейти
+ к 3.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Выявить самую приспособленную хромосому (по значению целевой функции).
+ 
+\end_layout
+
+\begin_layout Enumerate
+Конец работы алгоритма.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Блок-схема
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Scheme.png
+	height 20cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Псевдокод
+\end_layout
+
+\begin_layout Subsubsection
+Стратегии создания начальной популяции
+\end_layout
+
+\begin_layout Paragraph
+Дробовика
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Population, PopulationCount);   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Population) do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+SetLength(Population[i].DNK, DnkLength);     
+\end_layout
+
+\begin_layout LyX-Code
+for ii := 0 to High(_Population[i].DNK) do       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Population[i].DNK[ii] := Random(2);   
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Фокусировки
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы селекции
+\end_layout
+
+\begin_layout Paragraph
+Случайная
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+i := round(CrossingoverRate * PopulationCount);   
+\end_layout
+
+\begin_layout LyX-Code
+i := i - i mod 2;   
+\end_layout
+
+\begin_layout LyX-Code
+SetLength(Result, i);   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) do
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result[i] := Population[random(PopulationCount)]; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Элитная
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Count := round(CrossingoverRate * Length(Population));   
+\end_layout
+
+\begin_layout LyX-Code
+Count := Count - Count mod 2;      
+\end_layout
+
+\begin_layout LyX-Code
+SortChromosomes;
+\end_layout
+
+\begin_layout LyX-Code
+SetLength(Result, Count);  
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to High(Result) do     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result[i] := Population[i]; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы кроссинговера
+\end_layout
+
+\begin_layout Paragraph
+Стандартный одноточечный
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := InputChromosomes;   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 0 to (High(Result) - 1) div 2 do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Cut := Random(DnkLength);     
+\end_layout
+
+\begin_layout LyX-Code
+for ii := Cut to High(Result[i].DNK) do     
+\end_layout
+
+\begin_layout LyX-Code
+begin       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Temp := Result[i * 2].DNK[ii];       
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2].DNK[ii] := Result[i * 2 + 1].DNK[ii];       
+\end_layout
+
+\begin_layout LyX-Code
+Result[i * 2 + 1].DNK[ii] := Temp;     
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Paragraph
+Частично соответствующий
+\end_layout
+
+\begin_layout Paragraph
+На основе золотого сечения
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Операторы мутации и инверсии
+\end_layout
+
+\begin_layout Paragraph
+Мутация на основе золотого сечения
+\end_layout
+
+\begin_layout Paragraph
+Инверсия
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+s := random(Length(DNK));         //Начальная точка разреза
+\end_layout
+
+\begin_layout LyX-Code
+e := s + random(Length(DNK) - s); //Конечная точка разреза
+\end_layout
+
+\begin_layout LyX-Code
+for i := s to (e - s) div 2 do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+temp := DNK[i];     
+\end_layout
+
+\begin_layout LyX-Code
+DNK[i] := DNK[e - i];     
+\end_layout
+
+\begin_layout LyX-Code
+DNK[e - i] := temp;   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Subsubsection
+Оператор отбора
+\end_layout
+
+\begin_layout Paragraph
+Пропорциональный
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+UpdateAimFunctionInChromosomes;  
+\end_layout
+
+\begin_layout LyX-Code
+FindMinMax;   
+\end_layout
+
+\begin_layout LyX-Code
+CalculateRatioSum;   
+\end_layout
+
+\begin_layout LyX-Code
+for i := 1 to PopulationCount do   
+\end_layout
+
+\begin_layout LyX-Code
+begin     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+RandomNumber := random();     
+\end_layout
+
+\begin_layout LyX-Code
+ii := 0;     
+\end_layout
+
+\begin_layout LyX-Code
+Ratio := GetChromosomeRatio(Population[ii], 
+\end_layout
+
+\begin_layout LyX-Code
+                            min, 
+\end_layout
+
+\begin_layout LyX-Code
+                            max) / RatioSum;     
+\end_layout
+
+\begin_layout LyX-Code
+while RandomNumber > Ratio do     
+\end_layout
+
+\begin_layout LyX-Code
+begin       
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+RandomNumber -= Ratio;       
+\end_layout
+
+\begin_layout LyX-Code
+ii += 1;       
+\end_layout
+
+\begin_layout LyX-Code
+Ratio := GetChromosomeRatio(Population[ii], 
+\end_layout
+
+\begin_layout LyX-Code
+                            min, 
+\end_layout
+
+\begin_layout LyX-Code
+                            max) / RatioSum;     
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;     
+\end_layout
+
+\begin_layout LyX-Code
+AddChromosomeToNewPopulation(Population[ii]);   
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;   
+\end_layout
+
+\begin_layout LyX-Code
+Population := NewPopulation; 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Subparagraph
+GetChromosomeRatio
+\end_layout
+
+\begin_layout Standard
+Предназначена для универсального вычисления коэфициента приспособленности
+ хромосомы как для поиска минимума, так и максимума целевой функции.
+\end_layout
+
+\begin_layout LyX-Code
+function GetChromosomeRatio(a, min, max: TChromosom): real; 
+\end_layout
+
+\begin_layout LyX-Code
+begin   
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+//Исключаем возможность деления на 0, 
+\end_layout
+
+\begin_layout LyX-Code
+//если целевая функция у всех хромосом совпала
+\end_layout
+
+\begin_layout LyX-Code
+if max.AimFunc <> min.AimFunc then
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := a.AimFunc / (max.AimFunc - min.AimFunc)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+else     //В таком случае, все равны
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := 0.5;
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+//Если необходимо найти минимум, инвертируем результат.
+\end_layout
+
+\begin_layout LyX-Code
+if BestResultType = BRT_MIN then     
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Result := 1 - Result; 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout LyX-Code
+end;
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Экспериментальные результаты
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Заключение
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "Bibliography"
+options "bibtotoc,gost780"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

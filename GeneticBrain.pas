@@ -232,7 +232,6 @@ var
 
 begin
   updateAimFunctionInChromosomes;
-  calculateSumAimFunction;
   FindMinMax;
   CalculateRatioSum;
   for i := 1 to PopulationCount do
