@@ -1,20 +1,20 @@
 object FormGenetic: TFormGenetic
-  Left = 1558
-  Height = 716
-  Top = 152
+  Left = 368
+  Height = 813
+  Top = 135
   Width = 870
   Caption = 'Генетический алгоритм поиска оптимума'
-  ClientHeight = 716
+  ClientHeight = 813
   ClientWidth = 870
   Constraints.MinHeight = 685
   Constraints.MinWidth = 800
   OnCreate = FormCreate
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '1.0.8.0'
+  LCLVersion = '1.0.2.0'
   object PageControl: TPageControl
     Left = 0
-    Height = 693
+    Height = 792
     Top = 0
     Width = 870
     ActivePage = TabSheetMain
@@ -23,23 +23,23 @@ object FormGenetic: TFormGenetic
     TabOrder = 0
     object TabSheetMain: TTabSheet
       Caption = 'Настройки работы и вывод'
-      ClientHeight = 665
-      ClientWidth = 862
+      ClientHeight = 757
+      ClientWidth = 864
       object GroupBoxVisualisation: TGroupBox
         Left = 293
-        Height = 665
+        Height = 757
         Top = 0
-        Width = 569
+        Width = 571
         Align = alClient
         Caption = 'Результаты работы'
-        ClientHeight = 647
-        ClientWidth = 565
+        ClientHeight = 738
+        ClientWidth = 567
         TabOrder = 0
         object Chart: TChart
           Left = 0
-          Height = 647
+          Height = 738
           Top = 0
-          Width = 565
+          Width = 567
           AxisList = <          
             item
               Grid.Color = 10329501
@@ -102,25 +102,25 @@ object FormGenetic: TFormGenetic
       end
       object Splitter1: TSplitter
         Left = 288
-        Height = 665
+        Height = 757
         Top = 0
         Width = 5
       end
       object GroupBoxOptions: TGroupBox
         Left = 0
-        Height = 665
+        Height = 757
         Top = 0
         Width = 288
         Align = alLeft
         Caption = 'Настройки алгоритма'
-        ClientHeight = 647
+        ClientHeight = 738
         ClientWidth = 284
         Constraints.MinWidth = 280
         TabOrder = 2
         object LabelPerformNIterations: TLabel
           Left = 8
-          Height = 16
-          Top = 492
+          Height = 18
+          Top = 566
           Width = 268
           Align = alTop
           BorderSpacing.Around = 8
@@ -129,21 +129,21 @@ object FormGenetic: TFormGenetic
         end
         object GroupBoxStartPopulation: TGroupBox
           Left = 0
-          Height = 204
+          Height = 239
           Top = 8
           Width = 284
           Align = alTop
           AutoSize = True
           BorderSpacing.Top = 8
           Caption = 'Стартовая популяция'
-          ClientHeight = 186
+          ClientHeight = 220
           ClientWidth = 280
           TabOrder = 0
           object ButtonGenerateStartPopulation: TButton
             AnchorSideBottom.Side = asrBottom
             Left = 8
-            Height = 25
-            Top = 153
+            Height = 27
+            Top = 185
             Width = 264
             Action = ActionGeneratePopulation
             Align = alTop
@@ -153,8 +153,8 @@ object FormGenetic: TFormGenetic
           end
           object LabelStartPopulationSize: TLabel
             Left = 8
-            Height = 16
-            Top = 96
+            Height = 18
+            Top = 113
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
@@ -163,13 +163,13 @@ object FormGenetic: TFormGenetic
           end
           object ComboBoxPopulationStrategy: TComboBox
             Left = 8
-            Height = 23
+            Height = 25
             Hint = 'Стратегия генерации'
-            Top = 65
+            Top = 80
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
-            ItemHeight = 15
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               '"Дробовик"'
@@ -182,8 +182,8 @@ object FormGenetic: TFormGenetic
           end
           object TrackBarPopulationSize: TTrackBar
             Left = 8
-            Height = 25
-            Top = 120
+            Height = 38
+            Top = 139
             Width = 264
             Frequency = 0
             Max = 300
@@ -196,8 +196,8 @@ object FormGenetic: TFormGenetic
           end
           object TrackBarDNKLength: TTrackBar
             Left = 8
-            Height = 25
-            Top = 32
+            Height = 38
+            Top = 34
             Width = 264
             Max = 32
             Min = 4
@@ -209,7 +209,7 @@ object FormGenetic: TFormGenetic
           end
           object LabelDNKLength: TLabel
             Left = 8
-            Height = 16
+            Height = 18
             Top = 8
             Width = 264
             Align = alTop
@@ -220,8 +220,8 @@ object FormGenetic: TFormGenetic
         end
         object ButtonStart: TButton
           Left = 8
-          Height = 25
-          Top = 580
+          Height = 27
+          Top = 671
           Width = 268
           Action = ActionStart
           Align = alTop
@@ -231,8 +231,8 @@ object FormGenetic: TFormGenetic
         end
         object TrackBarIterations: TTrackBar
           Left = 8
-          Height = 25
-          Top = 516
+          Height = 38
+          Top = 592
           Width = 268
           Frequency = 0
           Max = 100
@@ -245,25 +245,25 @@ object FormGenetic: TFormGenetic
         end
         object GroupBoxOperators: TGroupBox
           Left = 0
-          Height = 264
-          Top = 220
+          Height = 303
+          Top = 255
           Width = 284
           Align = alTop
           AutoSize = True
           BorderSpacing.Top = 8
           Caption = 'Операторы'
-          ClientHeight = 246
+          ClientHeight = 284
           ClientWidth = 280
           TabOrder = 3
           object ComboBoxSelection: TComboBox
             Left = 8
-            Height = 23
+            Height = 25
             Hint = 'Селекция'
             Top = 8
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
-            ItemHeight = 15
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               'Случайная селекция'
@@ -276,12 +276,12 @@ object FormGenetic: TFormGenetic
           end
           object ComboBoxCrossingover: TComboBox
             Left = 8
-            Height = 23
-            Top = 96
+            Height = 25
+            Top = 113
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
-            ItemHeight = 15
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               'Стандартный одноточечный кроссинговер'
@@ -295,12 +295,12 @@ object FormGenetic: TFormGenetic
           end
           object ComboBoxMutation: TComboBox
             Left = 8
-            Height = 23
-            Top = 184
+            Height = 25
+            Top = 218
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
-            ItemHeight = 15
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               'Обмен на основе "Золотого сечения"'
@@ -313,12 +313,12 @@ object FormGenetic: TFormGenetic
           end
           object ComboBoxSampling: TComboBox
             Left = 8
-            Height = 23
-            Top = 215
+            Height = 25
+            Top = 251
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
-            ItemHeight = 15
+            ItemHeight = 0
             ItemIndex = 0
             Items.Strings = (
               'Пропорциональный отбор'
@@ -330,9 +330,9 @@ object FormGenetic: TFormGenetic
           end
           object TrackBarCrossingoverRate: TTrackBar
             Left = 8
-            Height = 25
+            Height = 38
             Hint = 'Вероятность кроссинговера'
-            Top = 63
+            Top = 67
             Width = 264
             Frequency = 0
             Max = 100
@@ -344,9 +344,9 @@ object FormGenetic: TFormGenetic
           end
           object TrackBarMutationRate: TTrackBar
             Left = 8
-            Height = 25
+            Height = 38
             Hint = 'Вероятность мутации'
-            Top = 151
+            Top = 172
             Width = 264
             Frequency = 0
             Max = 100
@@ -358,8 +358,8 @@ object FormGenetic: TFormGenetic
           end
           object LabelMutation: TLabel
             Left = 8
-            Height = 16
-            Top = 127
+            Height = 18
+            Top = 146
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
@@ -368,8 +368,8 @@ object FormGenetic: TFormGenetic
           end
           object LabelCrossingover: TLabel
             Left = 8
-            Height = 16
-            Top = 39
+            Height = 18
+            Top = 41
             Width = 264
             Align = alTop
             BorderSpacing.Around = 8
@@ -379,8 +379,8 @@ object FormGenetic: TFormGenetic
         end
         object ButtonTimerIterations: TButton
           Left = 8
-          Height = 25
-          Top = 613
+          Height = 27
+          Top = 706
           Width = 268
           Action = ActionIterate
           Align = alTop
@@ -390,12 +390,12 @@ object FormGenetic: TFormGenetic
         end
         object ComboBoxFindingType: TComboBox
           Left = 8
-          Height = 23
-          Top = 549
+          Height = 25
+          Top = 638
           Width = 268
           Align = alTop
           BorderSpacing.Around = 8
-          ItemHeight = 15
+          ItemHeight = 0
           ItemIndex = 0
           Items.Strings = (
             'Поиск максимального'
@@ -410,8 +410,8 @@ object FormGenetic: TFormGenetic
     end
     object TabSheetLog: TTabSheet
       Caption = 'Log'
-      ClientHeight = 665
-      ClientWidth = 862
+      ClientHeight = 757
+      ClientWidth = 864
       object TreeViewLog: TTreeView
         Left = 0
         Height = 606
@@ -429,7 +429,7 @@ object FormGenetic: TFormGenetic
         Align = alBottom
         AutoSize = True
         Caption = 'Управление логом'
-        ClientHeight = 41
+        ClientHeight = 40
         ClientWidth = 858
         TabOrder = 1
         object ButtonClearLog: TButton
@@ -460,8 +460,8 @@ object FormGenetic: TFormGenetic
   end
   object StatusBar: TStatusBar
     Left = 0
-    Height = 23
-    Top = 693
+    Height = 21
+    Top = 792
     Width = 870
     Panels = <    
       item

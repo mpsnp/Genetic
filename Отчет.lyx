@@ -6,6 +6,9 @@
 \begin_preamble
 \usepackage{indentfirst}
 \usepackage{cmap}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{pst-all}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -102,6 +105,22 @@ LatexCommand tableofcontents
 
 \begin_layout Section*
 Введение
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{section}{Введение}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -233,11 +252,25 @@ f(x)=x^{2}+20x-34
 
 .
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Стратегия-дробовика."
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Стратегия фокусировки.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Стратегия-фокусировки."
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -249,11 +282,25 @@ f(x)=x^{2}+20x-34
 \begin_layout Itemize
 Случайная.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Случайная."
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Элитная.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Элитная."
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -265,11 +312,25 @@ f(x)=x^{2}+20x-34
 \begin_layout Itemize
 Стандартный одноточечный.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Стандартный-одноточечный."
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Частично-соответствующий одноточечный.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Частично-соответствующий-одноточ"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -283,6 +344,13 @@ f(x)=x^{2}+20x-34
 
 .
  
+\begin_inset CommandInset label
+LatexCommand label
+name "На-основе-золотого"
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -301,11 +369,25 @@ f(x)=x^{2}+20x-34
 \end_inset
 
 .
+\begin_inset CommandInset label
+LatexCommand label
+name "Обмена-на-основе"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Инверсия.
  
+\begin_inset CommandInset label
+LatexCommand label
+name "Инверсия."
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -1822,11 +1904,164 @@ end;
 \end_layout
 
 \begin_layout Standard
+Вероятности кроссинговера и мутации изменены не были.
+\end_layout
+
+\begin_layout Subsection
+Используемые обозначения
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 1
+use_makebox 0
+width "80line%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Itemize
+
+\size footnotesize
+Стратегия создания популяции
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\size footnotesize
+Дробовик
+\end_layout
+
+\begin_layout Enumerate
+
+\size footnotesize
+Фокусировка
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size footnotesize
+Вид селекции
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\size footnotesize
+Случайная
+\end_layout
+
+\begin_layout Enumerate
+
+\size footnotesize
+Элитная
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size footnotesize
+Операторы кроссинговера: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\size footnotesize
+Стандартный одноточечный.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\size footnotesize
+Частично-соответствующий одноточечный.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\size footnotesize
+На основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\size footnotesize
+Операторы мутации и инверсии: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\size footnotesize
+Обмена на основе 
+\begin_inset Quotes eld
+\end_inset
+
+золотого сечения
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\size footnotesize
+Инверсия.
+ 
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Экспериментальные результаты
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="9" columns="8">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -1834,81 +2069,17 @@ end;
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 №
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Ответ
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Кол-во генераций
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Размер популяции
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Мутация
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Кроссинговер
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Селекция
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Создание нач.
- популяции
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -1918,72 +2089,7 @@ end;
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1992,72 +2098,7 @@ end;
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2066,11 +2107,51 @@ end;
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+Ответ
 \end_layout
 
 \end_inset
@@ -2079,7 +2160,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+347,931
 \end_layout
 
 \end_inset
@@ -2088,7 +2169,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+344,494
 \end_layout
 
 \end_inset
@@ -2097,7 +2178,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+326,818
 \end_layout
 
 \end_inset
@@ -2106,7 +2187,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+338,338
 \end_layout
 
 \end_inset
@@ -2115,7 +2196,16 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
+350
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+350
 \end_layout
 
 \end_inset
@@ -2124,13 +2214,42 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+349,999
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Длина хромосомы
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -2144,7 +2263,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4
 \end_layout
 
 \end_inset
@@ -2153,7 +2272,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4
 \end_layout
 
 \end_inset
@@ -2162,34 +2281,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+4
 \end_layout
 
 \end_inset
@@ -2198,18 +2290,20 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+32
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-5
+
+\size footnotesize
+Кол-во генераций
 \end_layout
 
 \end_inset
@@ -2218,7 +2312,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2227,7 +2321,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+20
 \end_layout
 
 \end_inset
@@ -2236,7 +2330,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2245,7 +2339,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2254,7 +2348,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2263,7 +2357,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2272,18 +2366,20 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+100
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-6
+
+\size footnotesize
+Размер популяции
 \end_layout
 
 \end_inset
@@ -2292,7 +2388,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2301,7 +2397,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+30
 \end_layout
 
 \end_inset
@@ -2310,7 +2406,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2319,7 +2415,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+10
 \end_layout
 
 \end_inset
@@ -2328,7 +2424,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+100
 \end_layout
 
 \end_inset
@@ -2337,7 +2433,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+50
 \end_layout
 
 \end_inset
@@ -2346,18 +2442,20 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+300
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-7
+
+\size footnotesize
+Стратегия создания популяции
 \end_layout
 
 \end_inset
@@ -2366,7 +2464,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2375,7 +2473,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2384,7 +2482,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2393,7 +2491,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2402,7 +2500,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2411,7 +2509,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
@@ -2420,18 +2518,172 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-8
+
+\size footnotesize
+Вид селекции
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Оператор кроссинговера
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Оператор мутации
 \end_layout
 
 \end_inset
@@ -2440,7 +2692,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2449,7 +2701,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2458,7 +2710,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
@@ -2467,7 +2719,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2476,7 +2728,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -2485,7 +2737,7 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
@@ -2494,13 +2746,18 @@ end;
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2
 \end_layout
 
 \end_inset
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -2516,6 +2773,22 @@ end;
 
 \begin_layout Section*
 Заключение
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{section}{Заключение}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
